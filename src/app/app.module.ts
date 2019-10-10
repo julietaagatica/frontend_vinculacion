@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +17,7 @@ import { FooterComponent } from './components/shared/footer/footer.component';
 
 //importo rutas
 import { ROUTES } from './app.routes';
+import { LoadingComponent } from './components/shared/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -25,9 +28,11 @@ import { ROUTES } from './app.routes';
     AulasExtendidasComponent,
     BibliotecaDigitalComponent,
     EspacioInstitucionalComponent,
-    FooterComponent
+    FooterComponent,
+    LoadingComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,

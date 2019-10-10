@@ -1,1 +1,8 @@
-<p>biblioteca-digital works!</p>
+<div class="row animated fadeIn fast" style="margin-top: 2rem">
+    <div class="col">
+        <input #termino type="text" (keydown.enter)="buscar(termino.value)" class="form-control" placeholder="Buscar documento por nombre">
+    </div>
+</div>
+
+<app-loading *ngIf="!loading" class="m-5"></app-loading>
+

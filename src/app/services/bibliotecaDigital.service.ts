@@ -10,18 +10,13 @@ export class BibliotecaDigitalService {
   constructor(private http: HttpClient) { }
 
   getHost( query: string ){
-    const url = `https://localhost:8000/${ query }`;
-
-    /* const headers = new HttpHeaders({
-      'Authorization': 'Bearer QAcjybaqpBLBTha8p7Nw2oWPrDu2Kx3quBiaAuUPqwp3v5xpMAcu_bl3XQvhggZakR6oyZrYmfwnFpkCttu-QyBsrabFjM4HfUdWSmofJCosFv5WU3wBJ-wnVRay9Z_XLVO3trMCAGSYv6Ywuc'
-    });
- */
+    const url = `http://localhost:3000/${query}`;
+    
     return this.http.get(url);
   }
 
   getDocumentosAcademicos( termino: string ){
-    const documentos = this.getHost(`/documentos-academicos?nombre_documento=${ termino }`);
-    console.log(documentos);
+    const documentos = this.getHost(`documentos_educativos/busqueda_nombre?nombre_documento=${ termino }`);
     return documentos
   }
   
