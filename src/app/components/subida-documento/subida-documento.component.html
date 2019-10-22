@@ -1,0 +1,27 @@
+<h3 class="my-5 text-center">Subir un nuevo Documento Académico</h3>
+<form class="needs-validation" #myform="ngForm" (ngSubmit)="subirArchivo(myform)" novalidate>
+    <div class="form-row">
+        <div class="col-md-6 mb-3">
+            <label for="nombre">Nombre del archivo</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese un nombre para el archivo" [(ngModel)]="nombre" name="nombre" required>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="categoria">Categoría</label>
+            <input type="text" class="form-control" id="categoria" placeholder="Ingrese una categoría para el archivo" [(ngModel)]="categoria" name="categoria" required>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col mb-3">
+            <label for="descripcion">Descripción</label>
+            <textarea class="form-control" id="descripcion" placeholder="Descripción del archivo" [(ngModel)]="descripcion" name="descripcion" required></textarea>
+        </div>
+    </div>
+    <div class="form-row text-center">
+        <div class="col my-3">
+            <input type="file" id="archivo" [(ngModel)]="archivo" name="archivo" class="btn btn-secondary" required>
+        </div>
+    </div>
+    <div class="text-center my-3">
+        <button class="btn btn-primary" type="submit">Subir Archivo</button>
+    </div>
+</form>

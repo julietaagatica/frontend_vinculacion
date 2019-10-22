@@ -1,0 +1,15 @@
+<div class="card-columns m-5 animated fadeIn">
+    <div (click)="verDocumento( item )" *ngFor="let item of items" class="card puntero">
+        <div class="card-body text-center">
+            <img [src]="item.nombre_archivo | imageextension" alt="logo" class="logo-image">
+            <h5 class="card-tittle">
+                {{ item.nombre }}
+            </h5>
+            <p class="card-text">
+                <span *ngFor="let autor of item.autores" class="badge badge-pill badge-primary">
+                    {{ autor.nombre + " " + autor.apellido }}
+                </span>
+            </p>
+        </div>
+    </div>
+</div>

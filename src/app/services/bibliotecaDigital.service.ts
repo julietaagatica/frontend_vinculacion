@@ -7,41 +7,33 @@ import { map } from "rxjs/operators";
 })
 export class BibliotecaDigitalService {
 
+  host = "http://localhost:3000"
+
   constructor(private http: HttpClient) { }
 
   getHost( query: string ){
-    const url = `http://localhost:3000/${query}`;
+    const url = this.host + `/${query}`;
     
     return this.http.get(url);
   }
 
-  getDocumentosAcademicos( termino: string ){
-    const documentos = this.getHost(`documentos_educativos/busqueda_nombre?nombre_documento=${ termino }`);
-    return documentos
+  getDocumentosAcademicosPorNombre( termino: string ){
+    const documentos = this.getHost(`documentos_educativos/busqueda_nombre?nombre_documento=${ termino }`).pipe(map(data => data["documentos"]));
+    return documentos;
   }
   
-  /* getNewReleases() {
-
-    return this.getQuery('browse/new-releases?limit=20')
-           .pipe(map(data => data['albums'].items));
-  
+  getDocumentos(offset: number) {
+    const documentos = this.getHost(`documentos_educativos/obtener_todos?offset=${ offset }&limit=100`).pipe(map(data => data["documentos"]));
+    return documentos;
   }
 
-  getArtistas( termino: string ){
-    
-    return this.getQuery(`search?q=${ termino }&type=artist&limit=15`)
-          .pipe(map(data => data['artists'].items));
+  getURLDocumento(idDocumento: number) {
+    return this.host + `/documentos_educativos/obtener_url_documento/${idDocumento}`;
   }
 
-  getArtista( id: string ){
-    
-    return this.getQuery(`artists/${ id }`);
-          //.pipe(map(data => data['artists'].items));
+  getDocumento(id: number) {
+    const documento = this.getHost(`documentos_educativos/obtener_documento/${ id }`);
+    return documento;
   }
 
-  getTopTracks( id: string ){
-    
-    return this.getQuery(`artists/${ id }/top-tracks?country=us`)
-          .pipe(map(data => data['tracks']));
-  } */
 }

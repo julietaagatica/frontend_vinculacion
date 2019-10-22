@@ -12,18 +12,28 @@ export class BibliotecaDigitalComponent{
   loading: boolean;
 
   constructor(private bibliotecaDigital: BibliotecaDigitalService) { 
-
+    this.loading = true;
+    this.buscarDocumentos()
   }
 
-  buscar(termino: string) {
+  buscarPorNombre(termino: string) {
     this.loading = true;
-    console.log("llego por aca");
-    this.bibliotecaDigital.getDocumentosAcademicos(termino)
+    this.bibliotecaDigital.getDocumentosAcademicosPorNombre(termino)
       .subscribe((data: any) => {
         console.log(data);
         this.documentos = data;
         this.loading = false;
       })
   }
+
+  buscarDocumentos(offset: number = 0) {
+    this.bibliotecaDigital.getDocumentos(offset)
+      .subscribe((data: any) => {
+        console.log(data);
+        this.documentos = data;
+        this.loading = false;
+      })
+  }
+
 
 }

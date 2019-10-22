@@ -1,8 +1,14 @@
 <div class="row animated fadeIn fast" style="margin-top: 2rem">
-    <div class="col">
-        <input #termino type="text" (keydown.enter)="buscar(termino.value)" class="form-control" placeholder="Buscar documento por nombre">
+    <div class="col-2"></div>
+    <div class="col-8">
+        <input #termino type="text" (keydown.enter)="buscarPorNombre(termino.value)" class="form-control" placeholder="Buscar documento por nombre">
     </div>
 </div>
 
-<app-loading *ngIf="!loading" class="m-5"></app-loading>
+<app-loading *ngIf="loading" class="m-5"></app-loading>
 
+<app-tarjetas [items]="documentos"></app-tarjetas>
+
+<hr>
+
+<app-subida-documento></app-subida-documento>

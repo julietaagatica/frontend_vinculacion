@@ -18,6 +18,12 @@ import { FooterComponent } from './components/shared/footer/footer.component';
 //importo rutas
 import { ROUTES } from './app.routes';
 import { LoadingComponent } from './components/shared/loading/loading.component';
+import { TarjetasComponent } from './components/tarjetas/tarjetas.component';
+import { ImageextensionPipe } from './pipes/imageextension.pipe';
+import { DocumentoComponent } from './components/documento/documento.component';
+import { DomseguroPipe } from './pipes/domseguro.pipe';
+import { SubidaDocumentoComponent } from './components/subida-documento/subida-documento.component';
+import { PruebaComponent } from './components/prueba/prueba.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +35,13 @@ import { LoadingComponent } from './components/shared/loading/loading.component'
     BibliotecaDigitalComponent,
     EspacioInstitucionalComponent,
     FooterComponent,
-    LoadingComponent
+    LoadingComponent,
+    TarjetasComponent,
+    ImageextensionPipe,
+    DocumentoComponent,
+    DomseguroPipe,
+    SubidaDocumentoComponent,
+    PruebaComponent
   ],
   imports: [
     HttpClientModule,
