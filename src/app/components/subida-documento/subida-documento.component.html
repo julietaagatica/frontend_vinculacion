@@ -16,11 +16,36 @@
             <textarea class="form-control" id="descripcion" placeholder="Descripción del archivo" [(ngModel)]="descripcion" name="descripcion" required></textarea>
         </div>
     </div>
+
+    <fieldset class="form-group">
+        <div class="row mt-2">
+          <legend class="col-form-label col-sm-2 pt-0">Tipo de institución</legend>
+          <input type="radio" name="typeInstitution" value="escuela" (change)="changeTypeInstitution($event)" required> <span class="mr-4 ml-3">Escuela Secundaria</span>
+          <input type="radio" name="typeInstitution" value="universidad" (change)="changeTypeInstitution($event)" required> <span class="mr-4 ml-3">Universidad</span>
+        </div>
+    </fieldset>
+
+    <div *ngIf="tipoInstitucion != ''" class="form-row">
+        <div *ngIf="tipoInstitucion == 'escuela'" class="col mb-3">
+            <label for="descripcion">Nombre de la Escuela</label>
+            <select multiple class="form-control" id="exampleFormControlSelect2">
+                <option *ngFor="let escuela of escuelas">{{escuela}}</option>
+            </select>
+        </div>
+        <div *ngIf="tipoInstitucion == 'universidad'" class="col mb-3">
+            <label for="descripcion">Nombre de la Universidad</label>
+            <select multiple class="form-control" id="exampleFormControlSelect2">
+                <option *ngFor="let universidad of universidades">{{universidad}}</option>
+            </select>
+        </div>
+    </div>
+    
     <div class="form-row text-center">
         <div class="col my-3">
             <input type="file" id="archivo" [(ngModel)]="archivo" name="archivo" class="btn btn-secondary" required>
         </div>
     </div>
+    
     <div class="text-center my-3">
         <button class="btn btn-primary" type="submit">Subir Archivo</button>
     </div>

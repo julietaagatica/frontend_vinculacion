@@ -23,7 +23,7 @@ import { ImageextensionPipe } from './pipes/imageextension.pipe';
 import { DocumentoComponent } from './components/documento/documento.component';
 import { DomseguroPipe } from './pipes/domseguro.pipe';
 import { SubidaDocumentoComponent } from './components/subida-documento/subida-documento.component';
-import { PruebaComponent } from './components/prueba/prueba.component';
+import { FiltroComponent } from './components/filtro/filtro.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +41,7 @@ import { PruebaComponent } from './components/prueba/prueba.component';
     DocumentoComponent,
     DomseguroPipe,
     SubidaDocumentoComponent,
-    PruebaComponent
+    FiltroComponent
   ],
   imports: [
     HttpClientModule,

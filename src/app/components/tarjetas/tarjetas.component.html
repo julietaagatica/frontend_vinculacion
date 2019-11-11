@@ -1,5 +1,5 @@
 <div class="card-columns m-5 animated fadeIn">
-    <div (click)="verDocumento( item )" *ngFor="let item of items" class="card puntero">
+    <div (click)="verDocumento( item )" *ngFor="let item of items" class="card puntero" style="max-width: 18rem; height: 17rem;">
         <div class="card-body text-center">
             <img [src]="item.nombre_archivo | imageextension" alt="logo" class="logo-image">
             <h5 class="card-tittle">

@@ -1,0 +1,26 @@
+<div class="m-4">
+    <div class="row">
+        <div class="col-2 form-group">
+            <select class="form-control" id="tipoFiltro" [(ngModel)]="tipoFiltro">
+                <option value="none" selected>Tipo de filtro</option>
+                <option value="simple">Filtro Simple</option>
+                <option value="avanzado">Filtro Avanzado</option>
+            </select>
+        </div>
+
+        <div *ngIf="tipoFiltro == 'simple'" class="col-2">
+            <p>Este va a ser un filtro simple</p>
+        </div>
+        
+        <div *ngIf="tipoFiltro == 'avanzado'" class="col-2">
+            <select class="form-control" id="institucion" [(ngModel)]="institucion" (change)="filtrarPorInstitucion()">
+                <option *ngFor="let institucion of instituciones" [ngValue]="institucion.nombre">{{ institucion.id + " - " + institucion.nombre}}</option>
+            </select>
+        </div>
+    
+    </div>    
+</div>
+
+<hr>
+
+<app-loading *ngIf="loading"></app-loading>

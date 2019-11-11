@@ -5,6 +5,7 @@
         <div class="col">
             <div class="card border-secondary my-3" style="max-width: 80rem;">
                 <div class="card-body text-center">
+                    <button (click)="eliminarDocumento(documento.id)" type="button" class="btn btn-danger float-right"><i class="fas fa-trash-alt"></i></button>
                     <h3 class="card-title">{{ documento.nombre }}</h3>
                     <p class="card-text"><strong>Descripción: </strong>{{ documento.descripcion }}</p>
                     <strong>Autor/es: </strong><span *ngFor="let autor of documento.autores" class="badge badge-pill badge-secondary mr-1">{{ autor.nombre + " " + autor.apellido }}</span>
@@ -15,7 +16,7 @@
     <div class="row" style="margin-top: 20px;">
         <div class="col">
             <div class="text-center">
-                <iframe  [src]="documentoURL | domseguro:'https://drive.google.com/viewerng/viewer?url='" width="90%" height="500px" style="border: none;"></iframe>
+                <iframe  [src]="documentoURL | domseguro " width="90%" height="500px" style="border: none;"></iframe>
             </div>
         </div>
     </div>

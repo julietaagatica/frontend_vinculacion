@@ -10,6 +10,7 @@ export class BibliotecaDigitalComponent{
 
   documentos: any[] = [];
   loading: boolean;
+  filtro: boolean;
 
   constructor(private bibliotecaDigital: BibliotecaDigitalService) { 
     this.loading = true;
@@ -35,5 +36,11 @@ export class BibliotecaDigitalComponent{
       })
   }
 
+  filtrar() {
+    this.filtro = !this.filtro;
+  }
 
+  filtrarDocumentos(e) {
+    this.documentos = e;
+  }
 }

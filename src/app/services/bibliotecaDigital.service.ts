@@ -17,8 +17,14 @@ export class BibliotecaDigitalService {
     return this.http.get(url);
   }
 
+  deleteHost(query: string) {
+    const url = this.host + `/${query}`;
+
+    return this.http.delete(url);
+  }
+
   getDocumentosAcademicosPorNombre( termino: string ){
-    const documentos = this.getHost(`documentos_educativos/busqueda_nombre?nombre_documento=${ termino }`).pipe(map(data => data["documentos"]));
+    const documentos = this.getHost(`documentos_educativos/busqueda_nombre?parametro=${ termino}`).pipe(map(data => data["documentos"]));
     return documentos;
   }
   
@@ -34,6 +40,20 @@ export class BibliotecaDigitalService {
   getDocumento(id: number) {
     const documento = this.getHost(`documentos_educativos/obtener_documento/${ id }`);
     return documento;
+  }
+
+  eliminarDocumento(id: number) {
+    return this.http.delete(this.host + `/documentos_educativos/eliminar/${id}`);
+  }
+
+  getInstituciones() {
+    const instituciones = this.getHost(`instituciones_educativas`).pipe(map(data => data["instituciones"]));
+    return instituciones;
+  }
+
+  filtrarDocumentosPorInstitucion(institucion: string) {
+    const documentos = this.getHost(`documentos_educativos/busqueda_institucion?parametro=${institucion}`).pipe(map(data => data["documentos"]));
+    return documentos;
   }
 
 }
