@@ -1,0 +1,45 @@
+
+<h3 class="my-5 text-left">Contáctenos</h3>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" >
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+        <label for="nombre">* Nombre</label>
+        <input class="form-control" name="nombre" formControlName = "nombre" type="text">
+        <div class="alert alert-danger" *ngIf="nombre.required">
+            <p>Campo Obligatorio</p>
+          </div>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="apellido">*Apellido</label>
+        <input class="form-control" name="apellido" formControlName = "apellido" type="text">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label  class="col-sm-2 col-form-label">* Institucion (Nombre)</label>
+    <div class="col-sm-10">
+      <input type="text" name="nombreInst" formControlName = "nombreInst" class="form-control">
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label  class="col-sm-2 col-form-label">* Email</label>
+    <div class="col-sm-10">
+        <input name="email" formControlName = "email" type="email" placeholder="escuela@ejemplo.com" class="form-control">
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label  class="col-sm-2 col-form-label">* Telefono de Contacto</label>
+    <div class="col-sm-10">
+        <input name="telefono" formControlName = "telefono" type="telefone" class="form-control">
+    </div>
+  </div>
+
+  <hr class="mb-4">
+  <div class="form-group row">
+      <h5>(*) Campos Obligatorios</h5>
+  </div>
+  <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="form.invalid">Se parte de EDUTEC</button>
+
+</form>
