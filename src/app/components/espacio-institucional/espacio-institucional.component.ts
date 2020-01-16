@@ -4,6 +4,7 @@ import {
   FormBuilder, 
   Validators 
 } from "@angular/forms";
+import { EspacioInstitucionalService } from 'src/app/services/espacioInstitucional.service';
 
 
 @Component({
@@ -16,46 +17,13 @@ export class EspacioInstitucionalComponent implements OnInit {
   public form: FormGroup;
   
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private formulario: EspacioInstitucionalService
   ) {}
 
 
   ngOnInit() {
-    this.obtaingPageDataFromRoute();
+   
   }
-
-  private obtaingPageDataFromRoute(){
-    //this.pageData = this.activatedRoute.snapshot.data;
-    this.form = this.formBuilder.group({
-      nombre: [
-        '',
-        [Validators.required]
-      ],
-      apellido: [
-        '',
-        [Validators.required]
-      ],
-      nombreInst: [
-        '',
-        [Validators.required]
-      ],
-      email: [
-        'escuela@ejemplo.com',
-        [Validators.required, Validators.email]
-      ],
-      telefono: [
-        '',
-        [Validators.required]
-      ]
-    });
-  }
-
-  public onSubmit(formValue: any){
-    //agregar algun msnjito de enviando datos
-    console.log(formValue)
-
-  }
-
-
 
 }

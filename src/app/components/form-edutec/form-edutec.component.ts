@@ -4,6 +4,7 @@ import {
   FormBuilder, 
   Validators 
 } from "@angular/forms";
+import { EspacioInstitucionalService } from 'src/app/services/espacioInstitucional.service';
 
 
 @Component({
@@ -14,9 +15,11 @@ import {
   export class FormEdutecComponent implements OnInit {
     public pageData: any;
     public form: FormGroup;
+    valores: string[] = []
     
     constructor(
-      private formBuilder: FormBuilder
+      private formBuilder: FormBuilder,
+      private formulario: EspacioInstitucionalService
     ) {}
   
   
@@ -57,6 +60,7 @@ import {
     public onSubmit(formValue: any){
       //agregar algun msnjito de enviando datos
       console.log(formValue);
+      this.formulario.enviarFormulario(formValue["email"],formValue["nombre"] +' '+formValue["apellido"],formValue["nombreInst"],formValue["telefono"])
       this.onResetForm();
     }
   
@@ -65,6 +69,6 @@ import {
     get nombreInst(){ return this.form.get('nombreInst') }
     get email(){ return this.form.get('email') }
     get telefono(){ return this.form.get('telefono') }
-
+    
   }
   
