@@ -28,6 +28,7 @@ export class BibliotecaDigitalComponent{
   }
 
   buscarDocumentos(offset: number = 0) {
+    this.loading = true;
     this.bibliotecaDigital.getDocumentos(offset)
       .subscribe((data: any) => {
         console.log(data);

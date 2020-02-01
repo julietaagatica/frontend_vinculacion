@@ -7,6 +7,11 @@
     <div class="col-8">
         <input #termino type="text" (keydown.enter)="buscarPorNombre(termino.value)" class="form-control" placeholder="Buscar documento por nombre">
     </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-primary" (click)="buscarDocumentos()">
+            <i class="fas fa-ban"></i>
+        </button>
+    </div>
 </div>
 
 <app-filtro *ngIf="filtro" (getDocumentos)="filtrarDocumentos($event)"></app-filtro>
@@ -14,7 +19,3 @@
 <app-loading *ngIf="loading" class="m-5"></app-loading>
 
 <app-tarjetas [items]="documentos"></app-tarjetas>
-
-<hr>
-
-<app-subida-documento></app-subida-documento>

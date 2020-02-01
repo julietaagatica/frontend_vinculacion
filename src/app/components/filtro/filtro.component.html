@@ -1,24 +1,92 @@
-<div class="m-4">
-    <div class="row">
-        <div class="col-2 form-group">
-            <select class="form-control" id="tipoFiltro" [(ngModel)]="tipoFiltro">
-                <option value="none" selected>Tipo de filtro</option>
-                <option value="simple">Filtro Simple</option>
-                <option value="avanzado">Filtro Avanzado</option>
-            </select>
-        </div>
+<hr>
 
-        <div *ngIf="tipoFiltro == 'simple'" class="col-2">
-            <p>Este va a ser un filtro simple</p>
-        </div>
-        
-        <div *ngIf="tipoFiltro == 'avanzado'" class="col-2">
-            <select class="form-control" id="institucion" [(ngModel)]="institucion" (change)="filtrarPorInstitucion()">
-                <option *ngFor="let institucion of instituciones" [ngValue]="institucion.nombre">{{ institucion.id + " - " + institucion.nombre}}</option>
-            </select>
-        </div>
+<div class="row m-3">
+    <div class="form-group">
+        <label for="tipoFiltro">Filtrar por..</label>
+        <select class="form-control" id="tipoFiltro" [(ngModel)]="tipoFiltro" (change)="cambioFiltro()" name="tipoFiltro">
+            <option value="none" selected>Tipo de filtro</option>
+            <option value="autor">Autor</option>
+            <option value="categoria">Categoria</option>
+            <option value="escuela">Escuela</option>
+            <option value="universidad">Universidad</option>
+            <option value="facultad">Facultad</option>
+            <option value="orientacion">Orientacion</option>
+            <option value="carrera">Carrera</option>
+            <option value="curso">Curso</option>
+            <option value="materia">Materia</option>
+        </select>
+    </div>
+    <div *ngIf="tipoFiltro == 'autor'" class="m-3 col-10">
+        <input #termino type="text" (keydown.enter)="buscarPorAutor(termino.value)" class="form-control" placeholder="Nombre del autor">
+    </div>
+
+    <div *ngIf="tipoFiltro == 'facultad'" class="m-3 col-10">
+        <app-loading *ngIf="loadingFiltro"></app-loading>
+        <select *ngIf="!loadingFiltro" class="form-control col-10" id="facultadSelect" [(ngModel)]="facultadSelect" name="facultadSelect">
+            <option *ngFor="let facultad of facultades" value="facultad">{{facultad}}</option>
+        </select>
+        <br>
+        <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorFacultad()">Buscar</button>
+    </div>
+
+    <div *ngIf="tipoFiltro == 'categoria'" class="m-3 col-10">
+        <input #termino type="text" (keydown.enter)="buscarPorCategoria(termino.value)" class="form-control" placeholder="Categoria">
+    </div>
+
+    <div *ngIf="tipoFiltro == 'escuela'" class="m-3 col-10">
+        <app-loading *ngIf="loadingFiltro"></app-loading>
+        <select *ngIf="!loadingFiltro" class="form-control col-10" id="escuelaSelect" [(ngModel)]="escuelaSelect" name="escuelaSelect">
+            <option *ngFor="let escuela of escuelas" value="escuela.id">{{escuela.nombre}}</option>
+        </select>
+        <br>
+        <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorEscuela()">Buscar</button>
+    </div>
+
+    <div *ngIf="tipoFiltro == 'universidad'" class="m-3 col-10">
+        <app-loading *ngIf="loadingFiltro"></app-loading>
+        <select *ngIf="!loadingFiltro" class="form-control col-10" id="universidadSelect" [(ngModel)]="universidadSelect" name="universidadSelect">
+            <option *ngFor="let universidad of universidades" value="universidad.id">{{universidad.nombre}}</option>
+        </select>
+        <br>
+        <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorUniversidad()">Buscar</button>
+    </div>
+
+    <div *ngIf="tipoFiltro == 'orientacion'" class="m-3 col-10">
+        <app-loading *ngIf="loadingFiltro"></app-loading>
+        <select *ngIf="!loadingFiltro" class="form-control col-10" id="orientacionSelect" [(ngModel)]="orientacionSelect" name="orientacionSelect">
+            <option *ngFor="let orientacion of orientaciones" value="orientacion.id">{{orientacion.nombre}}</option>
+        </select>
+        <br>
+        <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorOrientacion()">Buscar</button>
+    </div>
+
+    <div *ngIf="tipoFiltro == 'carrera'" class="m-3 col-10">
+        <app-loading *ngIf="loadingFiltro"></app-loading>
+        <select *ngIf="!loadingFiltro" class="form-control col-10" id="carreraSelect" [(ngModel)]="carreraSelect" name="carreraSelect">
+            <option *ngFor="let carrera of carreras" value="carrera.id">{{carrera.nombre}}</option>
+        </select>
+        <br>
+        <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorCarrera()">Buscar</button>
+    </div>
+
+    <div *ngIf="tipoFiltro == 'materia'" class="m-3 col-10">
+        <app-loading *ngIf="loadingFiltro"></app-loading>
+        <select *ngIf="!loadingFiltro" class="form-control col-10" id="materiaSelect" [(ngModel)]="materiaSelect" name="materiaSelect">
+            <option *ngFor="let materia of materias" value="materia.id">{{materia.nombre}}</option>
+        </select>
+        <br>
+        <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorMateria()">Buscar</button>
+    </div>
+
+    <div *ngIf="tipoFiltro == 'curso'" class="m-3 col-10">
+        <app-loading *ngIf="loadingFiltro"></app-loading>
+        <select *ngIf="!loadingFiltro" class="form-control col-10" id="cursoSelect" [(ngModel)]="cursoSelect" name="cursoSelect">
+            <option *ngFor="let curso of cursos" value="curso.id">{{curso.nombre}}</option>
+        </select>
+        <br>
+        <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorCurso()">Buscar</button>
+    </div>
     
-    </div>    
 </div>
 
 <hr>
