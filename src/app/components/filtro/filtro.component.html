@@ -36,7 +36,7 @@
     <div *ngIf="tipoFiltro == 'escuela'" class="m-3 col-10">
         <app-loading *ngIf="loadingFiltro"></app-loading>
         <select *ngIf="!loadingFiltro" class="form-control col-10" id="escuelaSelect" [(ngModel)]="escuelaSelect" name="escuelaSelect">
-            <option *ngFor="let escuela of escuelas" value="escuela.id">{{escuela.nombre}}</option>
+            <option *ngFor="let escuela of escuelas" [value]="escuela.id">{{escuela.nombre}}</option>
         </select>
         <br>
         <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorEscuela()">Buscar</button>
@@ -45,7 +45,7 @@
     <div *ngIf="tipoFiltro == 'universidad'" class="m-3 col-10">
         <app-loading *ngIf="loadingFiltro"></app-loading>
         <select *ngIf="!loadingFiltro" class="form-control col-10" id="universidadSelect" [(ngModel)]="universidadSelect" name="universidadSelect">
-            <option *ngFor="let universidad of universidades" value="universidad.id">{{universidad.nombre}}</option>
+            <option *ngFor="let universidad of universidades" [value]="universidad.id">{{universidad.nombre}}</option>
         </select>
         <br>
         <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorUniversidad()">Buscar</button>
@@ -54,7 +54,7 @@
     <div *ngIf="tipoFiltro == 'orientacion'" class="m-3 col-10">
         <app-loading *ngIf="loadingFiltro"></app-loading>
         <select *ngIf="!loadingFiltro" class="form-control col-10" id="orientacionSelect" [(ngModel)]="orientacionSelect" name="orientacionSelect">
-            <option *ngFor="let orientacion of orientaciones" value="orientacion.id">{{orientacion.nombre}}</option>
+            <option *ngFor="let orientacion of orientaciones" [value]="orientacion.id">{{orientacion.nombre}}</option>
         </select>
         <br>
         <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorOrientacion()">Buscar</button>
@@ -63,7 +63,7 @@
     <div *ngIf="tipoFiltro == 'carrera'" class="m-3 col-10">
         <app-loading *ngIf="loadingFiltro"></app-loading>
         <select *ngIf="!loadingFiltro" class="form-control col-10" id="carreraSelect" [(ngModel)]="carreraSelect" name="carreraSelect">
-            <option *ngFor="let carrera of carreras" value="carrera.id">{{carrera.nombre}}</option>
+            <option *ngFor="let carrera of carreras" [value]="carrera.id">{{carrera.nombre}}</option>
         </select>
         <br>
         <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorCarrera()">Buscar</button>
@@ -72,7 +72,7 @@
     <div *ngIf="tipoFiltro == 'materia'" class="m-3 col-10">
         <app-loading *ngIf="loadingFiltro"></app-loading>
         <select *ngIf="!loadingFiltro" class="form-control col-10" id="materiaSelect" [(ngModel)]="materiaSelect" name="materiaSelect">
-            <option *ngFor="let materia of materias" value="materia.id">{{materia.nombre}}</option>
+            <option *ngFor="let materia of materias" [value]="materia.id">{{materia.nombre}}</option>
         </select>
         <br>
         <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorMateria()">Buscar</button>
@@ -81,7 +81,7 @@
     <div *ngIf="tipoFiltro == 'curso'" class="m-3 col-10">
         <app-loading *ngIf="loadingFiltro"></app-loading>
         <select *ngIf="!loadingFiltro" class="form-control col-10" id="cursoSelect" [(ngModel)]="cursoSelect" name="cursoSelect">
-            <option *ngFor="let curso of cursos" value="curso.id">{{curso.nombre}}</option>
+            <option *ngFor="let curso of cursos" [value]="curso.id">{{curso.nombre}}</option>
         </select>
         <br>
         <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorCurso()">Buscar</button>

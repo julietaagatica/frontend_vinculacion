@@ -128,4 +128,8 @@ export class BibliotecaDigitalService {
   getMaterias() {
     return this.getHost(`materias`);
   }
+
+  subirDocumento() {
+    
+  }
 }

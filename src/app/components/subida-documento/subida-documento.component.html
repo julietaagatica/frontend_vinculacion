@@ -1,77 +1,91 @@
-<ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Subir un nuevo Documento Académico</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <form>
-        <div class="form-group">
-          <label for="dateOfBirth">Date of birth</label>
-          <div class="input-group">
-            <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-    </div>
-  </ng-template>
-  
-<h3 class="my-5 text-center">Subir un nuevo Documento Académico</h3>
-<form class="needs-validation" #myform="ngForm" (ngSubmit)="subirArchivo(myform)" novalidate>
+<h3 class="my-5 text-left">Subir documento</h3>
+<form [formGroup]="subirForm" (ngSubmit)="onSubmit(subirForm.value)">
     <div class="form-row">
         <div class="col-md-6 mb-3">
-            <label for="nombre">Nombre del archivo</label>
-            <input type="text" class="form-control" id="nombre" placeholder="Ingrese un nombre para el archivo" [(ngModel)]="nombre" name="nombre" required>
+            <label for="nombre">* Nombre del documento</label>
+            <input class="form-control" name="nombre" formControlName="nombre" type="text">
         </div>
         <div class="col-md-6 mb-3">
-            <label for="categoria">Categoría</label>
-            <input type="text" class="form-control" id="categoria" placeholder="Ingrese una categoría para el archivo" [(ngModel)]="categoria" name="categoria" required>
+            <label for="categoria">* Categoría</label>
+            <input class="form-control" name="categoria" formControlName="categoria" type="text">
         </div>
     </div>
     <div class="form-row">
-        <div class="col mb-3">
+        <div class="col-md-12 mb-3">
             <label for="descripcion">Descripción</label>
-            <textarea class="form-control" id="descripcion" placeholder="Descripción del archivo" [(ngModel)]="descripcion" name="descripcion" required></textarea>
+            <textarea class="form-control" name="descripcion" formControlName="descripcion"></textarea>
+        </div>
+    </div>
+    <div class="form-group row my-2">
+        <label class="col-sm-2">* Tipo de institución:</label>
+        <div class="custom-control custom-radio col-sm-2">
+            <input id="escuela" type="radio" (change)="changeTypeInstitution($event)" class="custom-control-input" value="escuela" name="tipoInst" formControlName="tipoInst" checked>
+            <label class="custom-control-label" for="escuela">Escuela</label>
+        </div>
+        <div class="custom-control custom-radio col-sm-2">
+            <input id="universidad" type="radio" (change)="changeTypeInstitution($event)" class="custom-control-input" value="universidad" name="tipoInst" formControlName="tipoInst">
+            <label class="custom-control-label" for="universidad">Universidad</label>
         </div>
     </div>
 
-    <fieldset class="form-group">
-        <div class="row mt-2">
-          <legend class="col-form-label col-sm-2 pt-0">Tipo de institución</legend>
-          <input type="radio" name="typeInstitution" value="escuela" (change)="changeTypeInstitution($event)" required> <span class="mr-4 ml-3">Escuela Secundaria</span>
-          <input type="radio" name="typeInstitution" value="universidad" (change)="changeTypeInstitution($event)" required> <span class="mr-4 ml-3">Universidad</span>
+    <div *ngIf="tipoInst == 'escuela'" class="form-group">
+        <div class="row">
+            <label class="col-sm-2 col-form-label">* Escuela/s</label>
+            <div class="col-sm-10">
+                <input name="instituciones" formControlName="institucion" type="text" class="form-control">
+            </div>
         </div>
-    </fieldset>
+        <div class="row">
+            <label class="col-sm-2 col-form-label">* Orientación/es</label>
+            <div class="col-sm-10">
+                <input name="ramasInst" formControlName="ramaInst" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label">* Cursos</label>
+            <div class="col-sm-10">
+                <input name="cursos" formControlName="cursos" type="text" class="form-control">
+            </div>
+        </div>
+    </div>
 
-    <div *ngIf="tipoInstitucion != ''" class="form-row">
-        <div *ngIf="tipoInstitucion == 'escuela'" class="col mb-3">
-            <label for="descripcion">Nombre de la Escuela</label>
-            <select multiple class="form-control" id="exampleFormControlSelect2">
-                <option *ngFor="let escuela of escuelas">{{escuela}}</option>
-            </select>
+    <div *ngIf="tipoInst == 'universidad'" class="form-group">
+        <div class="row">
+            <label class="col-sm-2 col-form-label">* Universidad/es</label>
+            <div class="col-sm-10">
+                <input name="universidades" formControlName="universidades" type="text" class="form-control">
+            </div>
         </div>
-        <div *ngIf="tipoInstitucion == 'universidad'" class="col mb-3">
-            <label for="descripcion">Nombre de la Universidad</label>
-            <select multiple class="form-control" id="exampleFormControlSelect2">
-                <option *ngFor="let universidad of universidades">{{universidad}}</option>
-            </select>
+        <div class="row">
+            <label class="col-sm-2 col-form-label">* Carrera/s</label>
+            <div class="col-sm-10">
+                <input name="carreras" formControlName="carreras" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label">* Cursos</label>
+            <div class="col-sm-10">
+                <input name="cursos" formControlName="cursos" type="text" class="form-control">
+            </div>
         </div>
     </div>
-    
-    <div class="form-row text-center">
-        <div class="col my-3">
-            <input type="file" id="archivo" [(ngModel)]="archivo" name="archivo" class="btn btn-secondary" required>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">* Materia/s</label>
+        <div class="col-sm-10">
+            <input type="text" name="materias" formControlName="materias" class="form-control">
         </div>
     </div>
-    
-    <div class="text-center my-3">
-        <button class="btn btn-primary" type="submit">Subir Archivo</button>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label">* Autor/es</label>
+        <div class="col-sm-10">
+            <input type="text" name="autores" formControlName="autores" class="form-control">
+        </div>
     </div>
+
+    <hr class="mb-4">
+    <h6>(*) Campos Obligatorios</h6>
+    <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="form.invalid">Subir documento</button>
+
 </form>

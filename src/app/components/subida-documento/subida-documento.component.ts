@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  FormGroup, 
+  FormBuilder, 
+  Validators 
+} from "@angular/forms";
 import { BibliotecaDigitalService } from 'src/app/services/bibliotecaDigital.service';
 
 @Component({
@@ -8,50 +13,41 @@ import { BibliotecaDigitalService } from 'src/app/services/bibliotecaDigital.ser
 })
 export class SubidaDocumentoComponent implements OnInit {
 
-  nombre: string;
-  categoria: string;
-  descripcion: string;
-  archivo: File;
-  tipoInstitucion: string = "";
-
-  escuelas: string[] = [
-    "escuela 1",
-    "escuela 2",
-    "escuela 3",
-    "escuela 4",
-    "escuela 5",
-    "escuela 6"
-  ]
+  public pageData: any;
+  public subirForm: FormGroup;
+  valores: string[] = [];
+  tipoInst: string = "escuela";
   
-  universidades: string[] = [
-    "universidad 1",
-    "universidad 2",
-    "universidad 3",
-    "universidad 4",
-    "universidad 5",
-    "universidad 6"
-  ]
-
-  changeTypeInstitution (event: any) {
-    this.tipoInstitucion = event.target.value
-    // if(this.tipoInstitucion == "escuela"){
-    //   BibliotecaDigitalService.getEscuelas();
-    // } else {
-    //   BibliotecaDigitalService.getUniversidades();
-    // }
-  }
-
-  constructor() { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private bibliotecaDigitalService: BibliotecaDigitalService
+  ) { }
 
   ngOnInit() {
+    this.obtaingPageDataFromRoute();
   }
 
-  subirArchivo(form: any) {
-    console.log(form.value);
+
+  private obtaingPageDataFromRoute(){
+    //this.pageData = this.activatedRoute.snapshot.data;
+    this.subirForm = this.formBuilder.group({
+      tipoInst: ['escuela', [Validators.required]]
+    });
   }
 
-  obtenerInstituciones() {
-    
+  onResetForm() {
+    this.subirForm.reset();
+  }
+
+  public onSubmit(formValue: any){
+    //agregar algun msnjito de enviando datos
+    console.log(formValue);
+    this.bibliotecaDigitalService.subirDocumento()
+    this.onResetForm();
+  }
+  
+  changeTypeInstitution (event: any) {
+    this.tipoInst = event.target.value
   }
 
 }

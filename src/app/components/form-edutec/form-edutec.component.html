@@ -10,7 +10,7 @@
           </div>
     </div>
     <div class="col-md-6 mb-3">
-        <label for="apellido">*Apellido</label>
+        <label for="apellido">* Apellido</label>
         <input class="form-control" name="apellido" formControlName = "apellido" type="text">
     </div>
   </div>
@@ -37,9 +37,8 @@
   </div>
 
   <hr class="mb-4">
-  <div class="form-group row">
-      <h5>(*) Campos Obligatorios</h5>
-  </div>
-  <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="form.invalid">Se parte de EDUTEC</button>
+  <h6>(*) Campos Obligatorios</h6>
+  <br>
+  <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="form.invalid">Formá parte de EDUTEC</button>
 
 </form>

@@ -20,6 +20,12 @@ export class FiltroComponent {
   loading: boolean;
   loadingFiltro: boolean = true;
   facultadSelect: string;
+  escuelaSelect: number;
+  universidadSelect: number;
+  orientacionSelect: number;
+  carreraSelect: number;
+  materiaSelect: number;
+  cursoSelect: number;
 
   @Output() getDocumentos = new EventEmitter();
 
@@ -64,9 +70,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorEscuela(escuela: number) {
+  buscarPorEscuela() {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorEscuela(escuela)
+    this.bibliotecaDigital.getDocumentosAcademicosPorEscuela(this.escuelaSelect)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -74,9 +80,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorUniversidad(universidad: number) {
+  buscarPorUniversidad() {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorUniversidad(universidad)
+    this.bibliotecaDigital.getDocumentosAcademicosPorUniversidad(this.universidadSelect)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -84,9 +90,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorOrientacion(orientacion: number) {
+  buscarPorOrientacion() {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorOrientacion(orientacion)
+    this.bibliotecaDigital.getDocumentosAcademicosPorOrientacion(this.orientacionSelect)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -94,9 +100,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorMateria(materia: number) {
+  buscarPorMateria() {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorMateria(materia)
+    this.bibliotecaDigital.getDocumentosAcademicosPorMateria(this.materiaSelect)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -104,9 +110,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorCurso(curso: number) {
+  buscarPorCurso() {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorCurso(curso)
+    this.bibliotecaDigital.getDocumentosAcademicosPorCurso(this.cursoSelect)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -114,21 +120,12 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorCarrera(carrera: number) {
+  buscarPorCarrera() {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorCarrera(carrera)
+    this.bibliotecaDigital.getDocumentosAcademicosPorCarrera(this.carreraSelect)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
-        this.loading = false;
-      })
-  }
-
-  filtrarPorInstitucion() {
-    this.loading = true;
-    this.bibliotecaDigital.filtrarDocumentosPorInstitucion(this.institucion)
-      .subscribe(documentos => {
-        this.getDocumentos.emit(documentos);
         this.loading = false;
       })
   }
