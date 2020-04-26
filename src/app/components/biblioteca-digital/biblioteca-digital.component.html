@@ -1,25 +1,20 @@
-<div class="row animated fadeIn fast" style="margin-top: 2rem">
+<div class="row animated fadeIn fast justify-content-between" style="margin-top: 2rem">
     <div class="col-2">
         <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="filtrar()">
             Agregar filtros
         </button>
     </div>
-    <div class="col-8">
-        <input #termino type="text" (keydown.enter)="buscarPorNombre(termino.value)" class="form-control" placeholder="Buscar documento por nombre">
-    </div>
     <div class="col-2">
-        <button type="button" class="btn btn-primary" (click)="buscarDocumentos()">
-            <i class="fas fa-ban"></i>
+        <button type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="subir()">
+            Subir documento
         </button>
     </div>
 </div>
 
-<app-filtro *ngIf="filtro" (getDocumentos)="filtrarDocumentos($event)"></app-filtro>
+<app-filtro *ngIf="filtro && !subirDoc" (getDocumentos)="filtrarDocumentos($event)"></app-filtro>
+
+<app-subida-documento *ngIf="subirDoc && !filtro"></app-subida-documento>
 
 <app-loading *ngIf="loading" class="m-5"></app-loading>
 
 <app-tarjetas [items]="documentos"></app-tarjetas>
-
-<hr>
-
-<app-subida-documento></app-subida-documento>

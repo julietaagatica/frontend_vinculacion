@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/shared/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { MesaAyudaComponent } from './components/mesa-ayuda/mesa-ayuda.component';
-import { AulasExtendidasComponent } from './components/aulas-extendidas/aulas-extendidas.component';
 import { BibliotecaDigitalComponent } from './components/biblioteca-digital/biblioteca-digital.component';
 import { EspacioInstitucionalComponent } from './components/espacio-institucional/espacio-institucional.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
@@ -35,7 +34,6 @@ import { FormEdutecComponent } from './components/form-edutec/form-edutec.compon
     NavbarComponent,
     HomeComponent,
     MesaAyudaComponent,
-    AulasExtendidasComponent,
     BibliotecaDigitalComponent,
     EspacioInstitucionalComponent,
     FooterComponent,

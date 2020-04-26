@@ -19,6 +19,8 @@ export class FiltroComponent {
   institucion: string;
   loading: boolean;
   loadingFiltro: boolean = true;
+  autorSelect: string;
+  categoriaSelect: string;
   facultadSelect: string;
   escuelaSelect: number;
   universidadSelect: number;
@@ -40,9 +42,9 @@ export class FiltroComponent {
     console.log(this.instituciones);
   }
 
-  buscarPorAutor(termino: string) {
+  limpiarBusqueda(offset: number = 0) {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorAutor(termino)
+    this.bibliotecaDigital.getDocumentos(offset)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -50,9 +52,50 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorFacultad() {
+  buscarPorNombre(termino: string, tipoFiltro: string) {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorFacultad(this.facultadSelect)
+    switch (tipoFiltro) {
+      case "none":
+        this.bibliotecaDigital.getDocumentosAcademicosPorNombre(termino)
+          .subscribe((data: any) => {
+            console.log(data);
+            this.getDocumentos.emit(data);
+            this.loading = false;
+          })
+        break;
+      case "autor":
+        this.buscarPorAutor(termino);
+        break;
+      case "categoria":
+        this.buscarPorCategoria(termino);
+        break;
+      case "escuela":
+        this.buscarPorEscuela(termino);
+        break;
+      case "universidad":
+        this.buscarPorUniversidad(termino);
+        break;
+      case "facultad":
+        this.buscarPorFacultad(termino);
+        break;
+      case "orientacion":
+        this.buscarPorOrientacion(termino);
+        break;
+      case "carrera":
+        this.buscarPorCarrera(termino);
+        break;
+      case "curso":
+        this.buscarPorCurso(termino);
+        break;
+      case "materia":
+        this.buscarPorMateria(termino);
+        break;
+    }
+  }
+
+  buscarPorAutor(nbreDoc: string = "") {
+    this.loading = true;
+    this.bibliotecaDigital.getDocumentosAcademicosPor("autor",this.autorSelect, nbreDoc)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -60,9 +103,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorCategoria(termino: string) {
+  buscarPorFacultad(nbreDoc: string = "") {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorCategoria(termino)
+    this.bibliotecaDigital.getDocumentosAcademicosPor("facultad",this.facultadSelect,nbreDoc)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -70,9 +113,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorEscuela() {
+  buscarPorCategoria(nbreDoc: string = "") {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorEscuela(this.escuelaSelect)
+    this.bibliotecaDigital.getDocumentosAcademicosPor("categoria",this.categoriaSelect,nbreDoc)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -80,9 +123,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorUniversidad() {
+  buscarPorEscuela(nbreDoc: string = "") {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorUniversidad(this.universidadSelect)
+    this.bibliotecaDigital.getDocumentosAcademicosPor("escuela",this.escuelaSelect,nbreDoc)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -90,9 +133,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorOrientacion() {
+  buscarPorUniversidad(nbreDoc: string = "") {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorOrientacion(this.orientacionSelect)
+    this.bibliotecaDigital.getDocumentosAcademicosPor("universidad",this.universidadSelect,nbreDoc)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -100,9 +143,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorMateria() {
+  buscarPorOrientacion(nbreDoc: string = "") {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorMateria(this.materiaSelect)
+    this.bibliotecaDigital.getDocumentosAcademicosPor("orientacion",this.orientacionSelect,nbreDoc)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -110,9 +153,9 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorCurso() {
+  buscarPorMateria(nbreDoc: string = "") {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorCurso(this.cursoSelect)
+    this.bibliotecaDigital.getDocumentosAcademicosPor("materia",this.materiaSelect,nbreDoc)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);
@@ -120,9 +163,19 @@ export class FiltroComponent {
       })
   }
 
-  buscarPorCarrera() {
+  buscarPorCurso(nbreDoc: string = "") {
     this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorCarrera(this.carreraSelect)
+    this.bibliotecaDigital.getDocumentosAcademicosPor("curso",this.cursoSelect,nbreDoc)
+      .subscribe((data: any) => {
+        console.log(data);
+        this.getDocumentos.emit(data);
+        this.loading = false;
+      })
+  }
+
+  buscarPorCarrera(nbreDoc: string = "") {
+    this.loading = true;
+    this.bibliotecaDigital.getDocumentosAcademicosPor("carrera",this.carreraSelect,nbreDoc)
       .subscribe((data: any) => {
         console.log(data);
         this.getDocumentos.emit(data);

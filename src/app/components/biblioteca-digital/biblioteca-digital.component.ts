@@ -10,21 +10,13 @@ export class BibliotecaDigitalComponent{
 
   documentos: any[] = [];
   loading: boolean;
+  subirDoc: boolean;
   filtro: boolean;
+  
 
   constructor(private bibliotecaDigital: BibliotecaDigitalService) { 
     this.loading = true;
     this.buscarDocumentos()
-  }
-
-  buscarPorNombre(termino: string) {
-    this.loading = true;
-    this.bibliotecaDigital.getDocumentosAcademicosPorNombre(termino)
-      .subscribe((data: any) => {
-        console.log(data);
-        this.documentos = data;
-        this.loading = false;
-      })
   }
 
   buscarDocumentos(offset: number = 0) {
@@ -39,6 +31,10 @@ export class BibliotecaDigitalComponent{
 
   filtrar() {
     this.filtro = !this.filtro;
+  }
+
+  subir() {
+    this.subirDoc = !this.subirDoc;
   }
 
   filtrarDocumentos(e) {

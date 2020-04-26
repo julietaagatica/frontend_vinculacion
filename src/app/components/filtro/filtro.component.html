@@ -17,9 +17,8 @@
         </select>
     </div>
     <div *ngIf="tipoFiltro == 'autor'" class="m-3 col-10">
-        <input #termino type="text" (keydown.enter)="buscarPorAutor(termino.value)" class="form-control" placeholder="Nombre del autor">
+        <input type="text" (keydown.enter)="buscarPorAutor()" class="form-control" placeholder="Nombre del autor" [(ngModel)]="autorSelect" name="autorSelect">
     </div>
-
     <div *ngIf="tipoFiltro == 'facultad'" class="m-3 col-10">
         <app-loading *ngIf="loadingFiltro"></app-loading>
         <select *ngIf="!loadingFiltro" class="form-control col-10" id="facultadSelect" [(ngModel)]="facultadSelect" name="facultadSelect">
@@ -30,7 +29,7 @@
     </div>
 
     <div *ngIf="tipoFiltro == 'categoria'" class="m-3 col-10">
-        <input #termino type="text" (keydown.enter)="buscarPorCategoria(termino.value)" class="form-control" placeholder="Categoria">
+        <input #termino type="text" (keydown.enter)="buscarPorCategoria()" class="form-control" placeholder="Categoria"  [(ngModel)]="categoriaSelect" name="categoriaSelect">
     </div>
 
     <div *ngIf="tipoFiltro == 'escuela'" class="m-3 col-10">
@@ -90,5 +89,17 @@
 </div>
 
 <hr>
+
+<div class="row justify-content-center"s>
+    <div class="col-8">
+        <input #termino type="text" (keydown.enter)="buscarPorNombre(termino.value, tipoFiltro)" class="form-control" placeholder="Buscar documento por nombre">
+    </div>
+    <div class="col-1">
+        <button type="button" class="btn btn-primary" (click)="limpiarBusqueda()">
+            <i class="fas fa-ban"></i>
+        </button>
+    </div>
+</div>
+
 
 <app-loading *ngIf="loading"></app-loading>

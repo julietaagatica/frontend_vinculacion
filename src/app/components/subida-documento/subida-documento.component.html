@@ -1,13 +1,15 @@
 <h3 class="my-5 text-left">Subir documento</h3>
-<form [formGroup]="subirForm" (ngSubmit)="onSubmit(subirForm.value)">
-    <div class="form-row">
-        <div class="col-md-6 mb-3">
-            <label for="nombre">* Nombre del documento</label>
-            <input class="form-control" name="nombre" formControlName="nombre" type="text">
+<form  [formGroup]="subirForm" (ngSubmit)="onSubmit(subirForm.value)">
+    <div class="form-group row">
+        <label for="nombreDoc" class="col-sm-3 mb-3 col-form-label">* Nombre del documento</label>
+        <div class="col-md-9 mb-3">
+            <input class="form-control" name="nombreDoc" formControlName="nombreDoc" type="text">
         </div>
-        <div class="col-md-6 mb-3">
-            <label for="categoria">* Categoría</label>
-            <input class="form-control" name="categoria" formControlName="categoria" type="text">
+    </div>
+    <div class="form-group row">
+        <label for="categorias" class="col-sm-3 mb-3 col-form-label">* Categoría/s</label>
+        <div class="col-sm-9 mb-3">
+            <input class="form-control" name="categorias" formControlName="categorias" type="text" data-toggle="tooltip" data-placement="bottom" title="Si posee más de una categoría, escribelas separadas por coma"> 
         </div>
     </div>
     <div class="form-row">
@@ -16,76 +18,155 @@
             <textarea class="form-control" name="descripcion" formControlName="descripcion"></textarea>
         </div>
     </div>
-    <div class="form-group row my-2">
-        <label class="col-sm-2">* Tipo de institución:</label>
+    <div class="row my-3">
+        <label class="col-sm-3">* Tipo de institución:</label>
         <div class="custom-control custom-radio col-sm-2">
-            <input id="escuela" type="radio" (change)="changeTypeInstitution($event)" class="custom-control-input" value="escuela" name="tipoInst" formControlName="tipoInst" checked>
+            <input id="escuela" type="radio" class="custom-control-input" value="escuela" name="tipoInst" formControlName="tipoInst" (click)="agregarEscuelas()">
             <label class="custom-control-label" for="escuela">Escuela</label>
         </div>
         <div class="custom-control custom-radio col-sm-2">
-            <input id="universidad" type="radio" (change)="changeTypeInstitution($event)" class="custom-control-input" value="universidad" name="tipoInst" formControlName="tipoInst">
+            <input id="universidad" type="radio" class="custom-control-input" value="universidad" name="tipoInst" formControlName="tipoInst" (click)="agregarUniversidades()">
             <label class="custom-control-label" for="universidad">Universidad</label>
         </div>
     </div>
 
-    <div *ngIf="tipoInst == 'escuela'" class="form-group">
-        <div class="row">
-            <label class="col-sm-2 col-form-label">* Escuela/s</label>
-            <div class="col-sm-10">
-                <input name="instituciones" formControlName="institucion" type="text" class="form-control">
+    <div *ngIf="tipoInst=='escuela'" class="form-group">
+        <div class="form-group row">
+            <label class="col-sm-3 mb-3 col-form-label">* Escuela</label>
+            <div class="col-sm-6 mb-3">
+                <select #esc formControlName="institucion" class="form-control" id="institucion" (change)="agregarOrientaciones(esc.value)">
+                    <option value="">Elegir escuela</option>
+                    <option *ngFor="let escuela of escuelas" [value]="escuela.id">
+                        {{escuela.nombre}}
+                    </option>
+                </select>
             </div>
         </div>
-        <div class="row">
-            <label class="col-sm-2 col-form-label">* Orientación/es</label>
-            <div class="col-sm-10">
-                <input name="ramasInst" formControlName="ramaInst" type="text" class="form-control">
+        <div class="form-group row">
+            <label class="col-sm-3 mb-3 col-form-label">* Orientación</label>
+            <div class="col-sm-6 mb-3">
+                <select #orient formControlName="ramaInst" class="form-control" id="ramaInst" (change)="agregarCursosOrientacion(orient.value)">
+                    <option value="">Elegir orientacion</option>
+                    <option *ngFor="let orientacion of orientaciones" [value]="orientacion.id">
+                        {{orientacion.nombre}}
+                    </option>
+                </select>
             </div>
         </div>
-        <div class="row">
-            <label class="col-sm-2 col-form-label">* Cursos</label>
-            <div class="col-sm-10">
-                <input name="cursos" formControlName="cursos" type="text" class="form-control">
+        <div class="form-group row">
+            <label class="col-sm-3 mb-3 col-form-label">* Curso</label>
+            <div class="col-sm-6 mb-3">
+                <select #cur formControlName="curso" class="form-control" id="curso" (change)="agregarMateriasCursoOrientacion(cur.value)">
+                    <option value="">Elegir curso</option>
+                    <option *ngFor="let curso of cursos" [value]="curso.id">
+                        {{curso.nombre}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 mb-3 col-form-label">* Materia</label>
+            <div class="col-sm-6 mb-3">
+                <select formControlName="materia" class="form-control" id="materia">
+                    <option value="">Elegir materia</option>
+                    <option *ngFor="let materia of materias" [value]="materia.id">
+                        {{materia.nombre}}
+                    </option>
+                </select>
             </div>
         </div>
     </div>
 
-    <div *ngIf="tipoInst == 'universidad'" class="form-group">
-        <div class="row">
-            <label class="col-sm-2 col-form-label">* Universidad/es</label>
-            <div class="col-sm-10">
-                <input name="universidades" formControlName="universidades" type="text" class="form-control">
+    <div *ngIf="tipoInst=='universidad'" class="form-group">
+        <div class="form-group row">
+            <label class="col-sm-3 mb-3 col-form-label">* Universidad</label>
+            <div class="col-sm-6 mb-3">
+                <select #univ formControlName="institucion" class="form-control" id="institucion" (change)="agregarCarreras(univ.value)">
+                    <option value="">Elegir universidad</option>
+                    <option *ngFor="let universidad of universidades" [value]="universidad.id">
+                        {{universidad.nombre}}
+                    </option>
+                </select>
+            </div>
+            <!-- <div *ngIf="!existInst" class="alert alert-danger col-md-12">
+                Debe seleccionar una universidad de la lista.
+            </div> -->
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 mb-3 col-form-label">* Carrera</label>
+            <div class="col-sm-6 mb-3">
+                <select #carr formControlName="ramaInst" class="form-control" id="ramaInst" (change)="agregarCursosCarrera(carr.value)">
+                    <option value="">Elegir carrera</option>
+                    <option *ngFor="let carrera of carreras" [value]="carrera.id">
+                        {{carrera.nombre}}
+                    </option>
+                </select>
             </div>
         </div>
-        <div class="row">
-            <label class="col-sm-2 col-form-label">* Carrera/s</label>
-            <div class="col-sm-10">
-                <input name="carreras" formControlName="carreras" type="text" class="form-control">
+        <div class="form-group row">
+            <label class="col-sm-3 mb-3 col-form-label">* Curso</label>
+            <div class="col-sm-6 mb-3">
+                <select #cur formControlName="curso" class="form-control" id="curso" (change)="agregarMateriasCursoCarrera(cur.value)">
+                    <option value="">Elegir curso</option>
+                    <option *ngFor="let curso of cursos" [value]="curso.id">
+                        {{curso.nombre}}
+                    </option>
+                </select>
             </div>
         </div>
-        <div class="row">
-            <label class="col-sm-2 col-form-label">* Cursos</label>
-            <div class="col-sm-10">
-                <input name="cursos" formControlName="cursos" type="text" class="form-control">
+        <div class="form-group row">
+            <label class="col-sm-3 mb-3 col-form-label">* Materia</label>
+            <div class="col-sm-6 mb-3">
+                <select formControlName="materia" class="form-control" id="materia">
+                    <option value="">Elegir materia</option>
+                    <option *ngFor="let materia of materias" [value]="materia.id">
+                        {{materia.nombre}}
+                    </option>
+                </select>
             </div>
         </div>
     </div>
-
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label">* Materia/s</label>
-        <div class="col-sm-10">
-            <input type="text" name="materias" formControlName="materias" class="form-control">
+        <label class="col-sm-3 mb-3 col-form-label">* Autor/es</label>
+        <div class="col-md-4 mb-3">
+            <input #nbreAut class="form-control" placeholder="Nombre/s" name="nombreAut" formControlName="nombreAut" type="text">
+        </div>
+        <div class="col-md-4 mb-3">
+            <input #apellAut class="form-control" placeholder="Apellido/s" name="apellidoAut" formControlName="apellidoAut" type="text">
+        </div>
+        <div class="col-sm-1 mb-3  text-rigth">
+            <button type="button" class="btn btn-primary" (click)=addAutor(nbreAut.value,apellAut.value)><i class="fas fa-plus"></i></button>
+        </div>
+        <div class="col-sm-12 mb-3  text-rigth">
+            <span *ngFor="let autor of autoresSelect" class="badge badge-primary mx-1" (click)=eliminarAutor(autor)>{{autor}} <i class="fas fa-times-circle"></i></span>
         </div>
     </div>
-
     <div class="form-group row">
-        <label class="col-sm-2 col-form-label">* Autor/es</label>
-        <div class="col-sm-10">
-            <input type="text" name="autores" formControlName="autores" class="form-control">
+        <label for="archivo" class="col-sm-3 mb-3 col-form-label">* Archivo a subir</label>
+        <div class="col-md-9 mb-3">
+            <input formControlName="archivo" type="file" class="form-control-file" id="archivo" (change)="onFileChange($event.target)" required>
         </div>
     </div>
 
     <hr class="mb-4">
     <h6>(*) Campos Obligatorios</h6>
-    <button class="btn btn-primary btn-lg btn-block" type="submit" [disabled]="form.invalid">Subir documento</button>
-
+    <div class="row mb-3 justify-content-md-center">
+        <button class="btn btn-primary col-sm-2 text-rigth mx-3" type="reset" (click)=onReset()>Limpiar</button>
+        <button class="btn btn-success btn-lg btn-block col-sm-2 text-rigth" type="submit" data-toggle="modal" data-target="#modelSuccess" [disabled]="subirForm.invalid">Subir documento</button>
+    </div>
+    <div  class="modal fade modelSuccess" id="modelSuccess" tabindex="-1" role="dialog" aria-labelledby="modelSuccess" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">¡Subida exitosa!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fas fa-times-circle"></i></button>
+              </div>
+              <div class="modal-body">
+                <p>El archivo se subió con éxito.</p>
+              </div>
+            </div>
+        </div>
+    </div>
 </form>
+
+<hr>

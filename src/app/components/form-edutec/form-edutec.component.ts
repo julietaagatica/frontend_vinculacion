@@ -4,7 +4,7 @@ import {
   FormBuilder, 
   Validators 
 } from "@angular/forms";
-import { EspacioInstitucionalService } from 'src/app/services/espacioInstitucional.service';
+import { UsuarioService } from 'src/app/services/usuario.service';
 
 
 @Component({
@@ -13,13 +13,12 @@ import { EspacioInstitucionalService } from 'src/app/services/espacioInstitucion
     styles: []
   })
   export class FormEdutecComponent implements OnInit {
-    public pageData: any;
     public form: FormGroup;
     valores: string[] = []
     
     constructor(
       private formBuilder: FormBuilder,
-      private formulario: EspacioInstitucionalService
+      private formulario: UsuarioService,
     ) {}
   
   
