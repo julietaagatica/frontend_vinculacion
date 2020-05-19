@@ -27,6 +27,7 @@ import { DomseguroPipe } from './pipes/domseguro.pipe';
 import { SubidaDocumentoComponent } from './components/subida-documento/subida-documento.component';
 import { FiltroComponent } from './components/filtro/filtro.component';
 import { FormEdutecComponent } from './components/form-edutec/form-edutec.component';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { FormEdutecComponent } from './components/form-edutec/form-edutec.compon
     DomseguroPipe,
     SubidaDocumentoComponent,
     FiltroComponent,
-    FormEdutecComponent
+    FormEdutecComponent,
+    LoginComponent
   ],
   imports: [
     HttpClientModule,

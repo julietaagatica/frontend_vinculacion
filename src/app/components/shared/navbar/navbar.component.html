@@ -27,11 +27,21 @@
       </ul>
       <ul class="navbar-nav my-2 my-lg-0">
         <li class="nav-item">
-          <a class="nav-link" routerLink="espacio_institucional" routerLinkActive="router-link-active">
+          <a *ngIf="!usuario" class="nav-link" routerLink="login" routerLinkActive="router-link-active">
             <i class="fa fa-user-circle fa-1x"></i> Login
           </a>
         </li>
+        <li *ngIf="usuario" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Bienvenido/a, {{ usuario.nombre }}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" (click)=logOut()>Salir</a>
+          </div>
+        </li>
       </ul>
-      
     </div>
   </nav>
+
+
+  

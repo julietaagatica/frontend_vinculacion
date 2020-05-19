@@ -4,9 +4,11 @@ import { MesaAyudaComponent } from './components/mesa-ayuda/mesa-ayuda.component
 import { BibliotecaDigitalComponent } from './components/biblioteca-digital/biblioteca-digital.component';
 import { EspacioInstitucionalComponent } from './components/espacio-institucional/espacio-institucional.component';
 import { DocumentoComponent } from './components/documento/documento.component';
+import { LoginComponent } from './components/login/login.component';
 
 
 export const ROUTES: Routes = [
+    { path: 'login', component: LoginComponent },
     { path: 'home', component: HomeComponent},
     { path: 'mesa_ayuda', component: MesaAyudaComponent},
     { path: 'biblioteca_digital', component: BibliotecaDigitalComponent },

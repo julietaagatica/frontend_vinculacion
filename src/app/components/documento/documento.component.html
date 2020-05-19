@@ -6,7 +6,7 @@
             <div class="card border-secondary my-3" style="max-width: 80rem;">
                 <div class="card-body text-center">
                     <button routerLink="/biblioteca_digital" class="btn btn-outline-danger float-left">Regresar</button>
-                    <button (click)="eliminarDocumento(documento.id)" type="button" class="btn btn-danger float-right"><i class="fas fa-trash-alt"></i></button>
+                    <button *ngIf="usuario && usuario.rol=='ADMIN'" (click)="eliminarDocumento(documento.id)" type="button" class="btn btn-danger float-right"><i class="fas fa-trash-alt"></i></button>
                     <h3 class="card-title my-3">{{ documento.nombre }}</h3>
                     <p class="card-text"><strong>Descripción: </strong>{{ documento.descripcion }}</p>
                     <strong>Autor/es: </strong><span *ngFor="let autor of documento.autores" class="badge badge-pill badge-secondary mr-1">{{ autor.nombre + " " + autor.apellido }}</span>

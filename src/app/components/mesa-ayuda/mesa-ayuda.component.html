@@ -1,7 +1,7 @@
 <div class="row" style="margin-top: 2rem; margin-bottom: 2rem;">
     <div class="col-md-8">
         <h3 class="card-title">Preguntas frecuentes
-            <button type="button" class="btn btn-md btn-primary float-right" data-toggle="modal"
+            <button *ngIf="usuario && usuario.rol=='ADMIN'" type="button" class="btn btn-md btn-primary float-right" data-toggle="modal"
                 data-target="#agregarPregModal">
                 <i class="fas fa-plus"></i> Agregar pregunta
             </button>
@@ -11,11 +11,11 @@
 
         <div *ngFor="let faq of preguntasFrecuentes" class="card border my-2">
             <h4 class="card-header border border-info">{{ faq.pregunta }}
-                <button (click)="eliminarPreguntaFrecuente(faq.id)" type="button"
+                <button *ngIf="usuario && usuario.rol=='ADMIN'" (click)="eliminarPreguntaFrecuente(faq.id)" type="button"
                     class="btn btn-danger float-right mx-2">
                     <i class="fas fa-trash-alt"></i>
                 </button>
-                <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#modificarPregModal" (click)=guardarID(faq.id)>
+                <button *ngIf="usuario && usuario.rol=='ADMIN'" type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#modificarPregModal" (click)=guardarID(faq.id)>
                     <i class="fas fa-edit"></i>
                 </button>
             </h4>

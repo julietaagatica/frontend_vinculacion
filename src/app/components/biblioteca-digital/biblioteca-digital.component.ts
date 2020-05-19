@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { BibliotecaDigitalService } from "src/app/services/bibliotecaDigital.service";
+import { User } from "src/app/models/user.model";
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-biblioteca-digital',
   templateUrl: './biblioteca-digital.component.html',
-  styles: []
+  providers: [StorageService],
 })
-export class BibliotecaDigitalComponent{
+export class BibliotecaDigitalComponent implements OnInit {
+  usuario: User;
 
   documentos: any[] = [];
   loading: boolean;
@@ -14,9 +17,13 @@ export class BibliotecaDigitalComponent{
   filtro: boolean;
   
 
-  constructor(private bibliotecaDigital: BibliotecaDigitalService) { 
+  constructor(private bibliotecaDigital: BibliotecaDigitalService, private storageService: StorageService){ 
     this.loading = true;
     this.buscarDocumentos()
+  }
+
+  ngOnInit() {
+    this.usuario = this.storageService.getCurrentUser();
   }
 
   buscarDocumentos(offset: number = 0) {

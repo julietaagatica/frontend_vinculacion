@@ -1,0 +1,32 @@
+<body>
+    <app-loading *ngIf="loading" class="m-5"></app-loading>
+
+    <div class="card  text-center">
+        <div class="card-header bg-dark mb-3 text-white">
+            <h3>
+                <img src="assets/img/logo2.png" width="50" height="30" class="d-inline-block align-top" alt="">
+                Vinculación 3.0
+            </h3>
+        </div>
+
+        <div class="card-body">
+            <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+                <div class="form-label-group">
+                    <i class="fa fa-user col-1"></i>
+                    <input type="text" id="inputEmail" formControlName="username" class="form-control col-5"
+                        placeholder="E-Mail" required autofocus>
+                </div>
+
+                <div class="form-label-group">
+                    <i class="fas fa-key col-1"></i>
+                    <input type="password" formControlName="password" id="inputPassword" class="form-control col-5"
+                        placeholder="Contraseña" required>
+                </div>
+                <div class="text-center my-2">
+                    <button class="btn btn-md btn-light">Ingresar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>

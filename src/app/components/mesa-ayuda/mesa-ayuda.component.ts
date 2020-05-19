@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { Router, ActivatedRoute} from "@angular/router";
+import { User } from "src/app/models/user.model";
+import { StorageService } from 'src/app/services/storage.service';
 
 declare var jQuery:any;
 declare var $:any;
@@ -8,19 +10,26 @@ declare var $:any;
 @Component({
   selector: 'app-mesa-ayuda',
   templateUrl: './mesa-ayuda.component.html',
-  styleUrls: []
+  providers: [StorageService],
 })
   
 export class MesaAyudaComponent implements OnInit {
 
+  private usuario: User;
   public preguntasFrecuentes: any[];
   public loading: boolean; 
   public faq: any = {};
 
-  constructor(private usuariosService: UsuarioService,private routerNavigate: Router, private router: ActivatedRoute) { }
+  constructor(
+    private usuariosService: UsuarioService,
+    private routerNavigate: Router,
+    private router: ActivatedRoute,
+    private storageService: StorageService
+  ) { }
 
   ngOnInit() {
     this.loading = true;
+    this.usuario = this.storageService.getCurrentUser();
     this.obtenerPreguntasFrecuentes()
   }
 
