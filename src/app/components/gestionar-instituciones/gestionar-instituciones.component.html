@@ -1,0 +1,164 @@
+<div class="my-4">
+    <h3 class="card-title">Instituciones actuales
+        <button type="button" class="btn btn-md btn-primary float-right" data-toggle="modal" data-target="#agregarInstModal">
+            <i class="fas fa-plus"></i> Agregar institución
+        </button>
+    </h3>
+
+    <app-loading *ngIf="loading" class="m-5"></app-loading>
+
+    <br>
+
+    <select *ngIf="!loading" #inst class="form-select w-100 p-1 text-center position-relative" size="15rem" (change)="seleccionarInstitucion(inst.value)">
+        <option *ngFor="let institucion of instituciones" [value]="institucion.id">{{ institucion.nombre }}</option>
+    </select>
+    <button *ngIf="!loading && idInstitucionSeleccionada!=''" type="button" class="btn btn-danger float-right m-3" data-toggle="modal" data-target="#eliminarInstModal">
+        <i class="fas fa-trash-alt"></i> Eliminar institución
+    </button>
+    <button *ngIf="!loading && idInstitucionSeleccionada!=''" type="button" class="btn btn-secondary float-right float-right m-3" data-toggle="modal" data-target="#modificarInstModal">
+        <i class="fas fa-edit"></i> Modificar institución
+    </button>
+</div>
+
+<div class="modal fade" id="agregarInstModal" tabindex="-1" role="dialog" aria-labelledby="agregarInstModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarInstModalLabel">Agregar nueva institución</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="agregarInstForm">
+                    <div class="form-group">
+                        <label for="nombre" class="col-form-label">Nombre de la institución</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Escriba aquí el nombre de la institución" formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }">
+                        <div class="invalid-feedback" *ngIf="submitted && f.nombre.errors">
+                            <p *ngIf="f.nombre.errors.required">El nombre de la institución es requerido</p>
+                        </div>
+                    </div>
+                    <div class="form-group my-4">
+                        <label class="col-sm-3">Tipo de institución:</label>
+                        <div class="form-check col-sm-2">
+                            <input class="form-check-input" type="radio" id="escuela" value="escuela" name="tipoInst" formControlName="tipoInst" [ngClass]="{ 'is-invalid': submitted && f.tipoInst.errors }">
+                            <label class="form-check-label" for="escuela">
+                              Escuela
+                            </label>
+                        </div>
+                        <div class="form-check col-sm-2">
+                            <input class="form-check-input" type="radio"  id="universidad" value="universidad" name="tipoInst" formControlName="tipoInst" [ngClass]="{ 'is-invalid': submitted && f.tipoInst.errors }">
+                            <label class="form-check-label" for="universidad">
+                              Universidad
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="historia" class="col-form-label">Historia</label>
+                        <textarea class="form-control" id="historia" placeholder="Escriba una breve historia de la institución" formControlName="historia" [ngClass]="{ 'is-invalid': submitted && f.historia.errors }"></textarea>
+                        <div class="invalid-feedback" *ngIf="submitted && f.historia.errors">
+                            <p *ngIf="f.historia.errors.required">La historia es requerida</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="mision" class="col-form-label">Misión</label>
+                        <textarea class="form-control" id="mision" placeholder="Escriba aquí cuál es la misión de la institución" formControlName="mision" [ngClass]="{ 'is-invalid': submitted && f.mision.errors }"></textarea>
+                        <div class="invalid-feedback" *ngIf="submitted && f.mision.errors">
+                            <p *ngIf="f.mision.errors.required">La misión es requerida</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="vision" class="col-form-label">Visión</label>
+                        <textarea class="form-control" id="vision" placeholder="Escriba aquí cuál es la visión de la institución" formControlName="vision" [ngClass]="{ 'is-invalid': submitted && f.vision.errors }"></textarea>
+                        <div class="invalid-feedback" *ngIf="submitted && f.vision.errors">
+                            <p *ngIf="f.vision.errors.required">La visión es requerida</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="subtmit" value="submit" class="btn btn-primary" (click)="onSubmit()">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modificarInstModal" tabindex="-1" role="dialog" aria-labelledby="modificarInstModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificarInstModalLabel">Modificar institución</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="modificarInstForm">
+                    <div class="form-group">
+                        <label for="nombreInst" class="col-form-label">Nombre de la institución</label>
+                        <input type="text" class="form-control" id="nombreInst" [value]="institucionSeleccionada ? institucionSeleccionada.nombre : '' " formControlName="nombreInst" [ngClass]="{ 'is-invalid': submittedModif && f2.nombreInst.errors }">
+                        <div class="invalid-feedback" *ngIf="submittedModif && f2.nombreInst.errors">
+                            <p *ngIf="f2.nombreInst.errors.required">El nombre de la institución es requerido</p>
+                        </div>
+                    </div>
+                    <div class="form-group my-4">
+                        <label class="col-sm-3">Tipo de institución: {{institucionSeleccionada ? institucionSeleccionada.tipo_institucion : '' }}</label>
+                    </div>
+                    <div class="form-group">
+                        <label for="historiaInst" class="col-form-label">Historia</label>
+                        <textarea class="form-control" id="historiaInst" [value]="institucionSeleccionada ? institucionSeleccionada.historia : '' " formControlName="historiaInst" [ngClass]="{ 'is-invalid': submittedModif && f2.historiaInst.errors }"></textarea>
+                        <div class="invalid-feedback" *ngIf="submittedModif && f2.historiaInst.errors">
+                            <p *ngIf="f2.historiaInst.errors.required">La historia es requerida</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="misionInst" class="col-form-label">Misión</label>
+                        <textarea class="form-control" id="misionInst" [value]="institucionSeleccionada ? institucionSeleccionada.mision : '' " formControlName="misionInst" [ngClass]="{ 'is-invalid': submittedModif && f2.misionInst.errors }"></textarea>
+                        <div class="invalid-feedback" *ngIf="submittedModif && f2.misionInst.errors">
+                            <p *ngIf="f2.misionInst.errors.required">La misión es requerida</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="visionInst" class="col-form-label">Visión</label>
+                        <textarea class="form-control" id="visionInst" [value]="institucionSeleccionada ?  institucionSeleccionada.vision : '' " formControlName="visionInst" [ngClass]="{ 'is-invalid': submittedModif && f2.visionInst.errors }"></textarea>
+                        <div class="invalid-feedback" *ngIf="submittedModif && f2.visionInst.errors">
+                            <p *ngIf="f2.visionInst.errors.required">La visión es requerida</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="subtmit" value="submit" class="btn btn-primary" (click)="onSubmitModif()">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"  id="eliminarInstModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Eliminar institución</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>¿Está seguro que desea eliminar la siguiente institución?</p>
+          <p><strong>Nombre institución:</strong> {{institucionSeleccionada ? institucionSeleccionada.nombre : ''}} <br/>
+            <strong>Tipo institución:</strong> {{institucionSeleccionada ? institucionSeleccionada.tipo_institucion : ''}}<br/>
+            <strong>Historia:</strong> {{institucionSeleccionada ? institucionSeleccionada.historia : ''}}<br/>
+            <strong>Misión:</strong> {{institucionSeleccionada ? institucionSeleccionada.mision : ''}}<br/>
+            <strong>Visión:</strong> {{institucionSeleccionada ? institucionSeleccionada.vision : ''}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Si</button>
+        </div>
+      </div>
+    </div>
+  </div>

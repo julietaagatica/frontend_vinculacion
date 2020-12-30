@@ -1,0 +1,22 @@
+<div class="btn-group" role="group">
+    <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="button" autocomplete="off" (click)="gestionar('instituciones')">Gestionar Instituciones</button>
+    <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="button" autocomplete="off" (click)="gestionar('carreras')">Gestionar Carreras</button>    
+    <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="button" autocomplete="off" (click)="gestionar('orientaciones')">Gestionar Orientaciones</button>    
+    <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="button" autocomplete="off" (click)="gestionar('cursos')">Gestionar Cursos</button>    
+    <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="button" autocomplete="off" (click)="gestionar('materias')">Gestionar Materias</button>    
+</div>
+<div *ngIf="gestion=='instituciones'">
+    <app-gestionar-instituciones></app-gestionar-instituciones>
+</div>
+<div *ngIf="gestion=='carreras'">
+    Gestionar Carreras
+</div>
+<div *ngIf="gestion=='orientaciones'">
+    Gestionar Orientaciones
+</div>
+<div *ngIf="gestion=='cursos'">
+    Gestionar Cursos
+</div>
+<div *ngIf="gestion=='materias'">
+    Gestionar Materias
+</div>

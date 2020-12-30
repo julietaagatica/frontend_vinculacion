@@ -24,6 +24,11 @@
               Espacio Institucional
             </a>
         </li>
+        <li *ngIf="usuario && usuario.rol=='ADMIN'" class="nav-item">
+            <a class="nav-link" routerLink="gestion_institucional" routerLinkActive="router-link-active">
+              Gestión Institucional
+            </a>
+        </li>
       </ul>
       <ul class="navbar-nav my-2 my-lg-0">
         <li class="nav-item">

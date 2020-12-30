@@ -22,12 +22,15 @@ import { ROUTES } from './app.routes';
 import { LoadingComponent } from './components/shared/loading/loading.component';
 import { TarjetasComponent } from './components/tarjetas/tarjetas.component';
 import { ImageextensionPipe } from './pipes/imageextension.pipe';
+import { CortarnombrePipe } from './pipes/cortarnombre.pipe';
 import { DocumentoComponent } from './components/documento/documento.component';
 import { DomseguroPipe } from './pipes/domseguro.pipe';
 import { SubidaDocumentoComponent } from './components/subida-documento/subida-documento.component';
 import { FiltroComponent } from './components/filtro/filtro.component';
 import { FormEdutecComponent } from './components/form-edutec/form-edutec.component';
 import { LoginComponent } from './components/login/login.component';
+import { GestionInstitucionalComponent } from './components/gestion-institucional/gestion-institucional.component';
+import { GestionarInstitucionesComponent } from './components/gestionar-instituciones/gestionar-instituciones.component';
 
 @NgModule({
   declarations: [
@@ -41,12 +44,15 @@ import { LoginComponent } from './components/login/login.component';
     LoadingComponent,
     TarjetasComponent,
     ImageextensionPipe,
+    CortarnombrePipe,
     DocumentoComponent,
     DomseguroPipe,
     SubidaDocumentoComponent,
     FiltroComponent,
     FormEdutecComponent,
-    LoginComponent
+    LoginComponent,
+    GestionInstitucionalComponent,
+    GestionarInstitucionesComponent
   ],
   imports: [
     HttpClientModule,

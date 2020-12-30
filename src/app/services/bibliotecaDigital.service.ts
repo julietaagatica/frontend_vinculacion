@@ -38,71 +38,6 @@ export class BibliotecaDigitalService {
     return documentos;
   }
 
-  // getDocumentosAcademicosPorAutor(termino: string, nbreDoc: string) {
-  //   var queryParams = `autor=${ termino}`
-  //   if (nbreDoc != "") {
-  //     queryParams = `${queryParams}&nombre_documento=${nbreDoc}`
-  //   }
-  //   const documentos = this.getHost(`documentos_educativos/busqueda?${queryParams}`).pipe(map(data => data["documentos"]));
-  //   return documentos;
-  // } 
-
-  // getDocumentosAcademicosPorFacultad(facultad: string, nbreDoc: string) {
-  //   var queryParams = `facultad=${ facultad}`
-  //   if (nbreDoc != "") {
-  //     queryParams = `${queryParams}&nombre_documento=${nbreDoc}`
-  //   }
-  //   const documentos = this.getHost(`documentos_educativos/busqueda?${queryParams}`).pipe(map(data => data["documentos"]));
-  //   return documentos;
-  // }
-
-  // getDocumentosAcademicosPorCategoria(termino: string, nbreDoc: string) {
-  //   var queryParams = `categoria=${ termino}`
-  //   if (nbreDoc != "") {
-  //     queryParams = `${queryParams}&nombre_documento=${nbreDoc}`
-  //   }
-  //   const documentos = this.getHost(`documentos_educativos/busqueda?${queryParams}`).pipe(map(data => data["documentos"]));
-  //   return documentos;
-  // }
-
-  // getDocumentosAcademicosPorEscuela(escuela: number, nbreDoc: string) {
-  //   var queryParams = `escuela=${ escuela}`
-  //   if (nbreDoc != "") {
-  //     queryParams = `${queryParams}&nombre_documento=${nbreDoc}`
-  //   }
-  //   const documentos = this.getHost(`documentos_educativos/busqueda?${queryParams}`).pipe(map(data => data["documentos"]));
-  //   return documentos;
-  // }
-
-  // getDocumentosAcademicosPorUniversidad(universidad: number, nbreDoc: string) {
-  //   var queryParams = `universidad=${ universidad}`
-  //   if (nbreDoc != "") {
-  //     queryParams = `${queryParams}&nombre_documento=${nbreDoc}`
-  //   }
-  //   const documentos = this.getHost(`documentos_educativos/busqueda?${queryParams}`).pipe(map(data => data["documentos"]));
-  //   return documentos;
-  // }
-
-  // getDocumentosAcademicosPorOrientacion(orientacion: number, nbreDoc: string) {
-  //   const documentos = this.getHost(`documentos_educativos/busqueda?orientacion=${ orientacion}`).pipe(map(data => data["documentos"]));
-  //   return documentos;
-  // }
-
-  // getDocumentosAcademicosPorMateria(materia: number, nbreDoc: string) {
-  //   const documentos = this.getHost(`documentos_educativos/busqueda?materia=${ materia}`).pipe(map(data => data["documentos"]));
-  //   return documentos;
-  // }
-
-  // getDocumentosAcademicosPorCurso(curso: number, nbreDoc: string) {
-  //   const documentos = this.getHost(`documentos_educativos/busqueda?curso=${ curso}`).pipe(map(data => data["documentos"]));
-  //   return documentos;
-  // }
-
-  // getDocumentosAcademicosPorCarrera(carrera: number, nbreDoc: string) {
-  //   const documentos = this.getHost(`documentos_educativos/busqueda?carrera=${ carrera}`).pipe(map(data => data["documentos"]));
-  //   return documentos;
-  // }
-  
   getDocumentos(offset: number) {
     const documentos = this.getHost(`documentos_educativos/obtener_todos?offset=${ offset }&limit=100`).pipe(map(data => data["documentos"]));
     return documentos;
@@ -124,6 +59,11 @@ export class BibliotecaDigitalService {
   getInstituciones() {
     const instituciones = this.getHost(`instituciones_educativas`).pipe(map(data => data["instituciones"]));
     return instituciones;
+  }
+
+  getInstitucion(id:string) {
+    const institucion = this.getHost(`instituciones_educativas/${ id }`);
+    return institucion;
   }
 
   getFacultades() {

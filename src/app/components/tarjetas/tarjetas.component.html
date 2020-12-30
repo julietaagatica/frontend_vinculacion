@@ -3,10 +3,10 @@
         <div class="card-body text-center">
             <img [src]="item.nombre_archivo | imageextension" alt="logo" class="logo-image">
             <h5 class="card-tittle">
-                {{ item.nombre }}
+                {{ item.nombre | cortarnombre }}
             </h5>
             <p class="card-text">
-                <span *ngFor="let autor of item.autores" class="badge badge-pill badge-primary">
+                <span *ngFor="let autor of item.autores.slice(0,3)" class="badge badge-pill badge-primary">
                     {{ autor.nombre + " " + autor.apellido }}
                 </span>
             </p>
