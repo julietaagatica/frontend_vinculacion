@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { map } from "rxjs/operators";
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -64,6 +65,19 @@ export class BibliotecaDigitalService {
   getInstitucion(id:string) {
     const institucion = this.getHost(`instituciones_educativas/${ id }`);
     return institucion;
+  }
+
+  postInstitucion(institucion:any){
+    return this.http.post<any>(this.host+"/instituciones_educativas", institucion)
+  }
+
+  putInstitucion(id:string,institucion:any){
+    console.log("institucion ",institucion)
+    return this.http.put<any>(this.host+`/instituciones_educativas/${id}`, institucion)
+  }
+
+  deleteInstitucion(id:string){
+    return this.http.delete(this.host+`/instituciones_educativas/${id}`)
   }
 
   getFacultades() {
@@ -131,5 +145,21 @@ export class BibliotecaDigitalService {
     var request = new XMLHttpRequest();
     request.open("POST", this.host+"/documentos_educativos/subir");
     request.send(formData);
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error.message);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(
+      'Something bad happened; please try again later.');
   }
 }

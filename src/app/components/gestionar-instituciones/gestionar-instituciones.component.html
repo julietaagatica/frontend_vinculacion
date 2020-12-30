@@ -42,13 +42,13 @@
                     <div class="form-group my-4">
                         <label class="col-sm-3">Tipo de institución:</label>
                         <div class="form-check col-sm-2">
-                            <input class="form-check-input" type="radio" id="escuela" value="escuela" name="tipoInst" formControlName="tipoInst" [ngClass]="{ 'is-invalid': submitted && f.tipoInst.errors }">
+                            <input class="form-check-input" type="radio" id="escuela" value="Escuela" name="tipoInst" formControlName="tipoInst" [ngClass]="{ 'is-invalid': submitted && f.tipoInst.errors }">
                             <label class="form-check-label" for="escuela">
                               Escuela
                             </label>
                         </div>
                         <div class="form-check col-sm-2">
-                            <input class="form-check-input" type="radio"  id="universidad" value="universidad" name="tipoInst" formControlName="tipoInst" [ngClass]="{ 'is-invalid': submitted && f.tipoInst.errors }">
+                            <input class="form-check-input" type="radio"  id="universidad" value="Universidad" name="tipoInst" formControlName="tipoInst" [ngClass]="{ 'is-invalid': submitted && f.tipoInst.errors }">
                             <label class="form-check-label" for="universidad">
                               Universidad
                             </label>
@@ -157,7 +157,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Si</button>
+          <button type="button" class="btn btn-primary" (click)="eliminarInstitucion()" data-dismiss="modal">Si</button>
         </div>
       </div>
     </div>

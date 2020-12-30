@@ -57,20 +57,43 @@ export class GestionarInstitucionesComponent implements OnInit {
     this.submitted = true;
 
     if (this.agregarInstForm.valid) {
-      alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.agregarInstForm.value, null, 4));
+      var institucion = {};
+      institucion["nombre"] = this.agregarInstForm.value["nombre"];
+      institucion["tipo_institucion"] = this.agregarInstForm.value["tipoInst"];
+      institucion["historia"] = this.agregarInstForm.value["historia"];
+      institucion["vision"] = this.agregarInstForm.value["vision"];
+      institucion["mision"] = this.agregarInstForm.value["mision"];
+      this.bibliotecaDigital.postInstitucion(institucion).subscribe(data => {
+        alert("La institución se agregó correctamente. ID: "+ data.id);
+        setTimeout( () => { location.reload(true); }, 500 );
+      })
       this.onReset();
     }
-    
   }
 
   onSubmitModif() {
     this.submittedModif = true;
 
     if (this.modificarInstForm.valid) {
-      alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.modificarInstForm.value, null, 4));
-      this.onResetModif();
+      var institucion = {};
+      institucion["nombre"] = this.modificarInstForm.value["nombreInst"];
+      institucion["historia"] = this.modificarInstForm.value["historiaInst"];
+      institucion["vision"] = this.modificarInstForm.value["visionInst"];
+      institucion["mision"] = this.modificarInstForm.value["misionInst"];
+      this.bibliotecaDigital.putInstitucion(this.idInstitucionSeleccionada, institucion).subscribe(data => {
+        alert("La institución se modificó correctamente. ID: "+ data.id);
+        setTimeout( () => { location.reload(true); }, 500 );
+      })
+      this.onReset();
     }
     
+  }
+
+  eliminarInstitucion() {
+    this.bibliotecaDigital.deleteInstitucion(this.idInstitucionSeleccionada).subscribe(() => {
+      alert("La institucion se eliminó correctamente.");
+      setTimeout( () => { location.reload(true); }, 500 );
+    });
   }
 
   onReset() {
