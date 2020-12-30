@@ -1,0 +1,157 @@
+<div class="my-4">
+    <h3 class="card-title">Carreras actuales
+        <button type="button" class="btn btn-md btn-primary float-right" data-toggle="modal" data-target="#agregarCarreraModal">
+            <i class="fas fa-plus"></i> Agregar Carrera
+        </button>
+    </h3>
+
+    <app-loading *ngIf="loading" class="m-5"></app-loading>
+
+    <br>
+
+    <select *ngIf="!loading" #carr class="form-select w-100 p-1 text-center position-relative" size="15rem" (change)="seleccionarCarrera(carr.value)">
+        <option *ngFor="let carrera of carreras" [value]="carrera.id">{{ carrera.nombre }}</option>
+    </select>
+    <button *ngIf="!loading && idCarreraSeleccionada!=''" type="button" class="btn btn-danger float-right m-3" data-toggle="modal" data-target="#eliminarCarreraModal">
+        <i class="fas fa-trash-alt"></i> Eliminar Carrera
+    </button>
+    <button *ngIf="!loading && idCarreraSeleccionada!=''" type="button" class="btn btn-secondary float-right float-right m-3" data-toggle="modal" data-target="#modificarCarreraModal">
+        <i class="fas fa-edit"></i> Modificar Carrera
+    </button>
+</div>
+
+<div class="modal fade" id="agregarCarreraModal" tabindex="-1" role="dialog" aria-labelledby="agregarCarreraModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarCarreraModalLabel">Agregar nueva carrera</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="agregarCarreraForm">
+                    <div class="form-group">
+                        <label for="nombre" class="col-form-label">Nombre de la carrera</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Escriba aquí el nombre de la carrera" formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }">
+                        <div class="invalid-feedback" *ngIf="submitted && f.nombre.errors">
+                            <p *ngIf="f.nombre.errors.required">El nombre de la carrera es requerido</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="facultad" class="col-form-label">Facultad a la que pertenece</label>
+                        <input type="text" class="form-control" id="facultad" placeholder="Escriba aquí la facultad a la que pertenece la carrera" formControlName="facultad" [ngClass]="{ 'is-invalid': submitted && f.facultad.errors }">
+                        <div class="invalid-feedback" *ngIf="submitted && f.facultad.errors">
+                            <p *ngIf="f.facultad.errors.required">La facultad es requerida</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="duracion" class="col-form-label">Duración de la carrera en años</label>
+                        <select class="form-control" id="duracion" formControlName="duracion" [ngClass]="{ 'is-invalid': submitted && f.duracion.errors }">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="submitted && f.duracion.errors">
+                            <p *ngIf="f.duracion.errors.required">La duración es requerida</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="universidad" class="col-form-label">Universidad a la que pertenece</label>
+                        <select class="form-control" id="universidad" formControlName="universidad" [ngClass]="{ 'is-invalid': submitted && f.universidad.errors }">
+                            <option *ngFor="let universidad of universidades" [value]="universidad.id">{{universidad.nombre}}</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="submitted && f.universidad.errors">
+                            <p *ngIf="f.universidad.errors.required">Debe seleccionar una universidad</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="subtmit" value="submit" class="btn btn-primary" (click)="onSubmit()">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modificarCarreraModal" tabindex="-1" role="dialog" aria-labelledby="modificarCarreraModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificarCarreraModalLabel">Modificar carrera</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-loading *ngIf="loadingCarrera" class="m-5"></app-loading>
+
+                <form *ngIf="!loadingCarrera" [formGroup]="modificarCarreraForm">
+                    <div class="form-group">
+                        <label for="nombreCarr" class="col-form-label">Nombre de la carrera</label>
+                        <input type="text" class="form-control" id="nombreCarr" [value]="carreraSeleccionada ? carreraSeleccionada.nombre : ''" formControlName="nombreCarr" [ngClass]="{ 'is-invalid': submitted && f.nombreCarr.errors }">
+                        <div class="invalid-feedback" *ngIf="submitted && f.nombreCarr.errors">
+                            <p *ngIf="f.nombreCarr.errors.required">El nombre de la carrera es requerido</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="facultadCarr" class="col-form-label">Facultad a la que pertenece</label>
+                        <input type="text" class="form-control" id="facultadCarr" [value]="carreraSeleccionada ? carreraSeleccionada.facultad : ''" formControlName="facultadCarr" [ngClass]="{ 'is-invalid': submitted && f.facultadCarr.errors }">
+                        <div class="invalid-feedback" *ngIf="submitted && f.facultadCarr.errors">
+                            <p *ngIf="f.facultadCarr.errors.required">La facultad es requerida</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="duracionCarr" class="col-form-label">Duración de la carrera en años</label>
+                        <select class="form-control" id="duracionCarr" formControlName="duracionCarr" [ngClass]="{ 'is-invalid': submitted && f.duracionCarr.errors }">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="submitted && f.duracionCarr.errors">
+                            <p *ngIf="f.duracionCarr.errors.required">La duración es requerida</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="subtmit" value="submit" class="btn btn-primary" (click)="onSubmitModif()">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"  id="eliminarCarreraModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Eliminar carrera</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>¿Está seguro que desea eliminar la siguiente carrera?</p>
+            <app-loading *ngIf="loadingCarrera" class="m-5"></app-loading>
+            <p *ngIf="!loadingCarrera">
+                <strong>Nombre carrera:</strong> {{carreraSeleccionada ? carreraSeleccionada.nombre : ''}} <br/>
+                <strong>Facultad a la que pertenece:</strong> {{carreraSeleccionada ? carreraSeleccionada.facultad : ''}} <br/>
+                <strong>Duración de la carrera en años:</strong> {{carreraSeleccionada ? carreraSeleccionada.duracion : ''}} <br/>
+                <strong>ID de la Universidad a la que pertenece:</strong> {{carreraSeleccionada ? carreraSeleccionada.id_universidad : ''}} <br/>
+            </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="eliminarCarrera()" data-dismiss="modal">Si</button>
+        </div>
+      </div>
+    </div>
+  </div>

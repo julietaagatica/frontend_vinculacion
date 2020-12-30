@@ -31,6 +31,7 @@ import { FormEdutecComponent } from './components/form-edutec/form-edutec.compon
 import { LoginComponent } from './components/login/login.component';
 import { GestionInstitucionalComponent } from './components/gestion-institucional/gestion-institucional.component';
 import { GestionarInstitucionesComponent } from './components/gestionar-instituciones/gestionar-instituciones.component';
+import { GestionarCarrerasComponent } from './components/gestionar-carreras/gestionar-carreras.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { GestionarInstitucionesComponent } from './components/gestionar-instituc
     FormEdutecComponent,
     LoginComponent,
     GestionInstitucionalComponent,
-    GestionarInstitucionesComponent
+    GestionarInstitucionesComponent,
+    GestionarCarrerasComponent
   ],
   imports: [
     HttpClientModule,

@@ -72,7 +72,6 @@ export class BibliotecaDigitalService {
   }
 
   putInstitucion(id:string,institucion:any){
-    console.log("institucion ",institucion)
     return this.http.put<any>(this.host+`/instituciones_educativas/${id}`, institucion)
   }
 
@@ -89,25 +88,40 @@ export class BibliotecaDigitalService {
   }
 
   getOrientacionesPorEscuela(escuela: string) {
-    return this.getHost(`instituciones_educativas/escuelas/${escuela}/orientaciones`);
+    return this.getHost(`escuelas/${escuela}/orientaciones`);
   }
 
   getUniversidades() {
-    return this.getHost(`instituciones_educativas/universidades`);
+    return this.getHost(`universidades`);
   }
 
   getEscuelas() {
-    return this.getHost(`instituciones_educativas/escuelas`);
+    return this.getHost(`escuelas`);
   }
 
   getCarreras() {
     return this.getHost(`carreras`);
   }
 
-  getCarrerasPorUniversidad(universidadID: string) {
-    return this.getHost(`instituciones_educativas/universidades/${universidadID}/carreras`);
+  getCarrera(id:string){
+    return this.getHost(`carreras/${id}`);
   }
 
+  postCarrera(carrera:any) {
+    return this.http.post<any>(this.host+"/carreras", carrera)
+  }
+
+  putCarrera(id:string,carrera:any){
+    return this.http.put<any>(this.host+`/carreras/${id}`, carrera)
+  }
+
+  deleteCarrera(id:string){
+    return this.http.delete(this.host+`/carreras/${id}`)
+  }
+
+  getCarrerasPorUniversidad(universidadID: string) {
+    return this.getHost(`universidades/${universidadID}/carreras`);
+  }
 
   getCursos() {
     return this.getHost(`cursos`);

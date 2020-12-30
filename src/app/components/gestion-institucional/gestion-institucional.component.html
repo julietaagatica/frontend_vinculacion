@@ -1,15 +1,25 @@
-<div class="btn-group" role="group">
-    <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="button" autocomplete="off" (click)="gestionar('instituciones')">Gestionar Instituciones</button>
-    <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="button" autocomplete="off" (click)="gestionar('carreras')">Gestionar Carreras</button>    
-    <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="button" autocomplete="off" (click)="gestionar('orientaciones')">Gestionar Orientaciones</button>    
-    <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="button" autocomplete="off" (click)="gestionar('cursos')">Gestionar Cursos</button>    
-    <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="button" autocomplete="off" (click)="gestionar('materias')">Gestionar Materias</button>    
+<div class="btn-group btn-group-toggle" role="group" data-toggle="buttons">
+    <label class="btn btn-outline-primary active m-3" (click)="gestionar('instituciones')">
+        <input type="radio" name="options" id="instituciones" autocomplete="off" checked> Gestionar Instituciones
+    </label>
+    <label class="btn btn-outline-primary m-3" (click)="gestionar('carreras')">
+        <input type="radio" name="options" id="carreras" autocomplete="off" checked> Gestionar Carreras
+    </label>
+    <label class="btn btn-outline-primary m-3" (click)="gestionar('orientaciones')">
+        <input type="radio" name="options" id="orientaciones" autocomplete="off" checked> Gestionar Orientaciones
+    </label>
+    <label class="btn btn-outline-primary m-3" (click)="gestionar('cursos')">
+        <input type="radio" name="options" id="cursos" autocomplete="off" checked> Gestionar Cursos
+    </label>
+    <label class="btn btn-outline-primary m-3" (click)="gestionar('materias')">
+        <input type="radio" name="options" id="materias" autocomplete="off" checked> Gestionar Materias
+    </label>
 </div>
 <div *ngIf="gestion=='instituciones'">
     <app-gestionar-instituciones></app-gestionar-instituciones>
 </div>
 <div *ngIf="gestion=='carreras'">
-    Gestionar Carreras
+    <app-gestionar-carreras></app-gestionar-carreras>
 </div>
 <div *ngIf="gestion=='orientaciones'">
     Gestionar Orientaciones
