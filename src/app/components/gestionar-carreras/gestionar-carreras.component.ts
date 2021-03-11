@@ -17,8 +17,10 @@ export class GestionarCarrerasComponent implements OnInit {
   universidades: any[] = [];
   loading: boolean;
   loadingCarrera: boolean;
+  loadingUniversidades: boolean;
   idCarreraSeleccionada: string = "";
   carreraSeleccionada: any;
+  universidadSelect: string = "";
 
   constructor(private bibliotecaDigital: BibliotecaDigitalService, private fb: FormBuilder) {
     this.loading = true;
@@ -30,6 +32,14 @@ export class GestionarCarrerasComponent implements OnInit {
 
   ngOnInit() {
       
+  }
+
+  filtrarPorUniversidad(){
+    console.log("universidad seleccionada:",this.universidadSelect);
+    this.bibliotecaDigital.getCarrerasPorUniversidad(this.universidadSelect)
+      .subscribe((data: any) => {
+        this.carreras = data;
+      });
   }
 
   crearFormularioParaAgregar() {
@@ -129,11 +139,11 @@ export class GestionarCarrerasComponent implements OnInit {
   }
 
   buscarUniversidades(){
-    this.loading = true;
+    this.loadingUniversidades = true;
     this.bibliotecaDigital.getUniversidades()
       .subscribe((data: any) => {
         this.universidades = data;
-        this.loading = false;
+        this.loadingUniversidades = false;
       })
   }
 

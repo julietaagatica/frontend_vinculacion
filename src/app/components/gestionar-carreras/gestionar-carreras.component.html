@@ -5,6 +5,17 @@
         </button>
     </h3>
 
+    <br>
+    
+    <div class="row my-3">
+        <label class="col-2 my-2">Filtrar por universidad:</label>
+        <select *ngIf="!loadingUniversidades" class="form-control col-7" id="universidadSelect" [(ngModel)]="universidadSelect" name="universidadSelect">
+            <option *ngFor="let universidad of universidades" [value]="universidad.id">{{universidad.nombre}}</option>
+        </select>
+        <br>
+        <button *ngIf="!loadingUniversidades" type="button" class="btn btn-primary col-2 mx-2 float-right" (click)="filtrarPorUniversidad()">Buscar</button>
+    </div>
+
     <app-loading *ngIf="loading" class="m-5"></app-loading>
 
     <br>

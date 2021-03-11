@@ -1,0 +1,128 @@
+<hr>
+<div class="btn-group btn-group-toggle col-12 justify-content-center" role="group" data-toggle="buttons">
+    <label class="btn btn-outline-info m-3 rounded-pill" (click)="gestionar('carreras')">
+        <input type="radio" name="options" id="carreras" autocomplete="off" checked> Gestionar Cursos de Carreras
+    </label>
+    <label class="btn btn-outline-info m-3 rounded-pill" (click)="gestionar('orientaciones')">
+        <input type="radio" name="options" id="orientaciones" autocomplete="off" checked> Gestionar Cursos de Orientaciones
+    </label>
+</div>
+<div *ngIf="gestion=='carreras'">
+    <div class="my-4">
+        <h3 class="card-title">Seleccione una carrera</h3>
+        
+        <app-loading *ngIf="loading" class="m-5"></app-loading>
+
+        <br>
+
+        <select *ngIf="!loading" #carr class="form-select w-100 p-1 text-center position-relative my-4" size="5rem" (change)="seleccionarCarrera(carr.value)">
+            <option *ngFor="let carrera of carreras" [value]="carrera.id">{{ carrera.nombre }}</option>
+        </select>
+
+        <hr>
+
+        <div *ngIf="!loading && idCarreraSeleccionada!=''" class="my-4">
+            <h4 class="card-title">Los cursos de la carrera seleccionada son:
+                <button type="button" class="btn btn-md btn-primary float-right" data-toggle="modal" data-target="#agregarCursoModal">
+                    <i class="fas fa-plus"></i> Agregar Curso
+                </button>
+            </h4>
+
+            <app-loading *ngIf="loading2" class="m-5"></app-loading>
+
+            <br>
+
+            <select *ngIf="!loading2" #cursoCar class="form-select w-100 p-1 text-center position-relative" size="5rem" (change)="seleccionarCurso(cursoCar.value)">
+                <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</option>
+            </select>
+            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-danger float-right m-3" data-toggle="modal" data-target="#eliminarCursoModal">
+                <i class="fas fa-trash-alt"></i> Eliminar Curso
+            </button>
+            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-secondary float-right float-right m-3" data-toggle="modal" data-target="#modificarCursoModal">
+                <i class="fas fa-edit"></i> Modificar Curso
+            </button>
+            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-info float-right m-3" data-toggle="modal" data-target="#agregarMateriasModal">
+                <i class="fas fa-info-circle"></i> Materias de Curso
+            </button>
+        </div>
+    </div>
+</div>
+<div *ngIf="gestion=='orientaciones'">
+    <div class="my-4">
+        <h3 class="card-title">Seleccione una orientación</h3>
+        
+        <app-loading *ngIf="loading" class="m-5"></app-loading>
+
+        <br>
+
+        <select *ngIf="!loading" #orient class="form-select w-100 p-1 text-center position-relative my-4" size="5rem" (change)="seleccionarOrientacion(orient.value)">
+            <option *ngFor="let orientacion of orientaciones" [value]="orientacion.id">{{ orientacion.nombre }}</option>
+        </select>
+
+        <hr>
+
+        <div *ngIf="!loading && idOrientacionSeleccionada!=''" class="my-4">
+            <h4 class="card-title">Los cursos de la orientación seleccionada son:
+                <button type="button" class="btn btn-md btn-primary float-right" data-toggle="modal" data-target="#agregarCursoModal">
+                    <i class="fas fa-plus"></i> Agregar Curso
+                </button>
+            </h4>
+
+            <app-loading *ngIf="loading2" class="m-5"></app-loading>
+
+            <br>
+
+            <select *ngIf="!loading2" #cursoOr class="form-select w-100 p-1 text-center position-relative" size="5rem" (change)="seleccionarCurso(cursoOr.value)">
+                <option *ngFor="let curso of cursos" [value]="curso.id">{{ curso.nombre }}</option>
+            </select>
+            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-danger float-right m-3" data-toggle="modal" data-target="#eliminarCursoModal">
+                <i class="fas fa-trash-alt"></i> Eliminar Curso
+            </button>
+            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-secondary float-right float-right m-3" data-toggle="modal" data-target="#modificarCursoModal">
+                <i class="fas fa-edit"></i> Modificar Curso
+            </button>
+            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-info float-right m-3" data-toggle="modal" data-target="#agregarMateriasModal">
+                <i class="fas fa-info-circle"></i> Materias de Curso
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="agregarCursoModal" tabindex="-1" role="dialog" aria-labelledby="agregarCursoModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarCursoModalLabel">Agregar nuevo curso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="agregarCursoForm">
+                    <div class="form-group">
+                        <label for="nombre" class="col-form-label">Nombre del curso</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Escriba aquí el nombre del curso" formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }">
+                        <div class="invalid-feedback" *ngIf="submitted && f.nombre.errors">
+                            <p *ngIf="f.nombre.errors.required">El nombre del curso es requerido</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="carreraOrientacion" class="col-form-label">{{ tipoGestion }} a la que pertenece</label>
+                        <select class="form-control" id="carreraOrientacion" formControlName="carreraOrientacion" [ngClass]="{ 'is-invalid': submitted && f.carreraOrientacion.errors }">
+                            <option *ngFor="let carOri of carrerasOrientaciones" [value]="carOri.id">{{carOri.nombre}}</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="submitted && f.universidad.errors">
+                            <p *ngIf="f.universidad.errors.required">Debe seleccionar una {{ tipoGestion }}</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="subtmit" value="submit" class="btn btn-primary" (click)="onSubmit()">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

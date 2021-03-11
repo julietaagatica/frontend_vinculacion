@@ -1,0 +1,126 @@
+<div class="my-4">
+    <h3 class="card-title">Orientaciones actuales
+        <button type="button" class="btn btn-md btn-primary float-right" data-toggle="modal" data-target="#agregarOrientacionModal">
+            <i class="fas fa-plus"></i> Agregar Orientación
+        </button>
+    </h3>
+
+    <br>
+    
+    <div class="row my-3">
+        <label class="col-2 my-2">Filtrar por escuela:</label>
+        <select *ngIf="!loadingEscuelas" class="form-control col-7" id="escuelaSelect" [(ngModel)]="escuelaSelect" name="escuelaSelect">
+            <option *ngFor="let escuela of escuelas" [value]="escuela.id">{{escuela.nombre}}</option>
+        </select>
+        <br>
+        <button *ngIf="!loadingEscuelas" type="button" class="btn btn-primary col-2 mx-2 float-right" (click)="filtrarPorEscuela()">Buscar</button>
+    </div>
+
+    <app-loading *ngIf="loading" class="m-5"></app-loading>
+
+    <br>
+
+    <select *ngIf="!loading" #orient class="form-select w-100 p-1 text-center position-relative" size="15rem" (change)="seleccionarOrientacion(orient.value)">
+        <option *ngFor="let orientacion of orientaciones" [value]="orientacion.id">{{ orientacion.nombre }}</option>
+    </select>
+    <button *ngIf="!loading && idOrientacionSeleccionada!=''" type="button" class="btn btn-danger float-right m-3" data-toggle="modal" data-target="#eliminarOrientacionModal">
+        <i class="fas fa-trash-alt"></i> Eliminar Orientación
+    </button>
+    <button *ngIf="!loading && idOrientacionSeleccionada!=''" type="button" class="btn btn-secondary float-right float-right m-3" data-toggle="modal" data-target="#modificarOrientacionModal">
+        <i class="fas fa-edit"></i> Modificar Orientación
+    </button>
+</div>
+
+<div class="modal fade" id="agregarOrientacionModal" tabindex="-1" role="dialog" aria-labelledby="agregarOrientacionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarOrientacionModalLabel">Agregar nueva orientación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="agregarOrientacionForm">
+                    <div class="form-group">
+                        <label for="nombre" class="col-form-label">Nombre de la orientación</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Escriba aquí el nombre de la orientación" formControlName="nombre" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }">
+                        <div class="invalid-feedback" *ngIf="submitted && f.nombre.errors">
+                            <p *ngIf="f.nombre.errors.required">El nombre de la orientación es requerido</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="escuela" class="col-form-label">Escuela a la que pertenece</label>
+                        <select class="form-control" id="escuela" formControlName="escuela" [ngClass]="{ 'is-invalid': submitted && f.escuela.errors }">
+                            <option *ngFor="let escuela of escuelas" [value]="escuela.id">{{escuela.nombre}}</option>
+                        </select>
+                        <div class="invalid-feedback" *ngIf="submitted && f.escuela.errors">
+                            <p *ngIf="f.escuela.errors.required">Debe seleccionar una escuela</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="subtmit" value="submit" class="btn btn-primary" (click)="onSubmit()">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modificarOrientacionModal" tabindex="-1" role="dialog" aria-labelledby="modificarOrientacionModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificarOrientacionModalLabel">Modificar orientación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-loading *ngIf="loadingOrientacion" class="m-5"></app-loading>
+
+                <form *ngIf="!loadingOrientacion" [formGroup]="modificarOrientacionForm">
+                    <div class="form-group">
+                        <label for="nombreOr" class="col-form-label">Nombre de la orientación</label>
+                        <input type="text" class="form-control" id="nombreOr" [value]="orientacionSeleccionada ? orientacionSeleccionada.nombre : ''" formControlName="nombreOr" [ngClass]="{ 'is-invalid': submitted && f.nombreOr.errors }">
+                        <div class="invalid-feedback" *ngIf="submitted && f.nombreOr.errors">
+                            <p *ngIf="f.nombreOr.errors.required">El nombre de la orientación es requerido</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="subtmit" value="submit" class="btn btn-primary" (click)="onSubmitModif()">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"  id="eliminarOrientacionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Eliminar orientación</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>¿Está seguro que desea eliminar la siguiente orientación?</p>
+            <app-loading *ngIf="loadingOrientacion" class="m-5"></app-loading>
+            <p *ngIf="!loadingOrientacion">
+                <strong>Nombre orientacion:</strong> {{orientacionSeleccionada ? orientacionSeleccionada.nombre : ''}} <br/>
+                <strong>ID de la escuela a la que pertenece:</strong> {{orientacionSeleccionada ? orientacionSeleccionada.id_escuela_secundaria : ''}} <br/>
+            </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="eliminarOrientacion()" data-dismiss="modal">Si</button>
+        </div>
+      </div>
+    </div>
+</div>

@@ -32,6 +32,8 @@ import { LoginComponent } from './components/login/login.component';
 import { GestionInstitucionalComponent } from './components/gestion-institucional/gestion-institucional.component';
 import { GestionarInstitucionesComponent } from './components/gestionar-instituciones/gestionar-instituciones.component';
 import { GestionarCarrerasComponent } from './components/gestionar-carreras/gestionar-carreras.component';
+import { GestionarOrientacionesComponent } from './components/gestionar-orientaciones/gestionar-orientaciones.component';
+import { GestionarCursosComponent } from './components/gestionar-cursos/gestionar-cursos.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { GestionarCarrerasComponent } from './components/gestionar-carreras/gest
     LoginComponent,
     GestionInstitucionalComponent,
     GestionarInstitucionesComponent,
-    GestionarCarrerasComponent
+    GestionarCarrerasComponent,
+    GestionarOrientacionesComponent,
+    GestionarCursosComponent
   ],
   imports: [
     HttpClientModule,

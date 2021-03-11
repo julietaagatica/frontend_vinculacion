@@ -1,4 +1,4 @@
-<div class="btn-group btn-group-toggle" role="group" data-toggle="buttons">
+<div class="btn-group btn-group-toggle col-12 justify-content-center" role="group" data-toggle="buttons">
     <label class="btn btn-outline-primary active m-3" (click)="gestionar('instituciones')">
         <input type="radio" name="options" id="instituciones" autocomplete="off" checked> Gestionar Instituciones
     </label>
@@ -9,10 +9,7 @@
         <input type="radio" name="options" id="orientaciones" autocomplete="off" checked> Gestionar Orientaciones
     </label>
     <label class="btn btn-outline-primary m-3" (click)="gestionar('cursos')">
-        <input type="radio" name="options" id="cursos" autocomplete="off" checked> Gestionar Cursos
-    </label>
-    <label class="btn btn-outline-primary m-3" (click)="gestionar('materias')">
-        <input type="radio" name="options" id="materias" autocomplete="off" checked> Gestionar Materias
+        <input type="radio" name="options" id="cursos" autocomplete="off" checked> Gestionar Cursos y Materias
     </label>
 </div>
 <div *ngIf="gestion=='instituciones'">
@@ -22,11 +19,8 @@
     <app-gestionar-carreras></app-gestionar-carreras>
 </div>
 <div *ngIf="gestion=='orientaciones'">
-    Gestionar Orientaciones
+    <app-gestionar-orientaciones></app-gestionar-orientaciones>
 </div>
 <div *ngIf="gestion=='cursos'">
-    Gestionar Cursos
-</div>
-<div *ngIf="gestion=='materias'">
-    Gestionar Materias
+    <app-gestionar-cursos></app-gestionar-cursos>
 </div>

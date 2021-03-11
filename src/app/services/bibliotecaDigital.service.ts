@@ -87,6 +87,22 @@ export class BibliotecaDigitalService {
     return this.getHost(`orientaciones`);
   }
 
+  getOrientacion(id:string){
+    return this.getHost(`orientaciones/${id}`);
+  }
+
+  postOrientacion(orientacion:any) {
+    return this.http.post<any>(this.host+"/orientaciones", orientacion)
+  }
+
+  putOrientacion(id:string,orientacion:any){
+    return this.http.put<any>(this.host+`/orientaciones/${id}`, orientacion)
+  }
+
+  deleteOrientacion(id:string){
+    return this.http.delete(this.host+`/orientaciones/${id}`)
+  }
+
   getOrientacionesPorEscuela(escuela: string) {
     return this.getHost(`escuelas/${escuela}/orientaciones`);
   }
