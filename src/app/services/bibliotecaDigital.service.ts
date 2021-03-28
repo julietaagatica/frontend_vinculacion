@@ -139,8 +139,26 @@ export class BibliotecaDigitalService {
     return this.getHost(`universidades/${universidadID}/carreras`);
   }
 
+  getCurso(id:string) {
+    return this.getHost(`cursos/${id}`);
+  }
+
   getCursos() {
     return this.getHost(`cursos`);
+  }
+
+  postCurso(curso:any, carreraOrientacionID: string, gestion: string) {
+    var url = this.host+"/" + gestion + "/"+ carreraOrientacionID + "/cursos"
+    return this.http.post<any>(url, curso)
+  }
+
+  putCurso(id:string,curso:any){
+    return this.http.
+    put<any>(this.host+`/cursos/${id}`, curso)
+  }
+
+  deleteCurso(id:string){
+    return this.http.delete(this.host+`/cursos/${id}`)
   }
 
   getCursosPorOrientacion(orientacion:string) {
@@ -153,6 +171,25 @@ export class BibliotecaDigitalService {
 
   getMaterias() {
     return this.getHost(`materias`);
+  }
+
+  getMateria(id:string) {
+    return this.getHost(`materias/${id}`);
+  }
+
+  postMateria(materia:any, cursoID: string, carreraOrientacionID: string, gestion: string) {
+    var url = this.host+"/" + gestion + "/"+ carreraOrientacionID + "/cursos/" + cursoID + "/materias"
+    console.log("URL: ", url, " body: ", materia)
+    return this.http.post<any>(url, materia)
+  }
+
+  putMateria(id:string,materia:any){
+    return this.http.
+    put<any>(this.host+`/materias/${id}`, materia)
+  }
+
+  deleteMateria(id:string){
+    return this.http.delete(this.host+`/materias/${id}`)
   }
 
   getMateriasPorCursoOrientacion(curso:string) {
@@ -172,9 +209,11 @@ export class BibliotecaDigitalService {
     formData.append("autores", autores);
     formData.append("documento_educativo", documento);
 
-    var request = new XMLHttpRequest();
+    /*var request = new XMLHttpRequest();
     request.open("POST", this.host+"/documentos_educativos/subir");
-    request.send(formData);
+    request.send(formData);*/
+    
+    return this.http.post<any>(this.host+"/documentos_educativos/subir", formData);
   }
 
   private handleError(error: HttpErrorResponse) {

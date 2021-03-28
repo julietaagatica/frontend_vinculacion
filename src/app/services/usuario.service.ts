@@ -42,6 +42,11 @@ export class UsuarioService {
         });
   }
 
+  enviarEmailDeContacto(emailData: any) {
+    return this.http.post(this.host + `/enviar_correo_contacto`, emailData);
+  }
+
+
   getPreguntaFrecuente(id: string) {
     return this.getHost(`preguntas_frecuentes_unsl/${id}`);
   }

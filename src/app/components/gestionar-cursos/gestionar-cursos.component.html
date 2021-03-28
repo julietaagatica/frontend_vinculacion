@@ -41,8 +41,8 @@
             <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-secondary float-right float-right m-3" data-toggle="modal" data-target="#modificarCursoModal">
                 <i class="fas fa-edit"></i> Modificar Curso
             </button>
-            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-info float-right m-3" data-toggle="modal" data-target="#agregarMateriasModal">
-                <i class="fas fa-info-circle"></i> Materias de Curso
+            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-info float-right m-3" data-toggle="modal" data-target="#materiasModal">
+                <i class="fas fa-info-circle"></i> Materias del Curso
             </button>
         </div>
     </div>
@@ -78,11 +78,11 @@
             <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-danger float-right m-3" data-toggle="modal" data-target="#eliminarCursoModal">
                 <i class="fas fa-trash-alt"></i> Eliminar Curso
             </button>
-            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-secondary float-right float-right m-3" data-toggle="modal" data-target="#modificarCursoModal">
+            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-secondary float-right m-3" data-toggle="modal" data-target="#modificarCursoModal">
                 <i class="fas fa-edit"></i> Modificar Curso
             </button>
-            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-info float-right m-3" data-toggle="modal" data-target="#agregarMateriasModal">
-                <i class="fas fa-info-circle"></i> Materias de Curso
+            <button *ngIf="!loading2 && idCursoSeleccionado!=''" type="button" class="btn btn-info float-right m-3" data-toggle="modal" data-target="#materiasModal">
+                <i class="fas fa-info-circle"></i> Materias del Curso
             </button>
         </div>
     </div>
@@ -113,8 +113,23 @@
                         <select class="form-control" id="carreraOrientacion" formControlName="carreraOrientacion" [ngClass]="{ 'is-invalid': submitted && f.carreraOrientacion.errors }">
                             <option *ngFor="let carOri of carrerasOrientaciones" [value]="carOri.id">{{carOri.nombre}}</option>
                         </select>
-                        <div class="invalid-feedback" *ngIf="submitted && f.universidad.errors">
-                            <p *ngIf="f.universidad.errors.required">Debe seleccionar una {{ tipoGestion }}</p>
+                        <div class="invalid-feedback" *ngIf="submitted && f.carreraOrientacion.errors">
+                            <p *ngIf="f.carreraOrientacion.errors.required">Debe seleccionar una {{ tipoGestion }}</p>
+                        </div>
+                    </div>
+                    <h5>Ingrese una materia perteneciente al curso</h5>
+                    <div class="form-group">
+                        <label for="nbreMat" class="col-form-label">Nombre de la materia</label>
+                        <input type="text" class="form-control" id="nbreMat" placeholder="Escriba aquí el nombre de la materia" formControlName="nbreMat" [ngClass]="{ 'is-invalid': submitted && f.nbreMat.errors }">
+                        <div class="invalid-feedback" *ngIf="submitted && f.nbreMat.errors">
+                            <p *ngIf="f.nbreMat.errors.required">El nombre de la materia es requerido</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="profesor" class="col-form-label">Profesor responsable de la materia</label>
+                        <input type="text" class="form-control" id="profesor" placeholder="Escriba aquí el nombre del profesor" formControlName="profesor" [ngClass]="{ 'is-invalid': submitted && f.profesor.errors }">
+                        <div class="invalid-feedback" *ngIf="submitted && f.profesor.errors">
+                            <p *ngIf="f.profesor.errors.required">El nombre del profesor es requerido</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -124,5 +139,192 @@
                 </form>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modificarCursoModal" tabindex="-1" role="dialog" aria-labelledby="modificarCursoModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificarCursoModalLabel">Modificar Curso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-loading *ngIf="loadingCurso" class="m-5"></app-loading>
+
+                <form *ngIf="!loadingCurso" [formGroup]="modificarCursoForm">
+                    <div class="form-group">
+                        <label for="nombreCur" class="col-form-label">Nombre del curso</label>
+                        <input type="text" class="form-control" id="nombreCur" [value]="cursoSeleccionado ? cursoSeleccionado.nombre : ''" formControlName="nombreCur" [ngClass]="{ 'is-invalid': submittedModif && f2.nombreCur.errors }">
+                        <div class="invalid-feedback" *ngIf="submittedModif && f2.nombreCur.errors">
+                            <p *ngIf="f2.nombreCur.errors.required">El nombre del curso es requerido</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="subtmit" value="submit" class="btn btn-primary" (click)="onSubmitModif()">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"  id="eliminarCursoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Eliminar curso</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>¿Está seguro que desea eliminar el siguiente curso?</p>
+            <app-loading *ngIf="loadingCurso" class="m-5"></app-loading>
+            <p *ngIf="!loadingCurso">
+                <strong>Nombre curso:</strong> {{cursoSeleccionado ? cursoSeleccionado.nombre : ''}} <br/>
+                <strong>ID de la {{ tipoGestion }} a la que pertenece:</strong> {{idCarreraOrientacionSeleccionada ? idCarreraOrientacionSeleccionada : ''}} <br/>
+            </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="eliminarCurso()" data-dismiss="modal">Si</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="materiasModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="materiasModalLabel">Materias pertenecientes al curso</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button type="button" class="btn btn-md btn-primary float-right" data-toggle="modal" data-target="#agregarMateriaModal">
+                    <i class="fas fa-plus"></i> Agregar materia al curso
+                </button>
+
+                <app-loading *ngIf="loadingMaterias" class="m-5"></app-loading>
+
+                <select *ngIf="!loadingMaterias" #mater class="form-select w-100 p-1 text-center position-relative my-4" size="5rem" (change)="seleccionarMateria(mater.value)">
+                    <option *ngFor="let materia of materias" [value]="materia.id">{{ materia.nombre }}</option>
+                </select>
+                <button *ngIf="!loadingMaterias && idMateriaSeleccionada!=''" type="button" class="btn btn-danger float-right m-3" data-toggle="modal" data-target="#eliminarMateriaModal">
+                    <i class="fas fa-trash-alt"></i> Eliminar Materia
+                </button>
+                <button *ngIf="!loadingMaterias && idMateriaSeleccionada!=''" type="button" class="btn btn-secondary float-right float-right m-3" data-toggle="modal" data-target="#modificarMateriaModal">
+                    <i class="fas fa-edit"></i> Modificar Materia
+                </button>
+        
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="agregarMateriaModal" tabindex="-1" role="dialog" aria-labelledby="agregarMateriaModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarMateriaModalLabel">Agregar nueva materia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="agregarMateriaForm">
+                    <div class="form-group">
+                        <label for="nombreMat" class="col-form-label">Nombre de la materia</label>
+                        <input type="text" class="form-control" id="nombreMat" placeholder="Escriba aquí el nombre de la materia" formControlName="nombreMat" [ngClass]="{ 'is-invalid': submittedMateria && f3.nombreMat.errors }">
+                        <div class="invalid-feedback" *ngIf="submittedMateria && f3.nombreMat.errors">
+                            <p *ngIf="f3.nombreMat.errors.required">El nombre de la materia es requerido</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="profesorMat" class="col-form-label">Profesor responsable de la materia</label>
+                        <input type="text" class="form-control" id="profesorMat" placeholder="Escriba aquí el nombre del profesor" formControlName="profesorMat" [ngClass]="{ 'is-invalid': submittedMateria && f3.profesorMat.errors }">
+                        <div class="invalid-feedback" *ngIf="submittedMateria && f3.profesorMat.errors">
+                            <p *ngIf="f3.profesorMat.errors.required">El nombre del profesor es requerido</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="subtmit" value="submit" class="btn btn-primary" (click)="onSubmitMateria()">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modificarMateriaModal" tabindex="-1" role="dialog" aria-labelledby="modificarMateriaModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modificarMateriaModalLabel">Modificar Materia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-loading *ngIf="loadingMateria" class="m-5"></app-loading>
+
+                <form *ngIf="!loadingMateria" [formGroup]="modificarMateriaForm">
+                    <div class="form-group">
+                        <label for="nombreMat2" class="col-form-label">Nombre de la materia</label>
+                        <input type="text" class="form-control" id="nombreMat2" placeholder="Escriba aquí el nombre de la materia" formControlName="nombreMat2" [ngClass]="{ 'is-invalid': submittedModifMateria && f4.nombreMat2.errors }">
+                        <div class="invalid-feedback" *ngIf="submittedModifMateria && f4.nombreMat2.errors">
+                            <p *ngIf="f4.nombreMat2.errors.required">El nombre de la materia es requerido</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="profesorMat2" class="col-form-label">Profesor responsable de la materia</label>
+                        <input type="text" class="form-control" id="profesorMat2" placeholder="Escriba aquí el nombre del profesor" formControlName="profesorMat2" [ngClass]="{ 'is-invalid': submittedModifMateria && f4.profesorMat2.errors }">
+                        <div class="invalid-feedback" *ngIf="submittedModifMateria && f4.profesorMat2.errors">
+                            <p *ngIf="f4.profesorMat2.errors.required">El nombre del profesor es requerido</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="subtmit" value="submit" class="btn btn-primary" (click)="onSubmitModifMateria()">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade"  id="eliminarMateriaModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Eliminar materia</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>¿Está seguro que desea eliminar la siguiente materia?</p>
+            <app-loading *ngIf="loadingMateria" class="m-5"></app-loading>
+            <p *ngIf="!loadingMateria">
+                <strong>Nombre materia:</strong> {{materiaSeleccionada ? materiaSeleccionada.nombre : ''}} <br/>
+                <strong>Nombre profesor responsable de la materia:</strong> {{materiaSeleccionada ? materiaSeleccionada.profesor_responsable : ''}} <br/> 
+                <strong>ID del curso al que pertenece:</strong> {{idCursoSeleccionado ? idCursoSeleccionado : ''}} <br/>
+            </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" (click)="eliminarMateria()" data-dismiss="modal">Si</button>
+        </div>
+      </div>
     </div>
 </div>

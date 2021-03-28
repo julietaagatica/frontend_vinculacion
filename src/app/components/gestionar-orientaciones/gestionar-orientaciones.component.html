@@ -85,9 +85,9 @@
                 <form *ngIf="!loadingOrientacion" [formGroup]="modificarOrientacionForm">
                     <div class="form-group">
                         <label for="nombreOr" class="col-form-label">Nombre de la orientación</label>
-                        <input type="text" class="form-control" id="nombreOr" [value]="orientacionSeleccionada ? orientacionSeleccionada.nombre : ''" formControlName="nombreOr" [ngClass]="{ 'is-invalid': submitted && f.nombreOr.errors }">
-                        <div class="invalid-feedback" *ngIf="submitted && f.nombreOr.errors">
-                            <p *ngIf="f.nombreOr.errors.required">El nombre de la orientación es requerido</p>
+                        <input type="text" class="form-control" id="nombreOr" [value]="orientacionSeleccionada ? orientacionSeleccionada.nombre : ''" formControlName="nombreOr" [ngClass]="{ 'is-invalid': submittedModif && f2.nombreOr.errors }">
+                        <div class="invalid-feedback" *ngIf="submittedModif && f2.nombreOr.errors">
+                            <p *ngIf="f2.nombreOr.errors.required">El nombre de la orientación es requerido</p>
                         </div>
                     </div>
                     <div class="modal-footer">

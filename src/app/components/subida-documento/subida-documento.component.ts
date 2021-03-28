@@ -13,6 +13,7 @@ import { BibliotecaDigitalService } from 'src/app/services/bibliotecaDigital.ser
 })
 export class SubidaDocumentoComponent implements OnInit {
   public subirForm: FormGroup;
+
   public escuelas: any[];
   public orientaciones: any[];
   public cursos: any[];
@@ -21,6 +22,7 @@ export class SubidaDocumentoComponent implements OnInit {
   public carreras: any[];
   public autoresSelect: string[] = [];
   public archivoSubir: File;
+  public tipoInstitucion: string = "Escuela";
 
   constructor(
     private formBuilder: FormBuilder,
@@ -29,26 +31,11 @@ export class SubidaDocumentoComponent implements OnInit {
 
   ngOnInit() {
     this.agregarEscuelas();
-    this.obtaingPageDataFromRoute();
-  }
-
-  private obtaingPageDataFromRoute() {
-    this.subirForm = this.formBuilder.group({
-      nombreDoc: ['', [Validators.required]],
-      descripcion: ['', [Validators.nullValidator]],
-      categorias: ['', [Validators.required]],
-      tipoInst: ['escuela'],
-      institucion: ['', [Validators.required]],
-      ramaInst: ['', [Validators.required]],
-      curso: ['', [Validators.required]],
-      materia: ['', [Validators.required]],
-      nombreAut: ['', [Validators.required]],
-      apellidoAut: ['', [Validators.required]],
-      archivo: ['', [Validators.required]]
-    });
+    this.crearFormularioParaSubirDocumento();
   }
 
   agregarEscuelas() {
+    this.tipoInstitucion = "Escuela";
     this.bibliotecaDigitalService.getEscuelas()
       .subscribe((data: any) => {
         this.escuelas = data;
@@ -77,6 +64,7 @@ export class SubidaDocumentoComponent implements OnInit {
   }
 
   agregarUniversidades() {
+    this.tipoInstitucion = "Universidad";
     this.bibliotecaDigitalService.getUniversidades()
       .subscribe((data: any) => {
         this.universidades = data;
@@ -117,29 +105,52 @@ export class SubidaDocumentoComponent implements OnInit {
 
   onFileChange(input) {
     this.archivoSubir = input.files[0];
-
-    console.log('este es mi archivo:', this.archivoSubir);
   }
 
-  get tipoInst() { return this.subirForm.get('tipoInst').value }
-  set tipoInst(tipo: string) { this.subirForm.setValue(["tipoInst", tipo]) }
-  get nombreDoc() { return this.subirForm.get('nombreDoc').value }
-  get categorias() { return this.subirForm.get('categorias').value }
-  get descripcion() { return this.subirForm.get('descripcion').value }
-  get materia() { return this.subirForm.get('materia').value }
+  set tipoInst(tipo: string) { this.subirForm.setValue({tipoInst: tipo}) }
 
-  
   onReset() {
     this.subirForm.reset();
-    this.subirForm.setValue(["tipoInst", "escuela"]);
+    this.crearFormularioParaSubirDocumento();
   }
 
   public onSubmit(formValue: any) {
     var autoresListString = this.autoresSelect.join("-");
 
-    this.bibliotecaDigitalService.subirDocumento(this.nombreDoc, this.descripcion, this.categorias, this.materia, autoresListString, this.archivoSubir);
+    this.bibliotecaDigitalService.subirDocumento(
+      this.subirForm.value["nombreDoc"], 
+      this.subirForm.value["descripcion"], 
+      this.subirForm.value["categorias"], 
+      this.subirForm.value["materia"], 
+      autoresListString, 
+      this.archivoSubir
+    ).subscribe(
+      (data) => {
+        alert("El documento se agregó correctamente. ID: "+ data.id);
+        setTimeout( () => { location.reload(true); }, 500 );
+      },
+      (err) => console.log(err)
+    );
     
     this.onReset();
+  }
+  
+  get f() { return this.subirForm.controls; }
+
+  private crearFormularioParaSubirDocumento() {
+    this.subirForm = this.formBuilder.group({
+      nombreDoc: ['', [Validators.required]],
+      descripcion: ['', [Validators.nullValidator]],
+      categorias: ['', [Validators.required]],
+      tipoInst: ['Escuela', [Validators.required]],
+      institucion: ['', [Validators.required]],
+      ramaInst: ['', [Validators.required]],
+      curso: ['', [Validators.required]],
+      materia: ['', [Validators.required]],
+      nombreAut: ['', [Validators.required]],
+      apellidoAut: ['', [Validators.required]],
+      archivo: ['', [Validators.required]]
+    });
   }
 
 }

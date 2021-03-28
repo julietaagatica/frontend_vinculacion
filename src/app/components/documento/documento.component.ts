@@ -41,7 +41,11 @@ export class DocumentoComponent implements OnInit {
   }
 
   eliminarDocumento(id: number) {
-    this.bibliotecaDigital.eliminarDocumento(id).subscribe();
-    setTimeout( () => { this.routerNavigate.navigate([ '/biblioteca_digital' ]); }, 3000 );
+    this.bibliotecaDigital.eliminarDocumento(id).subscribe(
+      (data) => {
+        alert("El documento se eliminó correctamente.");
+        setTimeout( () => { this.routerNavigate.navigate([ '/biblioteca_digital' ]); }, 3000 );
+      }
+    );
   }
 }

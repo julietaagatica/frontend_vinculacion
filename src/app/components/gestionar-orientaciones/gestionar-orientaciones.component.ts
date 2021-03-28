@@ -35,7 +35,6 @@ export class GestionarOrientacionesComponent implements OnInit {
     this.bibliotecaDigital.getOrientacionesPorEscuela(this.escuelaSelect)
       .subscribe((data: any) => {
         this.orientaciones = data;
-        console.log(this.escuelaSelect, "   ",this.orientaciones)
       });
   }
 

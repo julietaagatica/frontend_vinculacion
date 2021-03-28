@@ -105,29 +105,29 @@
                 <form *ngIf="!loadingCarrera" [formGroup]="modificarCarreraForm">
                     <div class="form-group">
                         <label for="nombreCarr" class="col-form-label">Nombre de la carrera</label>
-                        <input type="text" class="form-control" id="nombreCarr" [value]="carreraSeleccionada ? carreraSeleccionada.nombre : ''" formControlName="nombreCarr" [ngClass]="{ 'is-invalid': submitted && f.nombreCarr.errors }">
-                        <div class="invalid-feedback" *ngIf="submitted && f.nombreCarr.errors">
-                            <p *ngIf="f.nombreCarr.errors.required">El nombre de la carrera es requerido</p>
+                        <input type="text" class="form-control" id="nombreCarr" [value]="carreraSeleccionada ? carreraSeleccionada.nombre : ''" formControlName="nombreCarr" [ngClass]="{ 'is-invalid': submittedModif && f2.nombreCarr.errors }">
+                        <div class="invalid-feedback" *ngIf="submittedModif && f2.nombreCarr.errors">
+                            <p *ngIf="f2.nombreCarr.errors.required">El nombre de la carrera es requerido</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="facultadCarr" class="col-form-label">Facultad a la que pertenece</label>
-                        <input type="text" class="form-control" id="facultadCarr" [value]="carreraSeleccionada ? carreraSeleccionada.facultad : ''" formControlName="facultadCarr" [ngClass]="{ 'is-invalid': submitted && f.facultadCarr.errors }">
-                        <div class="invalid-feedback" *ngIf="submitted && f.facultadCarr.errors">
-                            <p *ngIf="f.facultadCarr.errors.required">La facultad es requerida</p>
+                        <input type="text" class="form-control" id="facultadCarr" [value]="carreraSeleccionada ? carreraSeleccionada.facultad : ''" formControlName="facultadCarr" [ngClass]="{ 'is-invalid': submittedModif && f2.facultadCarr.errors }">
+                        <div class="invalid-feedback" *ngIf="submittedModif && f2.facultadCarr.errors">
+                            <p *ngIf="f2.facultadCarr.errors.required">La facultad es requerida</p>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="duracionCarr" class="col-form-label">Duración de la carrera en años</label>
-                        <select class="form-control" id="duracionCarr" formControlName="duracionCarr" [ngClass]="{ 'is-invalid': submitted && f.duracionCarr.errors }">
+                        <select class="form-control" id="duracionCarr" formControlName="duracionCarr" [ngClass]="{ 'is-invalid': submittedModif && f2.duracionCarr.errors }">
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                             <option value="4">4</option>
                             <option value="5">5</option>
                         </select>
-                        <div class="invalid-feedback" *ngIf="submitted && f.duracionCarr.errors">
-                            <p *ngIf="f.duracionCarr.errors.required">La duración es requerida</p>
+                        <div class="invalid-feedback" *ngIf="submittedModif && f2.duracionCarr.errors">
+                            <p *ngIf="f2.duracionCarr.errors.required">La duración es requerida</p>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -165,4 +165,4 @@
         </div>
       </div>
     </div>
-  </div>
+</div>

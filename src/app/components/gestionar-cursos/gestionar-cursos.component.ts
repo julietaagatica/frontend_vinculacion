@@ -10,29 +10,44 @@ export class GestionarCursosComponent implements OnInit {
 
   agregarCursoForm: FormGroup;
   modificarCursoForm: FormGroup;
-  agregarMateriasForm: FormGroup;
+  agregarMateriaForm: FormGroup;
+  modificarMateriaForm: FormGroup;
   submitted = false;
   submittedModif = false;
-  submittedMaterias = false;
+  submittedMateria = false;
+  submittedModifMateria = false;
   
   gestion: string = "";
   tipoGestion: string = "";
+
   idCarreraSeleccionada: string = "";
   carreras: any[] = [];
+
   idOrientacionSeleccionada: string = "";
   orientaciones: any[] = [];
-  loading: boolean = false;
-  loading2: boolean = false;
-  loadingCurso: boolean = false;
+
   cursos: any[] = [];
   idCursoSeleccionado: string = "";
   cursoSeleccionado: any; 
+
   carrerasOrientaciones: any[] = [];
+  idCarreraOrientacionSeleccionada: string = "";
+
+  materias: any[] = [];
+  idMateriaSeleccionada: string = "";
+  materiaSeleccionada: any;
+
+  loading: boolean = false;
+  loading2: boolean = false;
+  loadingCurso: boolean = false;
+  loadingMaterias: boolean = false;
+  loadingMateria: boolean = false;
 
   constructor(private bibliotecaDigital: BibliotecaDigitalService, private fb: FormBuilder) { 
     this.crearFormularioParaAgregar();
     this.crearFormularioParaModificar();
-    this.crearFormularioParaAgregarMaterias();
+    this.crearFormularioParaModificarMateria();
+    this.crearFormularioParaAgregarMateria();
   }
 
   ngOnInit() {
@@ -51,6 +66,7 @@ export class GestionarCursosComponent implements OnInit {
 
   seleccionarCarrera(id:string){
     this.idCarreraSeleccionada = id;
+    this.idCarreraOrientacionSeleccionada = id;
     this.buscarCursos();
   }
 
@@ -66,6 +82,7 @@ export class GestionarCursosComponent implements OnInit {
 
   seleccionarOrientacion(id:string){
     this.idOrientacionSeleccionada = id;
+    this.idCarreraOrientacionSeleccionada = id;
     this.buscarCursos();
   }
 
@@ -98,7 +115,7 @@ export class GestionarCursosComponent implements OnInit {
 
   buscarCurso(id: string){
     this.loadingCurso = true;
-    this.bibliotecaDigital.getCarrera(id) //CAMBIAR POR GET CURSO
+    this.bibliotecaDigital.getCurso(id)
       .subscribe((data: any) => {
         console.log(data)
         this.cursoSeleccionado = data;
@@ -107,15 +124,54 @@ export class GestionarCursosComponent implements OnInit {
       })
   }
 
+  buscarMateriasDeCurso(id: string){
+    this.loadingMaterias = true;
+    if(this.gestion=="orientaciones") {
+      this.bibliotecaDigital.getMateriasPorCursoOrientacion(id)
+      .subscribe((data: any) => {
+        console.log(data)
+        this.materias = data;
+        this.loadingMaterias = false;
+      })
+    } else {
+      this.bibliotecaDigital.getMateriasPorCursoCarrera(id)
+      .subscribe((data: any) => {
+        console.log(data)
+        this.materias = data;
+        this.loadingMaterias = false;
+      })
+    }
+    
+  }
+
+  buscarMateria(id: string){
+    this.loadingMateria = true;
+    this.bibliotecaDigital.getMateria(id)
+      .subscribe((data: any) => {
+        console.log(data)
+        this.materiaSeleccionada = data;
+        this.crearFormularioParaModificarMateria();
+        this.loadingMateria = false;
+      })
+  }
+
   seleccionarCurso(id:string){
     this.idCursoSeleccionado = id;
     this.buscarCurso(id);
+    this.buscarMateriasDeCurso(id);
+  }
+
+  seleccionarMateria(id:string){
+    this.idMateriaSeleccionada = id;
+    this.buscarMateria(id);
   }
 
   crearFormularioParaAgregar() {
     this.agregarCursoForm = this.fb.group({
       nombre: ['', Validators.required],
       carreraOrientacion: ['', Validators.required],
+      nbreMat: ['', Validators.required],
+      profesor: ['', Validators.required],
     });
   }
 
@@ -125,9 +181,131 @@ export class GestionarCursosComponent implements OnInit {
     });
   }
 
-  crearFormularioParaAgregarMaterias() {
-    this.modificarCursoForm = this.fb.group({
-      nombreCur: [this.cursoSeleccionado ? this.cursoSeleccionado.nombre : '', Validators.required]
+  crearFormularioParaAgregarMateria() {
+    this.agregarMateriaForm = this.fb.group({
+      nombreMat: ['', Validators.required],
+      profesorMat: ['', Validators.required],
     });
   }
+
+  crearFormularioParaModificarMateria() {
+    this.modificarMateriaForm = this.fb.group({
+      nombreMat2: [this.materiaSeleccionada ? this.materiaSeleccionada.nombre : '', Validators.required],
+      profesorMat2: [this.materiaSeleccionada ? this.materiaSeleccionada.profesor_responsable : '', Validators.required],
+    });
+  }
+
+  get f() { return this.agregarCursoForm.controls; }
+
+  get f2() { return this.modificarCursoForm.controls; }
+  
+  get f3() { return this.agregarMateriaForm.controls; }
+
+  get f4() { return this.modificarMateriaForm.controls; }
+
+  onReset() {
+    this.submitted = false;
+    this.agregarCursoForm.reset();
+  }
+
+  onResetMateria() {
+    this.submittedMateria = false;
+    this.agregarMateriaForm.reset();
+  }
+
+  onResetModif() {
+    this.submittedModif = false;
+  }
+
+  onResetModifMateria() {
+    this.submittedModifMateria = false;
+  }
+
+  onSubmit() {
+    this.submitted = true;
+
+    if (this.agregarCursoForm.valid) {
+      var curso = {};
+      var materia = {};
+  
+      materia["nombre"] = this.agregarCursoForm.value["nbreMat"]
+      materia["profesor_responsable"] = this.agregarCursoForm.value["profesor"]
+
+      curso["nombre"] = this.agregarCursoForm.value["nombre"]
+      curso["materias"] = [materia]
+
+      var carreraOrientacionID: string = this.agregarCursoForm.value["carreraOrientacion"]
+      
+      this.bibliotecaDigital.postCurso(curso, carreraOrientacionID, this.gestion).subscribe(data => {
+        alert("El curso se agregó correctamente. ID: "+ data.id);
+        setTimeout( () => { location.reload(true); }, 500 );
+      })
+      this.onReset();
+    }
+  }
+
+  onSubmitModif() {
+    this.submittedModif = true;
+
+    if (this.modificarCursoForm.valid) {
+      var curso = {};
+
+      curso["nombre"] = this.modificarCursoForm.value["nombreCur"]
+      
+      this.bibliotecaDigital.putCurso(this.idCursoSeleccionado, curso).subscribe(data => {
+        alert("El curso se modificó correctamente. ID: "+ data.id);
+        setTimeout( () => { location.reload(true); }, 500 );
+      })
+      this.onResetModif();
+    }
+  }
+
+  eliminarCurso() {
+    this.bibliotecaDigital.deleteCurso(this.idCursoSeleccionado).subscribe(() => {
+      alert("El curso se eliminó correctamente.");
+      setTimeout( () => { location.reload(true); }, 500 );
+    });
+  }
+
+  onSubmitMateria() {
+    this.submittedMateria = true;
+
+    if (this.agregarMateriaForm.valid) {
+      var materia = {};
+  
+      materia["nombre"] = this.agregarMateriaForm.value["nombreMat"]
+      materia["profesor_responsable"] = this.agregarMateriaForm.value["profesorMat"]
+      
+      this.bibliotecaDigital.postMateria(materia, this.idCursoSeleccionado, this.idCarreraOrientacionSeleccionada, this.gestion).subscribe(data => {
+        alert("La materia se agregó correctamente. ID: "+ data.id);
+        setTimeout( () => { location.reload(true); }, 500 );
+      })
+      this.onResetMateria();
+    }
+  }
+
+  onSubmitModifMateria() {
+    this.submittedModifMateria = true;
+
+    if (this.modificarMateriaForm.valid) {
+      var materia = {};
+  
+      materia["nombre"] = this.modificarMateriaForm.value["nombreMat2"]
+      materia["profesor_responsable"] = this.modificarMateriaForm.value["profesorMat2"]
+      
+      this.bibliotecaDigital.putMateria(this.idMateriaSeleccionada, materia).subscribe(data => {
+        alert("La materia se modificó correctamente. ID: "+ data.id);
+        setTimeout( () => { location.reload(true); }, 500 );
+      })
+      this.onResetMateria();
+    }
+  }
+
+  eliminarMateria() {
+    this.bibliotecaDigital.deleteMateria(this.idMateriaSeleccionada).subscribe(() => {
+      alert("La materia se eliminó correctamente.");
+      setTimeout( () => { location.reload(true); }, 500 );
+    });
+  }
+
 }
