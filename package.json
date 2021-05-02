@@ -22,8 +22,9 @@
     "@syncfusion/ej2-angular-dropdowns": "^17.4.49",
     "bootstrap": "^4.5.3",
     "bootstrap-select": "^1.13.18",
-    "jquery": "^3.5.1",
+    "jquery": "^3.6.0",
     "ngx-spinner": "^9.0.2",
+    "notyf": "^3.9.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.14.1",
     "zone.js": "~0.9.1"

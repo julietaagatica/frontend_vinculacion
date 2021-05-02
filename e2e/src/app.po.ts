@@ -1,11 +1,15 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element } from "protractor";
 
 export class AppPage {
-  navigateTo() {
-    return browser.get(browser.baseUrl) as Promise<any>;
+  navigateTo(s: string) {
+    return browser.get(browser.baseUrl + s) as Promise<unknown>;
   }
 
-  getTitleText() {
-    return element(by.css('app-root h1')).getText() as Promise<string>;
+  // navigateToHome(): Promise<unknown> {
+  //   return browser.get(browser.baseUrl + "/home") as Promise<unknown>;
+  // }
+
+  getText(s: string) {
+    return element(by.css(s)).getText() as Promise<string>;
   }
 }
