@@ -10,7 +10,7 @@ import {User} from "src/app/models/user.model";
 
 export class AuthenticationService {
 
-    host = "http://localhost:7031"
+  host = "http://localhost:7031"
 
   constructor(
     private http: HttpClient,
@@ -76,5 +76,27 @@ export class AuthenticationService {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("currentUser");
     return this.http.post<Boolean>(this.basePath + 'logout', {});
+  }
+
+  getUsuarios(){
+    return this.getHost(`usuarios`);
+  }
+
+  getUsuario(id:string) {
+    return this.getHost(`usuarios/${id}`);
+  }
+
+  postUsuario(user:any) {
+    var url = this.host+"/registrar"
+    return this.http.post<any>(url, user)
+  }
+
+  putUsuario(id:string,user:any){
+    return this.http.
+    put<any>(this.host+`/usuarios/${id}`, user)
+  }
+
+  deleteUsuario(id:string){
+    return this.http.delete(this.host+`/usuarios/${id}`)
   }
 }
