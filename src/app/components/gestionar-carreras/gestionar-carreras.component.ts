@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BibliotecaDigitalService } from "src/app/services/bibliotecaDigital.service";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Notyf } from 'notyf';
 
 @Component({
   selector: 'app-gestionar-carreras',
@@ -22,12 +23,21 @@ export class GestionarCarrerasComponent implements OnInit {
   carreraSeleccionada: any;
   universidadSelect: string = "";
 
+  notyf: Notyf;
   constructor(private bibliotecaDigital: BibliotecaDigitalService, private fb: FormBuilder) {
     this.loading = true;
     this.buscarCarreras();
     this.crearFormularioParaAgregar();
     this.crearFormularioParaModificar();
     this.buscarUniversidades();
+
+    this.notyf = new Notyf({
+      duration: 3000,
+      position: {
+        x: "center",
+        y: "top",
+      },
+    });
   }
 
   ngOnInit() {
@@ -35,7 +45,6 @@ export class GestionarCarrerasComponent implements OnInit {
   }
 
   filtrarPorUniversidad(){
-    console.log("universidad seleccionada:",this.universidadSelect);
     this.bibliotecaDigital.getCarrerasPorUniversidad(this.universidadSelect)
       .subscribe((data: any) => {
         this.carreras = data;
@@ -73,7 +82,7 @@ export class GestionarCarrerasComponent implements OnInit {
       carrera["duracion"] = Number(this.agregarCarreraForm.value["duracion"])
       carrera["id_universidad"] = Number(this.agregarCarreraForm.value["universidad"])
       this.bibliotecaDigital.postCarrera(carrera).subscribe(data => {
-        alert("La carrera se agregó correctamente. ID: "+ data.id);
+        this.notyf.success("La carrera se agregó correctamente. ID: "+ data.id);
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onReset();
@@ -89,7 +98,7 @@ export class GestionarCarrerasComponent implements OnInit {
       carrera["facultad"] = this.modificarCarreraForm.value["facultadCarr"]
       carrera["duracion"] = Number(this.modificarCarreraForm.value["duracionCarr"])
       this.bibliotecaDigital.putCarrera(this.idCarreraSeleccionada, carrera).subscribe(data => {
-        alert("La carrera se modificó correctamente. ID: "+ data.id);
+        this.notyf.success("La carrera se modificó correctamente. ID: "+ data.id);
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onReset();
@@ -99,7 +108,7 @@ export class GestionarCarrerasComponent implements OnInit {
 
   eliminarCarrera() {
     this.bibliotecaDigital.deleteCarrera(this.idCarreraSeleccionada).subscribe(() => {
-      alert("La carrera se eliminó correctamente.");
+      this.notyf.success("La carrera se eliminó correctamente.");
       setTimeout( () => { location.reload(true); }, 500 );
     });
   }

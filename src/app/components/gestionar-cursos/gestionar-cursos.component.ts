@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Notyf } from 'notyf';
 import { BibliotecaDigitalService } from 'src/app/services/bibliotecaDigital.service';
 
 @Component({
@@ -43,11 +44,21 @@ export class GestionarCursosComponent implements OnInit {
   loadingMaterias: boolean = false;
   loadingMateria: boolean = false;
 
+  notyf: Notyf;
+
   constructor(private bibliotecaDigital: BibliotecaDigitalService, private fb: FormBuilder) { 
     this.crearFormularioParaAgregar();
     this.crearFormularioParaModificar();
     this.crearFormularioParaModificarMateria();
     this.crearFormularioParaAgregarMateria();
+
+    this.notyf = new Notyf({
+      duration: 3000,
+      position: {
+        x: "center",
+        y: "top",
+      },
+    });
   }
 
   ngOnInit() {
@@ -117,7 +128,6 @@ export class GestionarCursosComponent implements OnInit {
     this.loadingCurso = true;
     this.bibliotecaDigital.getCurso(id)
       .subscribe((data: any) => {
-        console.log(data)
         this.cursoSeleccionado = data;
         this.crearFormularioParaModificar();
         this.loadingCurso = false;
@@ -129,14 +139,12 @@ export class GestionarCursosComponent implements OnInit {
     if(this.gestion=="orientaciones") {
       this.bibliotecaDigital.getMateriasPorCursoOrientacion(id)
       .subscribe((data: any) => {
-        console.log(data)
         this.materias = data;
         this.loadingMaterias = false;
       })
     } else {
       this.bibliotecaDigital.getMateriasPorCursoCarrera(id)
       .subscribe((data: any) => {
-        console.log(data)
         this.materias = data;
         this.loadingMaterias = false;
       })
@@ -148,7 +156,6 @@ export class GestionarCursosComponent implements OnInit {
     this.loadingMateria = true;
     this.bibliotecaDigital.getMateria(id)
       .subscribe((data: any) => {
-        console.log(data)
         this.materiaSeleccionada = data;
         this.crearFormularioParaModificarMateria();
         this.loadingMateria = false;
@@ -237,7 +244,7 @@ export class GestionarCursosComponent implements OnInit {
       var carreraOrientacionID: string = this.agregarCursoForm.value["carreraOrientacion"]
       
       this.bibliotecaDigital.postCurso(curso, carreraOrientacionID, this.gestion).subscribe(data => {
-        alert("El curso se agregó correctamente. ID: "+ data.id);
+        this.notyf.success("El curso se agregó correctamente. ID: "+ data.id);
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onReset();
@@ -253,7 +260,7 @@ export class GestionarCursosComponent implements OnInit {
       curso["nombre"] = this.modificarCursoForm.value["nombreCur"]
       
       this.bibliotecaDigital.putCurso(this.idCursoSeleccionado, curso).subscribe(data => {
-        alert("El curso se modificó correctamente. ID: "+ data.id);
+        this.notyf.success("El curso se modificó correctamente. ID: "+ data.id);
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onResetModif();
@@ -262,7 +269,7 @@ export class GestionarCursosComponent implements OnInit {
 
   eliminarCurso() {
     this.bibliotecaDigital.deleteCurso(this.idCursoSeleccionado).subscribe(() => {
-      alert("El curso se eliminó correctamente.");
+      this.notyf.success("El curso se eliminó correctamente.");
       setTimeout( () => { location.reload(true); }, 500 );
     });
   }
@@ -277,7 +284,7 @@ export class GestionarCursosComponent implements OnInit {
       materia["profesor_responsable"] = this.agregarMateriaForm.value["profesorMat"]
       
       this.bibliotecaDigital.postMateria(materia, this.idCursoSeleccionado, this.idCarreraOrientacionSeleccionada, this.gestion).subscribe(data => {
-        alert("La materia se agregó correctamente. ID: "+ data.id);
+        this.notyf.success("La materia se agregó correctamente.");
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onResetMateria();
@@ -294,7 +301,7 @@ export class GestionarCursosComponent implements OnInit {
       materia["profesor_responsable"] = this.modificarMateriaForm.value["profesorMat2"]
       
       this.bibliotecaDigital.putMateria(this.idMateriaSeleccionada, materia).subscribe(data => {
-        alert("La materia se modificó correctamente. ID: "+ data.id);
+        this.notyf.success("La materia se modificó correctamente. ID: "+ data.id);
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onResetMateria();
@@ -303,7 +310,7 @@ export class GestionarCursosComponent implements OnInit {
 
   eliminarMateria() {
     this.bibliotecaDigital.deleteMateria(this.idMateriaSeleccionada).subscribe(() => {
-      alert("La materia se eliminó correctamente.");
+      this.notyf.success("La materia se eliminó correctamente.");
       setTimeout( () => { location.reload(true); }, 500 );
     });
   }

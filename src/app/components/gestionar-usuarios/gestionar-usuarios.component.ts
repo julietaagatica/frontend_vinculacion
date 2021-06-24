@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Notyf } from 'notyf';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { BibliotecaDigitalService } from 'src/app/services/bibliotecaDigital.service';
 
@@ -21,12 +22,22 @@ export class GestionarUsuariosComponent implements OnInit {
 
   instituciones: any[] = [];
 
+  notyf: Notyf;
+
   constructor(private authServices: AuthenticationService, private bibliotecaDigitalService: BibliotecaDigitalService, private fb: FormBuilder) { 
     this.loading = true;
     this.buscarUsuarios();
     this.buscarInstituciones();
     this.crearFormularioParaAgregar();
     this.crearFormularioParaModificar();
+
+    this.notyf = new Notyf({
+      duration: 3000,
+      position: {
+        x: "center",
+        y: "top",
+      },
+    });
   }
 
   ngOnInit() {
@@ -74,10 +85,11 @@ export class GestionarUsuariosComponent implements OnInit {
       user["rol"] = this.agregarUserForm.value["rol"];
       user["telefono"] = this.agregarUserForm.value["telefono"];
       user["especialidad"] = this.agregarUserForm.value["especialidad"];
-      user["institucion_id"] = this.agregarUserForm.value["instId"];
+      user["institucion_id"] = Number(this.agregarUserForm.value["instId"]);
+      console.log("Usuario a postear: ", user["institucion_id"]);
       this.authServices.postUsuario(user).subscribe(data => {
-        alert("El usuario se agregó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
+        this.notyf.success("El usuario se agregó correctamente. ID: "+ data.id);
+        setTimeout( () => { location.reload(true); }, 3000 );
       })
       this.onReset();
     }
@@ -95,7 +107,7 @@ export class GestionarUsuariosComponent implements OnInit {
       user["telefono"] = this.modificarUserForm.value["telefonoUser"];
       user["especialidad"] = this.modificarUserForm.value["especialidadUser"];
       this.authServices.putUsuario(this.idUsuarioSeleccionado, user).subscribe(data => {
-        alert("El usuario se modificó correctamente. ID: "+ data.id);
+        this.notyf.success("El usuario se modificó correctamente. ID: "+ data.id);
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onReset();
@@ -105,7 +117,7 @@ export class GestionarUsuariosComponent implements OnInit {
 
   eliminarUsuario() {
     this.authServices.deleteUsuario(this.idUsuarioSeleccionado).subscribe(() => {
-      alert("El usuario se eliminó correctamente.");
+      this.notyf.success("El usuario se eliminó correctamente.");
       setTimeout( () => { location.reload(true); }, 500 );
     });
   }

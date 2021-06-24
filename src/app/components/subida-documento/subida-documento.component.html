@@ -1,18 +1,10 @@
 <h3 id="subirDocTitulo" class="my-5 text-left">Subir documento</h3>
 <form [formGroup]="subirForm">
   <div class="form-group row">
-    <label for="nombreDoc" class="col-sm-3 mb-3 col-form-label"
-      >* Nombre del documento</label
-    >
+    <label for="nombreDoc" class="col-sm-3 mb-3 col-form-label">* Nombre del documento</label>
     <div class="col-md-9 mb-3">
-      <input
-        type="text"
-        class="form-control"
-        id="nombreDoc"
-        placeholder="Escriba aquí el nombre del documento"
-        formControlName="nombreDoc"
-        [ngClass]="{ 'is-invalid': submitted && f.nombreDoc.errors }"
-      />
+      <input type="text" class="form-control" id="nombreDoc" placeholder="Escriba aquí el nombre del documento"
+        formControlName="nombreDoc" [ngClass]="{ 'is-invalid': submitted && f.nombreDoc.errors }" />
       <div class="invalid-feedback" *ngIf="submitted && f.nombreDoc.errors">
         <p *ngIf="f.nombreDoc.errors.required">
           El nombre del documento es requerido
@@ -21,21 +13,12 @@
     </div>
   </div>
   <div class="form-group row">
-    <label for="categorias" class="col-sm-3 mb-3 col-form-label"
-      >* Categoría/s</label
-    >
+    <label for="categorias" class="col-sm-3 mb-3 col-form-label">* Categoría/s</label>
     <div class="col-md-9 mb-3">
-      <input
-        type="text"
-        class="form-control"
-        id="categorias"
-        placeholder="Escriba aquí la/s categoría/s"
-        formControlName="categorias"
-        [ngClass]="{ 'is-invalid': submitted && f.categorias.errors }"
-        data-toggle="tooltip"
-        data-placement="bottom"
-        title="Si posee más de una categoría, escribalas separadas por coma"
-      />
+      <input type="text" class="form-control" id="categorias" placeholder="Escriba aquí la/s categoría/s"
+        formControlName="categorias" [ngClass]="{ 'is-invalid': submitted && f.categorias.errors }"
+        data-toggle="tooltip" data-placement="bottom"
+        title="Si posee más de una categoría, escribalas separadas por coma" />
       <div class="invalid-feedback" *ngIf="submitted && f.categorias.errors">
         <p *ngIf="f.categorias.errors.required">
           Se debe escribir al menos una categoría
@@ -44,45 +27,24 @@
     </div>
   </div>
   <div class="form-group row">
-    <label for="descripcion" class="col-sm-3 mb-3 col-form-label"
-      >Descripción acerca del documento</label
-    >
+    <label for="descripcion" class="col-sm-3 mb-3 col-form-label">Descripción acerca del documento</label>
     <div class="col-md-9 mb-3">
-      <textarea
-        type="text"
-        class="form-control"
-        id="descripcion"
-        formControlName="descripcion"
-        [ngClass]="{ 'is-invalid': submitted && f.descripcion.errors }"
-      ></textarea>
+      <textarea type="text" class="form-control" id="descripcion" formControlName="descripcion"
+        [ngClass]="{ 'is-invalid': submitted && f.descripcion.errors }"></textarea>
     </div>
   </div>
   <div class="form-group row my-4">
-    <label class="col-sm-3">Tipo de institución:</label>
+    <label class="col-sm-3">Tipo de institución:</label> 
     <div class="form-check col-sm-2">
-      <input
-        class="form-check-input"
-        type="radio"
-        id="escuela"
-        value="Escuela"
-        name="tipoInst"
-        formControlName="tipoInst"
-        [ngClass]="{ 'is-invalid': submitted && f.tipoInst.errors }"
-        (click)="agregarEscuelas()"
-      />
+      <input class="form-check-input" type="radio" id="escuela" value="Escuela" name="tipoInst"
+        formControlName="tipoInst" [ngClass]="{ 'is-invalid': submitted && f.tipoInst.errors }"
+        (click)="agregarEscuelas()" />
       <label class="form-check-label" for="escuela"> Escuela </label>
     </div>
     <div class="form-check col-sm-2">
-      <input
-        class="form-check-input"
-        type="radio"
-        id="universidad"
-        value="Universidad"
-        name="tipoInst"
-        formControlName="tipoInst"
-        [ngClass]="{ 'is-invalid': submitted && f.tipoInst.errors }"
-        (click)="agregarUniversidades()"
-      />
+      <input class="form-check-input" type="radio" id="universidad" value="Universidad" name="tipoInst"
+        formControlName="tipoInst" [ngClass]="{ 'is-invalid': submitted && f.tipoInst.errors }"
+        (click)="agregarUniversidades()" />
       <label class="form-check-label" for="universidad"> Universidad </label>
     </div>
   </div>
@@ -91,14 +53,8 @@
     <div class="form-group row">
       <label class="col-sm-3 mb-3 col-form-label">* Escuela</label>
       <div class="col-sm-6 mb-3">
-        <select
-          #esc
-          formControlName="institucion"
-          class="form-control"
-          id="institucion"
-          [ngClass]="{ 'is-invalid': submitted && f.institucion.errors }"
-          (change)="agregarOrientaciones(esc.value)"
-        >
+        <select #esc formControlName="institucion" class="form-control" id="institucion"
+          [ngClass]="{ 'is-invalid': submitted && f.institucion.errors }" (change)="agregarOrientaciones(esc.value)">
           <option value="">Elegir escuela</option>
           <option *ngFor="let escuela of escuelas" [value]="escuela.id">
             {{ escuela.nombre }}
@@ -114,19 +70,11 @@
     <div class="form-group row">
       <label class="col-sm-3 mb-3 col-form-label">* Orientación</label>
       <div class="col-sm-6 mb-3">
-        <select
-          #orient
-          formControlName="ramaInst"
-          class="form-control"
-          id="ramaInst"
+        <select #orient formControlName="ramaInst" class="form-control" id="ramaInst"
           [ngClass]="{ 'is-invalid': submitted && f.ramaInst.errors }"
-          (change)="agregarCursosOrientacion(orient.value)"
-        >
+          (change)="agregarCursosOrientacion(orient.value)">
           <option value="">Elegir orientacion</option>
-          <option
-            *ngFor="let orientacion of orientaciones"
-            [value]="orientacion.id"
-          >
+          <option *ngFor="let orientacion of orientaciones" [value]="orientacion.id">
             {{ orientacion.nombre }}
           </option>
         </select>
@@ -140,14 +88,9 @@
     <div class="form-group row">
       <label class="col-sm-3 mb-3 col-form-label">* Curso</label>
       <div class="col-sm-6 mb-3">
-        <select
-          #cur
-          formControlName="curso"
-          class="form-control"
-          id="curso"
+        <select #cur formControlName="curso" class="form-control" id="curso"
           [ngClass]="{ 'is-invalid': submitted && f.curso.errors }"
-          (change)="agregarMateriasCursoOrientacion(cur.value)"
-        >
+          (change)="agregarMateriasCursoOrientacion(cur.value)">
           <option value="">Elegir curso</option>
           <option *ngFor="let curso of cursos" [value]="curso.id">
             {{ curso.nombre }}
@@ -161,12 +104,8 @@
     <div class="form-group row">
       <label class="col-sm-3 mb-3 col-form-label">* Materia</label>
       <div class="col-sm-6 mb-3">
-        <select
-          formControlName="materia"
-          class="form-control"
-          id="materia"
-          [ngClass]="{ 'is-invalid': submitted && f.materia.errors }"
-        >
+        <select formControlName="materia" class="form-control" id="materia"
+          [ngClass]="{ 'is-invalid': submitted && f.materia.errors }">
           <option value="">Elegir materia</option>
           <option *ngFor="let materia of materias" [value]="materia.id">
             {{ materia.nombre }}
@@ -183,19 +122,10 @@
     <div class="form-group row">
       <label class="col-sm-3 mb-3 col-form-label">* Universidad</label>
       <div class="col-sm-6 mb-3">
-        <select
-          #univ
-          formControlName="institucion"
-          class="form-control"
-          id="institucion"
-          [ngClass]="{ 'is-invalid': submitted && f.institucion.errors }"
-          (change)="agregarCarreras(univ.value)"
-        >
+        <select #univ formControlName="institucion" class="form-control" id="institucion"
+          [ngClass]="{ 'is-invalid': submitted && f.institucion.errors }" (change)="agregarCarreras(univ.value)">
           <option value="">Elegir universidad</option>
-          <option
-            *ngFor="let universidad of universidades"
-            [value]="universidad.id"
-          >
+          <option *ngFor="let universidad of universidades" [value]="universidad.id">
             {{ universidad.nombre }}
           </option>
         </select>
@@ -209,14 +139,8 @@
     <div class="form-group row">
       <label class="col-sm-3 mb-3 col-form-label">* Carrera</label>
       <div class="col-sm-6 mb-3">
-        <select
-          #carr
-          formControlName="ramaInst"
-          class="form-control"
-          id="ramaInst"
-          [ngClass]="{ 'is-invalid': submitted && f.ramaInst.errors }"
-          (change)="agregarCursosCarrera(carr.value)"
-        >
+        <select #carr formControlName="ramaInst" class="form-control" id="ramaInst"
+          [ngClass]="{ 'is-invalid': submitted && f.ramaInst.errors }" (change)="agregarCursosCarrera(carr.value)">
           <option value="">Elegir carrera</option>
           <option *ngFor="let carrera of carreras" [value]="carrera.id">
             {{ carrera.nombre }}
@@ -232,14 +156,8 @@
     <div class="form-group row">
       <label class="col-sm-3 mb-3 col-form-label">* Curso</label>
       <div class="col-sm-6 mb-3">
-        <select
-          #cur
-          formControlName="curso"
-          class="form-control"
-          id="curso"
-          [ngClass]="{ 'is-invalid': submitted && f.curso.errors }"
-          (change)="agregarMateriasCursoCarrera(cur.value)"
-        >
+        <select #cur formControlName="curso" class="form-control" id="curso"
+          [ngClass]="{ 'is-invalid': submitted && f.curso.errors }" (change)="agregarMateriasCursoCarrera(cur.value)">
           <option value="">Elegir curso</option>
           <option *ngFor="let curso of cursos" [value]="curso.id">
             {{ curso.nombre }}
@@ -253,12 +171,8 @@
     <div class="form-group row">
       <label class="col-sm-3 mb-3 col-form-label">* Materia</label>
       <div class="col-sm-6 mb-3">
-        <select
-          formControlName="materia"
-          class="form-control"
-          id="materia"
-          [ngClass]="{ 'is-invalid': submitted && f.materia.errors }"
-        >
+        <select formControlName="materia" class="form-control" id="materia"
+          [ngClass]="{ 'is-invalid': submitted && f.materia.errors }">
           <option value="">Elegir materia</option>
           <option *ngFor="let materia of materias" [value]="materia.id">
             {{ materia.nombre }}
@@ -275,61 +189,28 @@
   <div class="form-group row">
     <label class="col-sm-3 mb-3 col-form-label">* Autor/es</label>
     <div class="col-md-4 mb-3">
-      <input
-        #nbreAut
-        class="form-control"
-        placeholder="Nombre"
-        id="nombreAut"
-        name="nombreAut"
-        formControlName="nombreAut"
-        type="text"
-      />
+      <input #nbreAut class="form-control" placeholder="Nombre" id="nombreAut" name="nombreAut"
+        formControlName="nombreAut" type="text" />
     </div>
     <div class="col-md-4 mb-3">
-      <input
-        #apellAut
-        class="form-control"
-        placeholder="Apellido"
-        name="apellidoAut"
-        id="apellidoAut"
-        formControlName="apellidoAut"
-        type="text"
-      />
+      <input #apellAut class="form-control" placeholder="Apellido" name="apellidoAut" id="apellidoAut"
+        formControlName="apellidoAut" type="text" />
     </div>
     <div class="col-sm-1 mb-3 text-rigth">
-      <button
-        type="button"
-        id="agregarAutor"
-        class="btn btn-primary"
-        (click)="addAutor(nbreAut.value, apellAut.value)"
-      >
+      <button type="button" id="agregarAutor" class="btn btn-primary" (click)="addAutor(nbreAut.value, apellAut.value)">
         <i class="fas fa-plus"></i>
       </button>
     </div>
     <div class="col-sm-12 mb-3 text-rigth">
-      <span
-        id="autores"
-        *ngFor="let autor of autoresSelect"
-        class="badge badge-primary mx-1"
-        (click)="eliminarAutor(autor)"
-        >{{ autor }} <i class="fas fa-times-circle"></i
-      ></span>
+      <span id="autores" *ngFor="let autor of autoresSelect" class="badge badge-primary mx-1"
+        (click)="eliminarAutor(autor)">{{ autor }} <i class="fas fa-times-circle"></i></span>
     </div>
   </div>
   <div class="form-group row">
-    <label for="archivo" class="col-sm-3 mb-3 col-form-label"
-      >* Archivo a subir</label
-    >
+    <label for="archivo" class="col-sm-3 mb-3 col-form-label">* Archivo a subir</label>
     <div class="col-md-9 mb-3">
-      <input
-        formControlName="archivo"
-        type="file"
-        class="form-control-file"
-        id="archivo"
-        [ngClass]="{ 'is-invalid': submitted && f.archivo.errors }"
-        (change)="onFileChange($event.target)"
-        required
-      />
+      <input formControlName="archivo" type="file" class="form-control-file" id="archivo"
+        [ngClass]="{ 'is-invalid': submitted && f.archivo.errors }" (change)="onFileChange($event.target)" required />
       <div class="invalid-feedback" *ngIf="submitted && f.archivo.errors">
         <p *ngIf="f.archivo.errors.required">Se debe seleccionar un archivo</p>
       </div>
@@ -339,21 +220,11 @@
   <hr class="mb-4" />
   <h6>(*) Campos Obligatorios</h6>
   <div class="row mb-3 justify-content-md-center">
-    <button
-      class="btn btn-primary col-sm-2 text-rigth mx-3"
-      type="reset"
-      (click)="onReset()"
-    >
+    <button class="btn btn-primary col-sm-2 text-rigth mx-3" type="reset" (click)="onReset()">
       Limpiar
     </button>
-    <button
-      class="btn btn-success btn-lg btn-block col-sm-2 text-rigth"
-      type="submit"
-      id="botonSubirDoc"
-      data-toggle="modal"
-      [disabled]="subirForm.invalid"
-      (click)="onSubmit()"
-    >
+    <button class="btn btn-success btn-lg btn-block col-sm-2 text-rigth" type="submit" id="botonSubirDoc"
+      data-toggle="modal" [disabled]="subirForm.invalid" (click)="onSubmit()">
       Subir documento
     </button>
   </div>

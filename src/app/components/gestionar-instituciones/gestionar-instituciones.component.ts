@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BibliotecaDigitalService } from "src/app/services/bibliotecaDigital.service";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import * as $ from 'jquery';
+import { Notyf } from 'notyf';
 
 @Component({
   selector: 'app-gestionar-instituciones',
@@ -18,12 +19,22 @@ export class GestionarInstitucionesComponent implements OnInit {
   loading: boolean;
   idInstitucionSeleccionada: string = "";
   institucionSeleccionada: any;
+  
+  notyf: Notyf;
 
   constructor(private bibliotecaDigital: BibliotecaDigitalService, private fb: FormBuilder) {
     this.loading = true;
     this.buscarInstituciones();
     this.crearFormularioParaAgregar();
     this.crearFormularioParaModificar();
+
+    this.notyf = new Notyf({
+      duration: 3000,
+      position: {
+        x: "center",
+        y: "top",
+      },
+    });
   }
 
   ngOnInit() {
@@ -53,7 +64,7 @@ export class GestionarInstitucionesComponent implements OnInit {
 
   get f2() { return this.modificarInstForm.controls; }
 
-  onSubmit() {
+  onSubmit() {    
     this.submitted = true;
 
     if (this.agregarInstForm.valid) {
@@ -64,7 +75,7 @@ export class GestionarInstitucionesComponent implements OnInit {
       institucion["vision"] = this.agregarInstForm.value["vision"];
       institucion["mision"] = this.agregarInstForm.value["mision"];
       this.bibliotecaDigital.postInstitucion(institucion).subscribe(data => {
-        alert("La institución se agregó correctamente. ID: "+ data.id);
+        this.notyf.success("La institución se agregó correctamente. ID: "+ data.id);
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onReset();
@@ -81,7 +92,7 @@ export class GestionarInstitucionesComponent implements OnInit {
       institucion["vision"] = this.modificarInstForm.value["visionInst"];
       institucion["mision"] = this.modificarInstForm.value["misionInst"];
       this.bibliotecaDigital.putInstitucion(this.idInstitucionSeleccionada, institucion).subscribe(data => {
-        alert("La institución se modificó correctamente. ID: "+ data.id);
+        this.notyf.success("La institución se modificó correctamente. ID: "+ data.id);
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onReset();
@@ -91,7 +102,7 @@ export class GestionarInstitucionesComponent implements OnInit {
 
   eliminarInstitucion() {
     this.bibliotecaDigital.deleteInstitucion(this.idInstitucionSeleccionada).subscribe(() => {
-      alert("La institucion se eliminó correctamente.");
+      this.notyf.success("La institucion se eliminó correctamente.");
       setTimeout( () => { location.reload(true); }, 500 );
     });
   }

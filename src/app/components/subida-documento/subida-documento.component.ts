@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { BibliotecaDigitalService } from "src/app/services/bibliotecaDigital.service";
 import { Notyf } from "notyf";
 import { Router } from "@angular/router";
+import { User } from 'src/app/models/user.model';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: "app-subida-documento",
@@ -10,27 +12,47 @@ import { Router } from "@angular/router";
   styles: [],
 })
 export class SubidaDocumentoComponent implements OnInit {
+  usuario: User;
   public subirForm: FormGroup;
 
-  public escuelas: any[];
+  public escuelas: any[] = [];
   public orientaciones: any[];
   public cursos: any[];
   public materias: any[];
-  public universidades: any[];
+  public universidades: any[] = [];
   public carreras: any[];
   public autoresSelect: string[] = [];
   public archivoSubir: File;
   public tipoInstitucion: string = "Escuela";
-
+  public institucion: any;
   constructor(
     private formBuilder: FormBuilder,
     private bibliotecaDigitalService: BibliotecaDigitalService,
-    private router: Router
+    private router: Router,
+    private storageService: StorageService
   ) {}
 
   ngOnInit() {
-    this.agregarEscuelas();
+    this.usuario = this.storageService.getCurrentUser();
+    if (this.usuario && this.usuario.rol != "ADMIN"){
+      this.obtenerInstitucion(this.usuario.institucion_id);
+    } else {
+      this.agregarEscuelas();
+    }
     this.crearFormularioParaSubirDocumento();
+  }
+
+  obtenerInstitucion(id: string){
+    this.bibliotecaDigitalService
+      .getInstitucion(id)
+      .subscribe((data: any) => {
+        this.institucion = data;
+        if (data["tipo_institucion"]=="Escuela") {
+          this.escuelas.push(this.institucion);
+        } else {
+          this.universidades.push(this.institucion);
+        }
+      });
   }
 
   agregarEscuelas() {
@@ -142,8 +164,8 @@ export class SubidaDocumentoComponent implements OnInit {
         )
         .subscribe(
           (data) => {
-            this.router.navigate(["home"]);
-            notyf.success("Escuela Creada correctamente! ID: " + data.id);
+            setTimeout( () => { location.reload(true); }, 500 );
+            notyf.success("Documento creado correctamente! ID: " + data.id);
           },
           (err) => {
             console.log(err);
@@ -164,7 +186,7 @@ export class SubidaDocumentoComponent implements OnInit {
       nombreDoc: ["", [Validators.required]],
       descripcion: ["", [Validators.nullValidator]],
       categorias: ["", [Validators.required]],
-      tipoInst: ["Escuela", [Validators.required]],
+      tipoInst: [this.usuario && this.usuario.rol != "ADMIN" && this.institucion ? this.institucion["tipo_institucion"] : "Escuela", [Validators.required]],
       institucion: ["", [Validators.required]],
       ramaInst: ["", [Validators.required]],
       curso: ["", [Validators.required]],
@@ -173,5 +195,9 @@ export class SubidaDocumentoComponent implements OnInit {
       apellidoAut: ["", [Validators.required]],
       archivo: ["", [Validators.required]],
     });
+    if (this.usuario && this.usuario.rol != "ADMIN") {
+      console.log("entro por aca")
+      this.subirForm.get('tipoInst').disable();
+    }
   }
 }

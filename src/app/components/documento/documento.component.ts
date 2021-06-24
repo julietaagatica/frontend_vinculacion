@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { BibliotecaDigitalService } from "src/app/services/bibliotecaDigital.service";
 import { User } from "src/app/models/user.model";
 import { StorageService } from 'src/app/services/storage.service';
+import { Notyf } from 'notyf';
 
 @Component({
   selector: 'app-documento',
@@ -41,9 +42,17 @@ export class DocumentoComponent implements OnInit {
   }
 
   eliminarDocumento(id: number) {
+    var notyf = new Notyf({
+      duration: 3000,
+      position: {
+        x: "center",
+        y: "top",
+      },
+    });
+    
     this.bibliotecaDigital.eliminarDocumento(id).subscribe(
       (data) => {
-        alert("El documento se eliminó correctamente.");
+        notyf.success("Documento eliminado correctamente!");
         setTimeout( () => { this.routerNavigate.navigate([ '/biblioteca_digital' ]); }, 3000 );
       }
     );

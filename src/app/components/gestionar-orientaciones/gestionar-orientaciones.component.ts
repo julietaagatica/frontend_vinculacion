@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Notyf } from 'notyf';
 import { BibliotecaDigitalService } from 'src/app/services/bibliotecaDigital.service';
 
 @Component({
@@ -21,12 +22,22 @@ export class GestionarOrientacionesComponent implements OnInit {
   orientacionSeleccionada: any;
   escuelaSelect: string;
 
+  notyf: Notyf;
+
   constructor(private bibliotecaDigital: BibliotecaDigitalService, private fb: FormBuilder) {
     this.loading = true;
     this.buscarOrientaciones();
     this.crearFormularioParaAgregar();
     this.crearFormularioParaModificar();
     this.buscarEscuelas();
+
+    this.notyf = new Notyf({
+      duration: 3000,
+      position: {
+        x: "center",
+        y: "top",
+      },
+    });
   }
 
   ngOnInit() {}
@@ -63,7 +74,7 @@ export class GestionarOrientacionesComponent implements OnInit {
       orientacion["nombre"] = this.agregarOrientacionForm.value["nombre"]
       orientacion["id_escuela_secundaria"] = Number(this.agregarOrientacionForm.value["escuela"])
       this.bibliotecaDigital.postOrientacion(orientacion).subscribe(data => {
-        alert("La orientación se agregó correctamente. ID: "+ data.id);
+        this.notyf.success("La orientación se agregó correctamente. ID: "+ data.id);
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onReset();
@@ -77,7 +88,7 @@ export class GestionarOrientacionesComponent implements OnInit {
       var orientacion = {};
       orientacion["nombre"] = this.modificarOrientacionForm.value["nombreOr"]
       this.bibliotecaDigital.putOrientacion(this.idOrientacionSeleccionada, orientacion).subscribe(data => {
-        alert("La orientación se modificó correctamente. ID: "+ data.id);
+        this.notyf.success("La orientación se modificó correctamente. ID: "+ data.id);
         setTimeout( () => { location.reload(true); }, 500 );
       })
       this.onReset();
@@ -87,7 +98,7 @@ export class GestionarOrientacionesComponent implements OnInit {
 
   eliminarOrientacion() {
     this.bibliotecaDigital.deleteOrientacion(this.idOrientacionSeleccionada).subscribe(() => {
-      alert("La orientación se eliminó correctamente.");
+      this.notyf.success("La orientación se eliminó correctamente.");
       setTimeout( () => { location.reload(true); }, 500 );
     });
   }

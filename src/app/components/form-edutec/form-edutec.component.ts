@@ -57,10 +57,10 @@ import { UsuarioService } from 'src/app/services/usuario.service';
     }
   
     public onSubmit(formValue: any){
-      //agregar algun msnjito de enviando datos
-      console.log(formValue);
-      this.formulario.enviarFormulario(formValue["email"],formValue["nombre"] +' '+formValue["apellido"],formValue["nombreInst"],formValue["telefono"])
+      this.formulario.enviarFormulario(formValue["email"],formValue["nombre"] +' '+formValue["apellido"],formValue["nombreInst"],formValue["telefono"]);
       this.onResetForm();
+      alert("La solicitud fue enviada con éxito");
+      setTimeout( () => { location.reload(true); }, 500 );
     }
   
     get nombre(){ return this.form.get('nombre') }
