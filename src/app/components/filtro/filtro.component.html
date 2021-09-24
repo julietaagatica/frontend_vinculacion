@@ -22,7 +22,7 @@
     <div *ngIf="tipoFiltro == 'facultad'" class="m-3 col-10">
         <app-loading *ngIf="loadingFiltro"></app-loading>
         <select *ngIf="!loadingFiltro" class="form-control col-10" id="facultadSelect" [(ngModel)]="facultadSelect" name="facultadSelect">
-            <option *ngFor="let facultad of facultades" value="facultad">{{facultad}}</option>
+            <option *ngFor="let facultad of facultades" [value]="facultad">{{facultad}}</option>
         </select>
         <br>
         <button *ngIf="!loadingFiltro" type="button" class="btn btn-primary col-1 m-3 float-right" (click)="buscarPorFacultad()">Buscar</button>
