@@ -74,10 +74,16 @@ export class GestionarInstitucionesComponent implements OnInit {
       institucion["historia"] = this.agregarInstForm.value["historia"];
       institucion["vision"] = this.agregarInstForm.value["vision"];
       institucion["mision"] = this.agregarInstForm.value["mision"];
-      this.bibliotecaDigital.postInstitucion(institucion).subscribe(data => {
-        this.notyf.success("La institución se agregó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.bibliotecaDigital.postInstitucion(institucion).subscribe(
+        data => {
+          this.notyf.success("La institución se agregó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al agregar institucion");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onReset();
     }
   }
@@ -91,20 +97,32 @@ export class GestionarInstitucionesComponent implements OnInit {
       institucion["historia"] = this.modificarInstForm.value["historiaInst"];
       institucion["vision"] = this.modificarInstForm.value["visionInst"];
       institucion["mision"] = this.modificarInstForm.value["misionInst"];
-      this.bibliotecaDigital.putInstitucion(this.idInstitucionSeleccionada, institucion).subscribe(data => {
-        this.notyf.success("La institución se modificó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.bibliotecaDigital.putInstitucion(this.idInstitucionSeleccionada, institucion).subscribe(
+        data => {
+          this.notyf.success("La institución se modificó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al modificar institución");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onReset();
     }
     
   }
 
   eliminarInstitucion() {
-    this.bibliotecaDigital.deleteInstitucion(this.idInstitucionSeleccionada).subscribe(() => {
-      this.notyf.success("La institucion se eliminó correctamente.");
-      setTimeout( () => { location.reload(true); }, 500 );
-    });
+    this.bibliotecaDigital.deleteInstitucion(this.idInstitucionSeleccionada).subscribe(
+      () => {
+        this.notyf.success("La institucion se eliminó correctamente");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      },
+      error => {
+        this.notyf.error("Hubo un error al eliminar institución");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      }
+    );
   }
 
   onReset() {

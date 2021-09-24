@@ -4,6 +4,7 @@ import { Router, ActivatedRoute} from "@angular/router";
 import { User } from "src/app/models/user.model";
 import { StorageService } from 'src/app/services/storage.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Notyf } from 'notyf';
 
 declare var jQuery:any;
 declare var $:any;
@@ -22,6 +23,7 @@ export class MesaAyudaComponent implements OnInit {
   public preguntasFrecuentes: any[];
   public loading: boolean;
   public faq: any = {};
+  public notyf: Notyf;
 
   constructor(
     private usuariosService: UsuarioService,
@@ -29,6 +31,13 @@ export class MesaAyudaComponent implements OnInit {
     private fb: FormBuilder
   ) { 
     this.crearFormularioParaContactar();
+    this.notyf = new Notyf({
+      duration: 3000,
+      position: {
+        x: "center",
+        y: "top",
+      },
+    });
   }
 
   ngOnInit() {
@@ -59,10 +68,15 @@ export class MesaAyudaComponent implements OnInit {
       emailData["asunto"] = this.contactarForm.value["asunto"]
       emailData["mensaje"] = this.contactarForm.value["mensaje"]
 
-      this.usuariosService.enviarEmailDeContacto(emailData).subscribe(data => {
-        alert("El correo fué enviado exitosamente");
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.usuariosService.enviarEmailDeContacto(emailData).subscribe(
+        data => {
+          this.notyf.success("El correo se envió de manera exitosa");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al enviar el correo");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        });
       this.onReset();
     }
   }
@@ -82,13 +96,27 @@ export class MesaAyudaComponent implements OnInit {
   }
 
   eliminarPreguntaFrecuente(idFaq: string) {
-    this.usuariosService.eliminarPreguntaFrecuente(idFaq).subscribe();
-    setTimeout( () => { location.reload(true); }, 500 );
+    this.usuariosService.eliminarPreguntaFrecuente(idFaq).subscribe(
+    data => {
+      this.notyf.success("La pregunta se eliminó correctamente");
+      setTimeout( () => { location.reload(true); }, 1000 );
+    },
+    error => {
+      this.notyf.error("Hubo un error al eliminar la pregunta");
+      setTimeout( () => { location.reload(true); }, 1000 );
+    });
   }
 
   agregarNuevaPregunta(pregunta: string, respuesta: string) {
-    this.usuariosService.agregarNuevaPregunta(pregunta, respuesta);
-    setTimeout( () => { location.reload(true); }, 500 );
+    this.usuariosService.agregarNuevaPregunta(pregunta, respuesta).subscribe(
+    data => {
+      this.notyf.success("La pregunta se agregó correctamente");
+      setTimeout( () => { location.reload(true); }, 1000 );
+    },
+    error => {
+      this.notyf.error("Hubo un error al agregar la pregunta");
+      setTimeout( () => { location.reload(true); }, 1000 );
+    });
   }
 
   guardarID(id: string) {
@@ -102,7 +130,13 @@ export class MesaAyudaComponent implements OnInit {
   }
 
   modificarPreguntaFrecuente(id: string, pregunta: string, respuesta: string) {
-    this.usuariosService.modificarPreguntaFrecuente(id,pregunta, respuesta);
-    setTimeout( () => { location.reload(true); }, 500 );
+    this.usuariosService.modificarPreguntaFrecuente(id,pregunta, respuesta).subscribe(data => {
+      this.notyf.success("La pregunta se modificó correctamente");
+      setTimeout( () => { location.reload(true); }, 1000 );
+    },
+    error => {
+      this.notyf.error("Hubo un error al modificar la pregunta");
+      setTimeout( () => { location.reload(true); }, 1000 );
+    });
   }
 }

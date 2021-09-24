@@ -243,10 +243,16 @@ export class GestionarCursosComponent implements OnInit {
 
       var carreraOrientacionID: string = this.agregarCursoForm.value["carreraOrientacion"]
       
-      this.bibliotecaDigital.postCurso(curso, carreraOrientacionID, this.gestion).subscribe(data => {
-        this.notyf.success("El curso se agregó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.bibliotecaDigital.postCurso(curso, carreraOrientacionID, this.gestion).subscribe(
+        data => {
+          this.notyf.success("El curso se agregó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al agregar curso");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onReset();
     }
   }
@@ -259,19 +265,31 @@ export class GestionarCursosComponent implements OnInit {
 
       curso["nombre"] = this.modificarCursoForm.value["nombreCur"]
       
-      this.bibliotecaDigital.putCurso(this.idCursoSeleccionado, curso).subscribe(data => {
-        this.notyf.success("El curso se modificó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.bibliotecaDigital.putCurso(this.idCursoSeleccionado, curso).subscribe(
+        data => {
+          this.notyf.success("El curso se modificó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al modificar curso");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onResetModif();
     }
   }
 
   eliminarCurso() {
-    this.bibliotecaDigital.deleteCurso(this.idCursoSeleccionado).subscribe(() => {
-      this.notyf.success("El curso se eliminó correctamente.");
-      setTimeout( () => { location.reload(true); }, 500 );
-    });
+    this.bibliotecaDigital.deleteCurso(this.idCursoSeleccionado).subscribe(
+      () => {
+        this.notyf.success("El curso se eliminó correctamente");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      },
+      error => {
+        this.notyf.error("Hubo un error al eliminar curso");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      }
+    );
   }
 
   onSubmitMateria() {
@@ -283,10 +301,16 @@ export class GestionarCursosComponent implements OnInit {
       materia["nombre"] = this.agregarMateriaForm.value["nombreMat"]
       materia["profesor_responsable"] = this.agregarMateriaForm.value["profesorMat"]
       
-      this.bibliotecaDigital.postMateria(materia, this.idCursoSeleccionado, this.idCarreraOrientacionSeleccionada, this.gestion).subscribe(data => {
-        this.notyf.success("La materia se agregó correctamente.");
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.bibliotecaDigital.postMateria(materia, this.idCursoSeleccionado, this.idCarreraOrientacionSeleccionada, this.gestion).subscribe(
+        data => {
+          this.notyf.success("La materia se agregó correctamente");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al agregar materia");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onResetMateria();
     }
   }
@@ -300,19 +324,31 @@ export class GestionarCursosComponent implements OnInit {
       materia["nombre"] = this.modificarMateriaForm.value["nombreMat2"]
       materia["profesor_responsable"] = this.modificarMateriaForm.value["profesorMat2"]
       
-      this.bibliotecaDigital.putMateria(this.idMateriaSeleccionada, materia).subscribe(data => {
-        this.notyf.success("La materia se modificó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.bibliotecaDigital.putMateria(this.idMateriaSeleccionada, materia).subscribe(
+        data => {
+          this.notyf.success("La materia se modificó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al modificar materia");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onResetMateria();
     }
   }
 
   eliminarMateria() {
-    this.bibliotecaDigital.deleteMateria(this.idMateriaSeleccionada).subscribe(() => {
-      this.notyf.success("La materia se eliminó correctamente.");
-      setTimeout( () => { location.reload(true); }, 500 );
-    });
+    this.bibliotecaDigital.deleteMateria(this.idMateriaSeleccionada).subscribe(
+      () => {
+        this.notyf.success("La materia se eliminó correctamente");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      },
+      error => {
+        this.notyf.error("Hubo un error al eliminar materia");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      }
+    );
   }
 
 }

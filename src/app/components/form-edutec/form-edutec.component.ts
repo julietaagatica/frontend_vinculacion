@@ -5,6 +5,7 @@ import {
   Validators 
 } from "@angular/forms";
 import { UsuarioService } from 'src/app/services/usuario.service';
+import { Notyf } from 'notyf';
 
 
 @Component({
@@ -14,12 +15,21 @@ import { UsuarioService } from 'src/app/services/usuario.service';
   })
   export class FormEdutecComponent implements OnInit {
     public form: FormGroup;
+    public notyf: Notyf;
     valores: string[] = []
     
     constructor(
       private formBuilder: FormBuilder,
       private formulario: UsuarioService,
-    ) {}
+    ) {
+      this.notyf = new Notyf({
+        duration: 3000,
+        position: {
+          x: "center",
+          y: "top",
+        },
+      });
+    }
   
   
     ngOnInit() {
@@ -57,10 +67,17 @@ import { UsuarioService } from 'src/app/services/usuario.service';
     }
   
     public onSubmit(formValue: any){
-      this.formulario.enviarFormulario(formValue["email"],formValue["nombre"] +' '+formValue["apellido"],formValue["nombreInst"],formValue["telefono"]);
+      this.formulario.enviarFormulario(formValue["email"],formValue["nombre"] +' '+formValue["apellido"],formValue["nombreInst"],formValue["telefono"]).subscribe(
+        data => {
+          this.notyf.success("La solicitud se envió con éxito");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al enviar la solicitud");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onResetForm();
-      alert("La solicitud fue enviada con éxito");
-      setTimeout( () => { location.reload(true); }, 500 );
     }
   
     get nombre(){ return this.form.get('nombre') }

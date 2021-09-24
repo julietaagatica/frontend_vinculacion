@@ -87,10 +87,16 @@ export class GestionarUsuariosComponent implements OnInit {
       user["especialidad"] = this.agregarUserForm.value["especialidad"];
       user["institucion_id"] = Number(this.agregarUserForm.value["instId"]);
       console.log("Usuario a postear: ", user["institucion_id"]);
-      this.authServices.postUsuario(user).subscribe(data => {
-        this.notyf.success("El usuario se agregó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 3000 );
-      })
+      this.authServices.postUsuario(user).subscribe(
+        data => {
+          this.notyf.success("El usuario se agregó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al agregar usuario");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onReset();
     }
   }
@@ -106,20 +112,32 @@ export class GestionarUsuariosComponent implements OnInit {
       user["username"] = this.modificarUserForm.value["usernameUser"];
       user["telefono"] = this.modificarUserForm.value["telefonoUser"];
       user["especialidad"] = this.modificarUserForm.value["especialidadUser"];
-      this.authServices.putUsuario(this.idUsuarioSeleccionado, user).subscribe(data => {
-        this.notyf.success("El usuario se modificó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.authServices.putUsuario(this.idUsuarioSeleccionado, user).subscribe(
+        data => {
+          this.notyf.success("El usuario se modificó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al modificar usuario");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onReset();
     }
     
   }
 
   eliminarUsuario() {
-    this.authServices.deleteUsuario(this.idUsuarioSeleccionado).subscribe(() => {
-      this.notyf.success("El usuario se eliminó correctamente.");
-      setTimeout( () => { location.reload(true); }, 500 );
-    });
+    this.authServices.deleteUsuario(this.idUsuarioSeleccionado).subscribe(
+      () => {
+        this.notyf.success("El usuario se eliminó correctamente");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      },
+      error => {
+        this.notyf.error("Hubo un error al eliminar usuario");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      }
+    );
   }
 
   onReset() {

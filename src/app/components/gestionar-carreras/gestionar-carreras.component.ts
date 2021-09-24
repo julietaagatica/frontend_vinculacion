@@ -81,10 +81,16 @@ export class GestionarCarrerasComponent implements OnInit {
       carrera["facultad"] = this.agregarCarreraForm.value["facultad"]
       carrera["duracion"] = Number(this.agregarCarreraForm.value["duracion"])
       carrera["id_universidad"] = Number(this.agregarCarreraForm.value["universidad"])
-      this.bibliotecaDigital.postCarrera(carrera).subscribe(data => {
-        this.notyf.success("La carrera se agregó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.bibliotecaDigital.postCarrera(carrera).subscribe(
+        data => {
+          this.notyf.success("La carrera se agregó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al agregar la carrera");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onReset();
     }
   }
@@ -97,20 +103,32 @@ export class GestionarCarrerasComponent implements OnInit {
       carrera["nombre"] = this.modificarCarreraForm.value["nombreCarr"]
       carrera["facultad"] = this.modificarCarreraForm.value["facultadCarr"]
       carrera["duracion"] = Number(this.modificarCarreraForm.value["duracionCarr"])
-      this.bibliotecaDigital.putCarrera(this.idCarreraSeleccionada, carrera).subscribe(data => {
-        this.notyf.success("La carrera se modificó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.bibliotecaDigital.putCarrera(this.idCarreraSeleccionada, carrera).subscribe(
+        data => {
+          this.notyf.success("La carrera se modificó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al modificar la carrera");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onReset();
     }
     
   }
 
   eliminarCarrera() {
-    this.bibliotecaDigital.deleteCarrera(this.idCarreraSeleccionada).subscribe(() => {
-      this.notyf.success("La carrera se eliminó correctamente.");
-      setTimeout( () => { location.reload(true); }, 500 );
-    });
+    this.bibliotecaDigital.deleteCarrera(this.idCarreraSeleccionada).subscribe(
+      () => {
+        this.notyf.success("La carrera se elminó correctamente");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      },
+      error => {
+        this.notyf.error("Hubo un error al eliminar la carrera");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      }
+    );
   }
 
   onReset() {

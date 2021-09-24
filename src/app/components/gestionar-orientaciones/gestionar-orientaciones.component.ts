@@ -73,10 +73,16 @@ export class GestionarOrientacionesComponent implements OnInit {
       var orientacion = {};
       orientacion["nombre"] = this.agregarOrientacionForm.value["nombre"]
       orientacion["id_escuela_secundaria"] = Number(this.agregarOrientacionForm.value["escuela"])
-      this.bibliotecaDigital.postOrientacion(orientacion).subscribe(data => {
-        this.notyf.success("La orientación se agregó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.bibliotecaDigital.postOrientacion(orientacion).subscribe(
+        data => {
+          this.notyf.success("La orientación se agregó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al agregar orientación");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onReset();
     }
   }
@@ -87,20 +93,32 @@ export class GestionarOrientacionesComponent implements OnInit {
     if (this.modificarOrientacionForm.valid) {
       var orientacion = {};
       orientacion["nombre"] = this.modificarOrientacionForm.value["nombreOr"]
-      this.bibliotecaDigital.putOrientacion(this.idOrientacionSeleccionada, orientacion).subscribe(data => {
-        this.notyf.success("La orientación se modificó correctamente. ID: "+ data.id);
-        setTimeout( () => { location.reload(true); }, 500 );
-      })
+      this.bibliotecaDigital.putOrientacion(this.idOrientacionSeleccionada, orientacion).subscribe(
+        data => {
+          this.notyf.success("La orientación se modificó correctamente. ID: "+ data.id);
+          setTimeout( () => { location.reload(true); }, 1000 );
+        },
+        error => {
+          this.notyf.error("Hubo un error al modificar orientación");
+          setTimeout( () => { location.reload(true); }, 1000 );
+        }
+      );
       this.onReset();
     }
     
   }
 
   eliminarOrientacion() {
-    this.bibliotecaDigital.deleteOrientacion(this.idOrientacionSeleccionada).subscribe(() => {
-      this.notyf.success("La orientación se eliminó correctamente.");
-      setTimeout( () => { location.reload(true); }, 500 );
-    });
+    this.bibliotecaDigital.deleteOrientacion(this.idOrientacionSeleccionada).subscribe(
+      () => {
+        this.notyf.success("La orientación se eliminó correctamente");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      },
+      error => {
+        this.notyf.error("Hubo un error al eliminar orientación");
+        setTimeout( () => { location.reload(true); }, 1000 );
+      }
+    );
   }
 
   onReset() {

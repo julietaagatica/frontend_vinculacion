@@ -22,23 +22,13 @@ export class UsuarioService {
   enviarFormulario(email: string, solicitante: string, institucion: string, telefono: string) {
     console.log(`/enviar_correo?email=${email}&solicitante=${solicitante}&institucion=${institucion}&telefono=${telefono}`);
 
-    this.http.post(this.host + `/enviar_correo?email=${email}&solicitante=${solicitante}&institucion=${institucion}&telefono=${telefono}`,
+    return this.http.post(this.host + `/enviar_correo?email=${email}&solicitante=${solicitante}&institucion=${institucion}&telefono=${telefono}`,
       {
         "email": email,
         "solicitante": solicitante,
         "institucion": institucion,
         "telefono": telefono
-      })
-      .subscribe(
-        (val) => {
-          console.log("POST call successful value returned in body", val);
-        },
-        response => {
-          console.log("POST call in error", response);
-        },
-        () => {
-          console.log("The POST observable is now completed.");
-        });
+      });
   }
 
   enviarEmailDeContacto(emailData: any) {
@@ -64,19 +54,7 @@ export class UsuarioService {
       {
         "pregunta": pregunta,
         "respuesta":respuesta,
-      })
-      .subscribe(
-        (val) => {
-          console.log("POST call successful value returned in body",
-            val);
-        },
-        response => {
-          console.log("POST call in error", response);
-        },
-        () => {
-          console.log("The POST observable is now completed.");
-        }
-      );
+      });
   }
 
   modificarPreguntaFrecuente(id:string,pregunta: string, respuesta: string) {
@@ -84,19 +62,7 @@ export class UsuarioService {
       {
         "pregunta": pregunta,
         "respuesta":respuesta,
-      })
-      .subscribe(
-        (val) => {
-          console.log("PUT call successful value returned in body",
-            val);
-        },
-        response => {
-          console.log("PUT call in error", response);
-        },
-        () => {
-          console.log("The PUT observable is now completed.");
-        }
-      );
+      });
   }
 
 }    
