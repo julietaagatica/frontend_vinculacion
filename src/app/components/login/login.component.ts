@@ -65,8 +65,13 @@ export class LoginComponent implements OnInit {
             data.token
           );
           this.storageService.setCurrentSession(session);
-          this.router.navigate(["home"]);
-          notyf.success("Bienvenido a VINCULACION3.0");
+          notyf.success("Bienvenido a VINCULACION 3.0");
+          setTimeout( () => { 
+            this.router.navigate(["home"]).then(() => {
+              window.location.reload();
+            });
+          }, 2000 );
+
         },
         (error) => {
           console.log(error);
