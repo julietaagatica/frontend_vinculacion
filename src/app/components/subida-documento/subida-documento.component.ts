@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { BibliotecaDigitalService } from "src/app/services/bibliotecaDigital.service";
 import { Notyf } from "notyf";
 import { Router } from "@angular/router";
-import { User } from 'src/app/models/user.model';
-import { StorageService } from 'src/app/services/storage.service';
+import { User } from "src/app/models/user.model";
+import { StorageService } from "src/app/services/storage.service";
 
 @Component({
   selector: "app-subida-documento",
@@ -34,7 +34,8 @@ export class SubidaDocumentoComponent implements OnInit {
 
   ngOnInit() {
     this.usuario = this.storageService.getCurrentUser();
-    if (this.usuario && this.usuario.rol != "ADMIN"){
+    console.log(this.usuario.institucion_id);
+    if (this.usuario && this.usuario.rol != "ADMIN") {
       this.obtenerInstitucion(this.usuario.institucion_id);
     } else {
       this.agregarEscuelas();
@@ -42,17 +43,15 @@ export class SubidaDocumentoComponent implements OnInit {
     this.crearFormularioParaSubirDocumento();
   }
 
-  obtenerInstitucion(id: string){
-    this.bibliotecaDigitalService
-      .getInstitucion(id)
-      .subscribe((data: any) => {
-        this.institucion = data;
-        if (data["tipo_institucion"]=="Escuela") {
-          this.escuelas.push(this.institucion);
-        } else {
-          this.universidades.push(this.institucion);
-        }
-      });
+  obtenerInstitucion(id: string) {
+    this.bibliotecaDigitalService.getInstitucion(id).subscribe((data: any) => {
+      this.institucion = data;
+      if (data["tipo_institucion"] == "Escuela") {
+        this.escuelas.push(this.institucion);
+      } else {
+        this.universidades.push(this.institucion);
+      }
+    });
   }
 
   agregarEscuelas() {
@@ -164,7 +163,9 @@ export class SubidaDocumentoComponent implements OnInit {
         )
         .subscribe(
           (data) => {
-            setTimeout( () => { location.reload(true); }, 500 );
+            setTimeout(() => {
+              location.reload();
+            }, 500);
             notyf.success("Documento creado correctamente! ID: " + data.id);
           },
           (err) => {
@@ -186,7 +187,12 @@ export class SubidaDocumentoComponent implements OnInit {
       nombreDoc: ["", [Validators.required]],
       descripcion: ["", [Validators.nullValidator]],
       categorias: ["", [Validators.required]],
-      tipoInst: [this.usuario && this.usuario.rol != "ADMIN" && this.institucion ? this.institucion["tipo_institucion"] : "Escuela", [Validators.required]],
+      tipoInst: [
+        this.usuario && this.usuario.rol != "ADMIN" && this.institucion
+          ? this.institucion["tipo_institucion"]
+          : "Escuela",
+        [Validators.required],
+      ],
       institucion: ["", [Validators.required]],
       ramaInst: ["", [Validators.required]],
       curso: ["", [Validators.required]],
@@ -196,8 +202,8 @@ export class SubidaDocumentoComponent implements OnInit {
       archivo: ["", [Validators.required]],
     });
     if (this.usuario && this.usuario.rol != "ADMIN") {
-      console.log("entro por aca")
-      this.subirForm.get('tipoInst').disable();
+      console.log("entro por aca");
+      this.subirForm.get("tipoInst").disable();
     }
   }
 }
